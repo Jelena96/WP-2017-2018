@@ -1,86 +1,100 @@
 ﻿<!DOCTYPE HTML>
-<!--
-	Full Motion by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
+
 <html>
-	<head>
-		<title>SuperTaxi</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
+<head>
+ 
+    <title>SuperTaxi</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
 	
-	<body id="top">
+<body id="top">
 
-			<!-- Banner -->
-			<!--
-				To use a video as your background, set data-video to the name of your video without
-				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
-				formats to work correctly.
-			-->
-				<section id="banner" data-video="images/banner">
-					<div class="inner">
-						<header>
-							<h1>Taksi služba <span style="color:yellow">"SuperTaxi"</span></h1>
-							<p style="font-size:45px"><b>Telefoni:021/65000 i 021/64000</b><br />
-							<a style="font-size:25px" onclick="prikazPri()">Prijava</a> <br/> <a style="font-size:25px" onclick="prikazReg()">Registracija</a> </p>
+    <!-- Banner -->
+    <!--
+        To use a video as your background, set data-video to the name of your video without
+        its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+        formats to work correctly.
+    -->
+    <section id="banner" data-video="images/banner">
+        <div class="inner">
+            <header>
+                <h1>Taksi služba <span style="color:yellow">"SuperTaxi"</span></h1>
+                <p style="font-size:45px">
+                    <b>Telefoni:021/65000 i 021/64000</b><br />
+                    <a style="font-size:25px" onclick="prikazPri()">Prijava</a> <br /> <a style="font-size:25px" onclick="prikazReg()">Registracija</a>
+                </p>
 
-						</header>
-						<div id="registracijaDIV" style="display:none">
-						Ime:<input type="text" name="korIme"/>
-						Prezime:<input type="text" name="korPrez"/>
-						Lozinka:<input type="password" name="korPas"/>
-						Ponovite lozinku:<input type="password" name="korPasPotv"/>
-						Pol:<select>
-							  <option value="musko">Musko</option>
-							  <option value="zensko">Zensko</option>
-							 
-							</select>
-						Kontakt telefon:<input type="text" name="korTel"/>
-						<b>E-mail:</b><input style="color:gray" type="email" name="korEmail"/>
-						<button type="submit">Registrujte se</button>
-					</div>
-					
-						<div id="prijavaDIV" style="display:none">
-						<b>Ime:</b><input type="text" name="korIme"/>
-						<b>Lozinka:</b><input type="password" name="korPas"/>
-						<br>
-						<button type="submit">Prijavite se</button>
-					</div>
-                        </div>
-				</section>
+            </header>
+            <div id="registracijaDIV" style="display:none">
+                <form id="registracijaForma">
+                    Ime:<input type="text" name="korIme" />
+                    Prezime:<input type="text" name="korPrez" />
+                    Lozinka:<input type="password" name="korPas" />
+                    Ponovite lozinku:<input type="password" name="korPasPotv" />
+                    Pol:<select>
+                        <option value="musko">Musko</option>
+                        <option value="zensko">Zensko</option>
 
-			<script>
-				function prikazReg(){
-				
-				var x = document.getElementById("registracijaDIV");
-				if (x.style.display === "none") {
-					x.style.display = "block";
-				} else {
-					x.style.display = "none";
-				}
-				}
-				
-				function prikazPri(){
-				
-				var x = document.getElementById("prijavaDIV");
-				if (x.style.display === "none") {
-					x.style.display = "block";
-				} else {
-					x.style.display = "none";
-				}
-				}
-			</script>
+                    </select>
+                    Kontakt telefon:<input type="text" name="korTel" />
+                    <b>E-mail:</b><input style="color:gray" type="email" name="korEmail" />
+                    <button type="submit" id="btnReg" name="btnReg">Registrujte se</button>
+                </form>
+            </div>
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/jquery.poptrox.min.js"></script>
-			<script src="assets/js/skel.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+            <div id="prijavaDIV" style="display:none">
+                <b>Ime:</b><input type="text" name="korIme" />
+                <b>Lozinka:</b><input type="password" name="korPas" />
+                <br>
+                <button type="submit">Prijavite se</button>
+            </div>
+        </div>
+    </section>
 
-	</body>
+    <script>
+        function prikazReg() {
+
+            var x = document.getElementById("registracijaDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        function prikazPri() {
+
+            var x = document.getElementById("prijavaDIV");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+
+            } else {
+                x.style.display = "none";
+            }
+        }
+
+        $(document).ready(function () {
+            $("#btnReg").click(function () {
+                alert("Text:");
+            });
+        });
+
+    </script>
+
+    <!-- Scripts -->
+    <script src="Scripts/jquery-3.3.1.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <script src="Scripts/login.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.scrolly.min.js"></script>
+    <script src="assets/js/jquery.poptrox.min.js"></script>
+    <script src="assets/js/skel.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
 </html>
