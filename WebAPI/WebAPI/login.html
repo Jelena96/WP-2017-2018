@@ -2,11 +2,14 @@
 
 <html>
 <head>
- 
+
     <title>SuperTaxi</title>
     <meta charset="utf-8" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="Scripts/login.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
+
 
 </head>
 	
@@ -29,10 +32,10 @@
 
             </header>
             <div id="registracijaDIV" style="display:none">
-                <form id="registracijaForma">
+                <form id="registracijaForma" method="post"  action="/api/registration">
                     Ime:<input type="text" name="korIme" />
                     Prezime:<input type="text" name="korPrez" />
-                    Lozinka:<input type="password" name="korPas" />
+                    Lozinka:<input type="password" id="korPas" name="korPas" />
                     Ponovite lozinku:<input type="password" name="korPasPotv" />
                     Pol:<select>
                         <option value="musko">Musko</option>
@@ -40,16 +43,18 @@
 
                     </select>
                     Kontakt telefon:<input type="text" name="korTel" />
-                    <b>E-mail:</b><input style="color:gray" type="email" name="korEmail" />
-                    <button type="submit" id="btnReg" name="btnReg">Registrujte se</button>
+                    <b>E-mail:</b><input style="color:gray" id="korEmail" type="email" name="korEmail" />
+                    <button type="submit" id="btnReg">Registrujte se</button>
                 </form>
             </div>
 
             <div id="prijavaDIV" style="display:none">
+                <form action="/api/login" method="post">
                 <b>Ime:</b><input type="text" name="korIme" />
                 <b>Lozinka:</b><input type="password" name="korPas" />
                 <br>
                 <button type="submit">Prijavite se</button>
+                    </form>
             </div>
         </div>
     </section>
@@ -75,20 +80,13 @@
                 x.style.display = "none";
             }
         }
+    
 
-        $(document).ready(function () {
-            $("#btnReg").click(function () {
-                alert("Text:");
-            });
-        });
-
+             
     </script>
-
-    <!-- Scripts -->
+    
+  
     <script src="Scripts/jquery-3.3.1.js"></script>
-    <script src="jquery-3.3.1.min.js"></script>
-    <script src="Scripts/login.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.scrolly.min.js"></script>
     <script src="assets/js/jquery.poptrox.min.js"></script>
