@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace WebAPI.Controllers
@@ -29,34 +30,42 @@ namespace WebAPI.Controllers
                 string[] lines = File.ReadAllLines(putanja);
                 for (int x = 0; x < lines.Length - 1; x++)
                 {
-                    if (imeKor == lines[x] && pasKor == lines[x])
+                    if (imeKor == lines[x])
                     {
-                       
-                        sr.Close();
-                        result = "Vec postoji";
-                        isMatch = true;
+                        if (pasKor == lines[x + 1])
+                        {
+                            sr.Close();
+                            isMatch = true;
+                            Index();
+                            result = "Vec postoji";
+                            
+                        }
+                        else
+                        {
+
+                            result = "Nije to ta lozinka";
+
+                        }
+
                     }
+                   
                 }
 
             }
 
-            if (isMatch)
-            {
-                Get();
-
-            }
-            else {
-
-                Get();
-            }
+          
             return result;
             
         }
 
-        public HttpResponseMessage Get()
+        [HttpGet]
+        [ActionName("Index")]
+        public HttpResponseMessage Index()
         {
-            var response = Request.CreateResponse(HttpStatusCode.Moved);
-            response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
+            var path = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\WebAPI\Nalog.html";
+            var response = new HttpResponseMessage();
+            response.Content = new StringContent(File.ReadAllText(path));
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
             return response;
         }
 

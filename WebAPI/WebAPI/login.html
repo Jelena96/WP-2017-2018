@@ -32,33 +32,39 @@
 
             </header>
             <div id="registracijaDIV" style="display:none">
-                <form id="registracijaForma" method="post"  action="/api/registration">
-                    Ime:<input type="text" name="korIme" />
-                    Prezime:<input type="text" name="korPrez" />
-                    Lozinka:<input type="password" id="korPas" name="korPas" />
-                    Ponovite lozinku:<input type="password" name="korPasPotv" />
-                    Pol:<select>
-                        <option value="musko">Musko</option>
-                        <option value="zensko">Zensko</option>
 
-                    </select>
-                    Kontakt telefon:<input type="text" name="korTel" />
-                    <b>E-mail:</b><input style="color:gray" id="korEmail" type="email" name="korEmail" />
-                    <button type="submit" id="btnReg">Registrujte se</button>
-                </form>
+                Ime:<input type="text" id="korIme" name="korIme" />
+                <p id="imeE"></p>
+                Prezime:<input type="text" id="korPrez" name="korPrez" />
+                <p id="prezE"></p>
+                Lozinka:<input type="password" id="korPas" name="korPas" />
+                <p id="pasE"></p>
+                Ponovite lozinku:<input type="password" id="korPasP" name="korPasPotv" />
+                <p id="pasPE"></p>
+                Pol:<select>
+                    <option value="musko">Musko</option>
+                    <option value="zensko">Zensko</option>
+
+                </select>
+                Kontakt telefon:<input type="text" id="korTel" name="korTel" />
+                <p id="telE"></p>
+                <b>E-mail:</b><input style="color:gray" id="korEmail" type="email" name="korEmail" />
+                <p id="emailE"></p>
+                <button type="submit" id="btnReg">Registrujte se</button>
+
             </div>
 
             <div id="prijavaDIV" style="display:none">
                 <form action="/api/login" method="post">
-                <b>Ime:</b><input type="text" name="korIme" />
-                <b>Lozinka:</b><input type="password" name="korPas" />
-                <br>
-                <button type="submit">Prijavite se</button>
-                    </form>
+                    <b>Ime:</b><input type="text" name="korIme" />
+                    <b>Lozinka:</b><input type="password" name="korPas" />
+                    <br>
+                    <button type="submit" id="btnLog">Prijavite se</button>
+                </form>
+                <button id="dugme">Dugme</button>
             </div>
         </div>
     </section>
-
     <script>
         function prikazReg() {
 
@@ -80,12 +86,13 @@
                 x.style.display = "none";
             }
         }
-    
 
-             
+
+
     </script>
-    
-  
+
+
+
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/jquery.scrolly.min.js"></script>

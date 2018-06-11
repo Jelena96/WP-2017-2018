@@ -15,7 +15,7 @@ namespace WebAPI.Controllers
     {
       
 
-        [HttpPost]
+        
         public string Post([FromBody]JToken jToken) {
 
             string result = "";
