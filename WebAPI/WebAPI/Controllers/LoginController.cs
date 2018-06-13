@@ -23,9 +23,9 @@ namespace WebAPI.Controllers
 
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
             bool isMatch = false;
-            var response = Request.CreateResponse(HttpStatusCode.Moved);
+            var response = Request.CreateResponse(HttpStatusCode.NotModified);
 
-            if (imeKor != "" && pasKor != "")
+            if (!imeKor.Equals("") && !pasKor.Equals(""))
             {
                 using (StreamReader sr = File.OpenText(putanja))
                 {
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
                             {
                                 sr.Close();
                                 isMatch = true;
-
+                                response = Request.CreateResponse(HttpStatusCode.Moved);
                                 response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
 
                             }
@@ -50,6 +50,13 @@ namespace WebAPI.Controllers
                             }
 
                         }
+                        else
+                        {
+
+                            // response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik nije registrovan");
+
+                        }
+
 
                     }
 

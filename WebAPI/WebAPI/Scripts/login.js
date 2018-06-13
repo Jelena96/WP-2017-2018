@@ -90,8 +90,33 @@ $(document).ready(function () {
         }
         else {
 
+            //za uspesnost AJAX-a
+            var musterija = new Object();
+            musterija.Name = $('#korIme').val();
+            musterija.Pas = $('#korPas').val();
+
             korEmail();
-            //window.location.replace("http://localhost:10482/Nalog.html");
+            if (musterija != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Registration",
+                    data: JSON.stringify({ Name: musterija.Name, Pas: musterija.Pas }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        sessionStorage.setItem("logged", JSON.stringify(response));
+                        alert("Succesffully logged in");
+
+                    },
+                    error: function (msg) {
+                        alert("Error - " + msg.responseText);
+                    }
+
+
+
+
+                });
+            }
 
         }
 
@@ -107,36 +132,62 @@ $(document).ready(function () {
 
         }
 
-         
-       //za uspesnost AJAX-a
-        var musterija = new Object();
-        musterija.Name = $('#korIme').val();
-        musterija.Pas = $('#korPas').val();
-        
-        if (musterija != null) {
-            $.ajax({
-                type: "POST",
-                url: "/api/registration",
-                data: JSON.stringify(musterija),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    if (response != null) {
-                        alert("Name : " + response.Name);
-                    } else {
-                        window.location.href("login.html");
-                        alert("Something went wrong");
-                    }
 
-                }
+      
 
-            });
-        }
+          
         
 
     });
 
-     
+
+    let korImeZacrveni2 = function (poruka) {
+        $('#korImeL').css('border-color', 'red');
+        $('#prijavaDIV :nth-child(1)').css('color', 'red');
+        $('#imeEL').text(`\xA0${poruka}`);
+    };
+
+    let korIme2 = function (poruka) {
+
+        $('#korImeL').css('border-color', 'white');
+        $('#prijavaDIV :nth-child(1)').css('color', 'white');
+        $('#imeEL').text('');
+    };
+
+    let korPasZacrveni2 = function (poruka) {
+        $('#korPasL').css('border-color', 'red');
+        $('#prijavaDIV :nth-child(3)').css('color', 'red');
+        $('#pasEL').text(`\xA0${poruka}`);
+    };
+
+    let korPas2 = function (poruka) {
+
+        $('#korPasL').css('border-color', 'white');
+        $('#prijavaDIV :nth-child(3)').css('color', 'white');
+        $('#pasEL').text('');
+    };
+
+    $('#btnLog').click(function () {
+
+
+        if ($('#korImeL').val() == "") {
+
+            korImeZacrveni2('Morate uneti ime');
+
+        } else if ($('#korPasL').val() == "") {
+
+            korPasZacrveni2('Morate uneti lozinku');
+            korIme2();
+
+        }
+        else {
+
+            korPas2();
+        }
+
+
+
+    }); 
 
         let korPasPZacrveni = function (poruka) {
             $('#korPasP').css('border-color', 'red');
