@@ -25,10 +25,10 @@ namespace WebAPI.Controllers
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
             bool isMatch = false;
             var response = Request.CreateResponse(HttpStatusCode.NotModified);
-
+            Musterija m = new Musterija();
             //if (imeKor!=null && pasKor!="")
             //{
-                using (StreamReader sr = File.OpenText(putanja))
+            using (StreamReader sr = File.OpenText(putanja))
                 {
                     string[] lines = File.ReadAllLines(putanja);
                     for (int x = 0; x < lines.Length - 1; x++)
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
                             if (pasKor == lines[x + 1])
                             {
                                 sr.Close();
-                                Musterija m = new Musterija();
+                                
                                 m.Ime = imeKor;
                                 m.Lozinka = pasKor;
                                 response = Request.CreateResponse(HttpStatusCode.Created, m);
@@ -46,29 +46,25 @@ namespace WebAPI.Controllers
                                 isMatch = true;
                                 response = Request.CreateResponse(HttpStatusCode.Moved);
                                 response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
-
+                            
                             }
                             else
                             {
+                            response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User not exist");
 
-                                result = "Nije to ta lozinka";
+                            result = "Nije to ta lozinka";
 
                             }
 
                         }
-                        else
-                        {
-                        response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User not exist");
-
-                       
-                    }
+                     
 
 
                 }
 
                 }
 
-            //}
+          
             return response;
             
         }

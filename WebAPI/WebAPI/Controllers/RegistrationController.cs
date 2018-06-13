@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
             Musterija m = new Musterija();
             m.Ime = imeKor;
             m.Lozinka = pasKor;
-            HttpResponseMessage response=null;// = Request.CreateResponse(HttpStatusCode.NotModified) ;
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotModified) ;
             
 
             //Musterija m = new Musterija();
@@ -67,7 +67,7 @@ namespace WebAPI.Controllers
 
                             file.WriteLine(imeKor);
                             file.WriteLine(pasKor);
-                            file.WriteLine(prezKor);
+                            ///file.WriteLine(prezKor);
                             result = "Dodat";
                             //response = Request.CreateResponse(HttpStatusCode.Created,m);
                             response = Request.CreateResponse(HttpStatusCode.Moved);
