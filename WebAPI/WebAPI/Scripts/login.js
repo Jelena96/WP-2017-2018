@@ -1,10 +1,11 @@
 ﻿
 $(document).ready(function () {  
 
+    
     let korImeZacrveni = function (poruka) {
         $('#korIme').css('border-color', 'red');
         $('#registracijaDIV :nth-child(1)').css('color', 'red');
-        $('#imeError').text(`\xA0${poruka}`);
+        $('#imeE').text(`\xA0${poruka}`);
     };
 
     let korIme = function (poruka) {
@@ -58,32 +59,43 @@ $(document).ready(function () {
         }
         else if ($('#korTel').val() == '') {
 
-            korTelZacrveni('Unesite broj telefona');
+            korTelZacrveni('Niste uneli broj telefona');
             korPas();
-        } 
-        else if (validateNumber($('#korTel').val())) {
-
-
-            korTelZacrveni('Niste uneli broj u pravom formatu');
-
         }
+
         else if (($('#korEmail').val() == '')) {
 
             korEmailZacrveni('Niste uneli email');
             korTel();
-        }
-        else if (!validateEmail($('#korEmail').val())) {
 
-            korEmailZacrveni('Nije u dobro formatu');
+        }
+        else if ($('#korEmail').val() != '') {
+
+
+            
+                let userinput = $('#korEmail').val();
+                let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
+
+            if (!pattern.test(userinput)) {
+
+                korEmailZacrveni('Morate uneti validan email');
+            
+
+            } else {
+
+                korEmail();
+            }
+
+            
         }
         else {
 
             korEmail();
-           
-           
+            //window.location.replace("http://localhost:10482/Nalog.html");
+
         }
 
-        
+        korEmail();
 
         if ($('#korPas').val() != $('#korPasP').val()) {
 
@@ -95,8 +107,32 @@ $(document).ready(function () {
 
         }
 
-       
-      
+         
+       //za uspesnost AJAX-a
+        var musterija = new Object();
+        musterija.Name = $('#korIme').val();
+        musterija.Pas = $('#korPas').val();
+        
+        if (musterija != null) {
+            $.ajax({
+                type: "POST",
+                url: "/api/registration",
+                data: JSON.stringify(musterija),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        alert("Name : " + response.Name);
+                    } else {
+                        window.location.href("login.html");
+                        alert("Something went wrong");
+                    }
+
+                }
+
+            });
+        }
+        
 
     });
 
@@ -136,7 +172,7 @@ $(document).ready(function () {
                 return true;
             }
             else {
-                return false;
+                korEmailZacrveni('Nije u dobrom formatu');
             }
         }
 
@@ -164,16 +200,7 @@ $(document).ready(function () {
             $('#telE').text('');
         };
 
-        $.ajax({
-            type: "POST",
-            url: '/api/login',
-            data: json,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (msg) {
-                alert('In Ajax');
-            }
-        });
+       
 
 });
 

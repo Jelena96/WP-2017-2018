@@ -7,6 +7,8 @@
     <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="Scripts/login.js"></script>
+   
+    
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
 
@@ -32,7 +34,7 @@
 
             </header>
             <div id="registracijaDIV" style="display:none">
-
+                <form method="post" action="/api/registration">
                 Ime:<input type="text" id="korIme" name="korIme" />
                 <p id="imeE"></p>
                 Prezime:<input type="text" id="korPrez" name="korPrez" />
@@ -48,20 +50,21 @@
                 </select>
                 Kontakt telefon:<input type="text" id="korTel" name="korTel" />
                 <p id="telE"></p>
-                <b>E-mail:</b><input style="color:gray" id="korEmail" type="email" name="korEmail" />
+                <b>E-mail:</b><input  id="korEmail" type="text" name="korEmail" />
                 <p id="emailE"></p>
-                <button type="submit" id="btnReg">Registrujte se</button>
-
+                <button   id="btnReg">Registrujte se</button>
+                </form>
             </div>
 
             <div id="prijavaDIV" style="display:none">
-                <form action="/api/login" method="post">
-                    <b>Ime:</b><input type="text" name="korIme" />
-                    <b>Lozinka:</b><input type="password" name="korPas" />
-                    <br>
+                
+                    <b>Ime:</b><input type="text" id="korImeL" name="korImeL" />
+                    <p id="imeEL"></p>
+                    <b>Lozinka:</b><input type="password" id="korPasL" name="korPasL" />
+                    <p id="pasEL"></p>
                     <button type="submit" id="btnLog">Prijavite se</button>
-                </form>
-                <button id="dugme">Dugme</button>
+                
+                
             </div>
         </div>
     </section>

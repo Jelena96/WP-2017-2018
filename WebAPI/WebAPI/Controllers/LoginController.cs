@@ -14,60 +14,53 @@ namespace WebAPI.Controllers
     public class LoginController : ApiController
     {
         [HttpPost]
-        public string Post([FromBody]JToken jToken)
+        public HttpResponseMessage Post([FromBody]JToken jToken)
         {
-            var response = "" ;
+            
             string result = "";
-            var imeKor = jToken.Value<string>("korIme");
-            var pasKor = jToken.Value<string>("korPas");
+            var imeKor = jToken.Value<string>("korImeL");
+            var pasKor = jToken.Value<string>("korPasL");
 
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
             bool isMatch = false;
+            var response = Request.CreateResponse(HttpStatusCode.Moved);
 
-
-            using (StreamReader sr = File.OpenText(putanja))
+            if (imeKor != "" && pasKor != "")
             {
-                string[] lines = File.ReadAllLines(putanja);
-                for (int x = 0; x < lines.Length - 1; x++)
+                using (StreamReader sr = File.OpenText(putanja))
                 {
-                    if (imeKor == lines[x])
+                    string[] lines = File.ReadAllLines(putanja);
+                    for (int x = 0; x < lines.Length - 1; x++)
                     {
-                        if (pasKor == lines[x + 1])
+                        if (imeKor == lines[x])
                         {
-                            sr.Close();
-                            isMatch = true;
-                            Index();
-                            result = "Vec postoji";
-                            
-                        }
-                        else
-                        {
+                            if (pasKor == lines[x + 1])
+                            {
+                                sr.Close();
+                                isMatch = true;
 
-                            result = "Nije to ta lozinka";
+                                response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
+
+                            }
+                            else
+                            {
+
+                                result = "Nije to ta lozinka";
+
+                            }
 
                         }
 
                     }
-                   
+
                 }
 
             }
-
-          
-            return result;
+            return response;
             
         }
 
-        [HttpGet]
-        [ActionName("Index")]
-        public HttpResponseMessage Index()
-        {
-            var path = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\WebAPI\Nalog.html";
-            var response = new HttpResponseMessage();
-            response.Content = new StringContent(File.ReadAllText(path));
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-            return response;
-        }
+      
 
     }
 }
