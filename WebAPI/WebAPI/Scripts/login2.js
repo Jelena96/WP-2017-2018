@@ -30,11 +30,11 @@
     $('#btnLog').click(function () {
 
 
-        if ($('#korImeL').val() == "") {
+        if ($('#korImeL').val() === "") {
 
             korImeZacrveni('Morate uneti ime');
 
-        } else if ($('#korPasL').val() == "") {
+        } else if ($('#korPasL').val() === "") {
 
             korPasZacrveni('Morate uneti lozinku');
             korIme();

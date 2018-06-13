@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
             Musterija m = new Musterija();
             m.Ime = imeKor;
             m.Lozinka = pasKor;
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotModified) ;
+            HttpResponseMessage response=null;// = Request.CreateResponse(HttpStatusCode.NotModified) ;
             
 
             //Musterija m = new Musterija();
@@ -50,10 +50,7 @@ namespace WebAPI.Controllers
                             sr.Close();
                             result = "Vec postoji";
                             isMatch = true;
-                            // response = Request.CreateResponse(HttpStatusCode.Created);
-
-                            response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik vec postoji");
-
+                            response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User already exist");
 
                         }
                     }

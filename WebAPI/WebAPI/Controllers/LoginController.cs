@@ -7,10 +7,11 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [RoutePrefix("api/login")]
+    
     public class LoginController : ApiController
     {
         [HttpPost]
@@ -25,8 +26,8 @@ namespace WebAPI.Controllers
             bool isMatch = false;
             var response = Request.CreateResponse(HttpStatusCode.NotModified);
 
-            if (!imeKor.Equals("") && !pasKor.Equals(""))
-            {
+            //if (imeKor!=null && pasKor!="")
+            //{
                 using (StreamReader sr = File.OpenText(putanja))
                 {
                     string[] lines = File.ReadAllLines(putanja);
@@ -37,6 +38,11 @@ namespace WebAPI.Controllers
                             if (pasKor == lines[x + 1])
                             {
                                 sr.Close();
+                                Musterija m = new Musterija();
+                                m.Ime = imeKor;
+                                m.Lozinka = pasKor;
+                                response = Request.CreateResponse(HttpStatusCode.Created, m);
+                                response.Headers.Location = new Uri(Request.RequestUri + m.Ime);
                                 isMatch = true;
                                 response = Request.CreateResponse(HttpStatusCode.Moved);
                                 response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
@@ -52,17 +58,17 @@ namespace WebAPI.Controllers
                         }
                         else
                         {
+                        response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User not exist");
 
-                            // response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Korisnik nije registrovan");
-
-                        }
-
-
+                       
                     }
+
 
                 }
 
-            }
+                }
+
+            //}
             return response;
             
         }

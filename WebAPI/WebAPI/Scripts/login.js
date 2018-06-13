@@ -57,7 +57,7 @@ $(document).ready(function () {
             korPrez();
 
         }
-        else if ($('#korTel').val() == '') {
+        else if (isNaN($('#korTel').val())) {
 
             korTelZacrveni('Niste uneli broj telefona');
             korPas();
@@ -90,26 +90,33 @@ $(document).ready(function () {
         }
         else {
 
-            //za uspesnost AJAX-a
-            var musterija = new Object();
-            musterija.Name = $('#korIme').val();
-            musterija.Pas = $('#korPas').val();
+            let musterija = {
+             Ime: $('#korIme').val(),
+             Prezime: $('#korPrez').val(),
+             Lozinka: $('#korPas').val(),
+             BrojTelefona: $('#korTel').val(),
+             Jmbg: $('#korEmail').val(),
+             Email: $('#korEmail').val(),
+            };
+
+            
 
             korEmail();
             if (musterija != null) {
                 $.ajax({
                     type: "POST",
                     url: "/api/Registration",
-                    data: JSON.stringify({ Name: musterija.Name, Pas: musterija.Pas }),
+                    data: JSON.stringify(musterija),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
                         sessionStorage.setItem("logged", JSON.stringify(response));
-                        alert("Succesffully logged in");
+                        alert("Succesffully registred in");
 
                     },
                     error: function (msg) {
                         alert("Error - " + msg.responseText);
+
                     }
 
 
@@ -120,7 +127,7 @@ $(document).ready(function () {
 
         }
 
-        korEmail();
+        
 
         if ($('#korPas').val() != $('#korPasP').val()) {
 
@@ -180,12 +187,43 @@ $(document).ready(function () {
             korIme2();
 
         }
-        else {
+        else if ($('#korImeL').val() != "" && $('#korPasL').val() != "") {
 
             korPas2();
-        }
+
+            var musterija = new Object();
+            var ime = $('#korImeL').val();
+            var pas = $('#korPasL').val();
+
+            korEmail();
+            if (musterija != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Login",
+                    data: JSON.stringify({ Name: ime, Pas: pas }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        sessionStorage.setItem("logged", JSON.stringify(response));
+                        alert("Succesffully logged in");
+                        
+
+                    },
+                    error: function (msg) {
+                        alert("Error - Nije registrovan " + msg.responseText);
+                       // window.location.href("login.html");
+                    }
 
 
+
+
+                });
+            }
+
+
+        } 
+
+    
 
     }); 
 
