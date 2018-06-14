@@ -61,6 +61,7 @@ $(document).ready(function () {
 
             korTelZacrveni('Niste uneli broj telefona');
             korPas();
+            var telefon = $('#korTel').val();
         }
 
         else if (($('#korEmail').val() == '')) {
@@ -88,7 +89,7 @@ $(document).ready(function () {
 
             
         }
-        else {
+        else if (pattern.test(userinput) && !isNaN(telefon)) {
 
             let musterija = {
              Ime: $('#korIme').val(),

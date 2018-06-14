@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
 
                             file.WriteLine(imeKor);
                             file.WriteLine(pasKor);
-                            file.WriteLine(pasKor);
+                           // file.WriteLine(pasKor);
                             result = "Dodat";
                             response = Request.CreateResponse(HttpStatusCode.Moved);
 

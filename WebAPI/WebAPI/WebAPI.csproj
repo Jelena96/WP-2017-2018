@@ -118,6 +118,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Default\" />
+    <Folder Include="Views\Dispecer\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\DispecerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Admini.cs" />
     <Compile Include="Models\Korisnik.cs" />
     <Compile Include="Models\Musterija.cs" />
     <Compile Include="Models\Pol.cs" />
@@ -200,6 +203,7 @@
     <Content Include="login.html" />
     <Content Include="assets\css\main.css" />
     <Content Include="Nalog.html" />
+    <Content Include="NalogAdmin.html" />
     <Content Include="Reg.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
