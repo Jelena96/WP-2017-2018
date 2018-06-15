@@ -209,18 +209,21 @@ $(document).ready(function () {
 
         }
         else if ($('#korImeL').val() != "" && $('#korPasL').val() != "") {
-
+            korEmail();
             korPas2();
 
-            var korisnik = {
-                Ime: $("#korImeL").val(),
-                Lozinka: $("#korPasL").val(),
+            let korisnik = {
+                Ime: $('#korImeL').val(),
+                Prezime: $('#korPrez').val(),
+                Lozinka: $('#korPasL').val(),
+                BrojTelefona: $('#korTel').val(),
+                Jmbg: $('#korEmail').val(),
+                Email: $('#korEmail').val(),
                 
             }
 
-            korisnik.Ime = $("#korImeL").val();
-            korisnik.Lozinka = $("#korPasL").val();
-            korEmail();
+
+          
             
             if (korisnik != null) {
                 $.ajax({
@@ -239,7 +242,7 @@ $(document).ready(function () {
                     },
                     error: function (msg) {
                         alert("Error - Nije registrovan " + msg.responseText);
-                       // window.location.href("login.html");
+                       
                     }
 
 

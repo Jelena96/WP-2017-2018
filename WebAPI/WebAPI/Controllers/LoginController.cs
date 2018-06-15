@@ -14,108 +14,113 @@ namespace WebAPI.Controllers
     
     public class LoginController : ApiController
     {
-        //[HttpPost]
-        /* public HttpResponseMessage Post([FromBody]JToken jToken)
+        Korisnik k = new Korisnik();
+        Admini a = new Admini();
+
+        /*[HttpPost]
+         public HttpResponseMessage Post([FromBody]JToken jToken)
          {
+            var imeKor = jToken.Value<string>("korImeL");
+            var pasKor = jToken.Value<string>("korPasL");
+            HttpResponseMessage response= Request.CreateResponse(HttpStatusCode.NotModified);
+            bool isMatch = false;
 
-             string result = "";
-             var imeKor = jToken.Value<string>("korImeL");
-             var pasKor = jToken.Value<string>("korPasL");
+            if (Post2(jToken))
+            {
+                response = Request.CreateResponse(HttpStatusCode.Moved);
+                response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
+                isMatch = true;
 
-             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
-             bool isMatch = false;
-             var response = Request.CreateResponse(HttpStatusCode.NotModified);
-             Musterija m = new Musterija();
-
-             //musterije
-             using (StreamReader sr = File.OpenText(putanja))
-             {
-                     string[] lines = File.ReadAllLines(putanja);
-                 for (int x = 0; x < lines.Length - 1; x++)
-                 {
-                     if (imeKor == lines[x])
-                     {
-                         if (pasKor == lines[x + 1])
-                         {
-                             sr.Close();
-
-                             m.Ime = imeKor;
-                             m.Lozinka = pasKor;
-                             //response = Request.CreateResponse(HttpStatusCode.Created, m);
-                             //response.Headers.Location = new Uri(Request.RequestUri + m.Ime);
-                             isMatch = true;
-                             response = Request.CreateResponse(HttpStatusCode.Moved);
-                             response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
-                             break;
-                         }
-
-
-                     }
-                     else
-                     {
-
-
-                     }
+            }
 
 
 
-                 }
-             }
-
-             if (!isMatch)
-             {
+            if (!isMatch)
+            {
 
 
-                 if (!PretragaAdminTxt(imeKor, pasKor))
-                 {
-                     response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
-                 }
-                 else
-                 {
-                     response = Request.CreateResponse(HttpStatusCode.Moved);
-                     response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
+                if (!PretragaAdminTxt(imeKor, pasKor))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Moved);
+                    response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
 
 
-                 }
+                }
 
-             }
+            }
 
              return response;
 
                  }*/
 
 
-        Korisnik k = new Korisnik();
+       
        
         [HttpPost]
-        public bool Post2([FromBody]JToken jToken)
+        public HttpResponseMessage Post2([FromBody]Korisnik jToken)
         {
             k.iscitaj();
+            a.iscitaj();
             bool uspesno = false;
-            var imeKor = jToken.Value<string>("korImeL");
-            var pasKor = jToken.Value<string>("korPasL");
+           /* var imeKor = jToken.Value<string>("korImeL");
+            var pasKor = jToken.Value<string>("korPasL");*/
+
+            var response= Request.CreateResponse(HttpStatusCode.NotModified);
 
             foreach (Korisnik k in k.listaKorisnika) {
-                if (imeKor == k.Ime)
+                if (jToken.Ime == k.Ime)
                 {
-                    if (pasKor == k.Lozinka)
+                    if (jToken.Lozinka == k.Lozinka)
                     {
-                        var response = Request.CreateResponse(HttpStatusCode.OK);
+                        response = Request.CreateResponse(HttpStatusCode.Moved);
+                        response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
+
                         uspesno = true;
+                        break;
                     }
                 }
                
               }
 
+            if (!uspesno)
+            {
+                foreach (Admini a in a.listaAdmina)
+                {
+                    if (jToken.Ime == a.Ime)
+                    {
+                        if (jToken.Lozinka == a.Lozinka)
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.Moved);
+                            response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
 
-            return uspesno;
+                            uspesno = true;
+                            break;
+                        }
+                    }
+                    else {
+
+                        response = Request.CreateResponse(HttpStatusCode.Created);
+                        response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
+                    
+                }
+
+                }
+
+            }
+
+
+            return response;
 
         }
 
         public bool PretragaAdminTxt(string ime,string pas) {
 
             bool uspesno = false;
-                string putanjaAdmin = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
+            string putanjaAdmin = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
 
                 using (StreamReader sr2 = File.OpenText(putanjaAdmin))
                 {
