@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
            
             //musterije
             using (StreamReader sr = File.OpenText(putanja))
-                {
+            {
                     string[] lines = File.ReadAllLines(putanja);
                 for (int x = 0; x < lines.Length - 1; x++)
                 {
@@ -53,18 +53,6 @@ namespace WebAPI.Controllers
                     }
                     else
                     {
-                        if (!PretragaAdminTxt(imeKor, pasKor))
-                        {
-                            response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
-                        }
-                        else
-                        {
-                            response = Request.CreateResponse(HttpStatusCode.Moved);
-                            response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
-
-
-                        }
-                        isMatch = false;
 
 
                     }
@@ -74,8 +62,25 @@ namespace WebAPI.Controllers
                 }
             }
 
-           
-                    return response;
+            if (!isMatch)
+            {
+
+
+                if (!PretragaAdminTxt(imeKor, pasKor))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Moved);
+                    response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
+
+
+                }
+
+            }
+
+            return response;
 
                 }
 
@@ -103,7 +108,7 @@ namespace WebAPI.Controllers
                             else
                             {
 
-                            uspesno = false;
+                            
 
                             }
 
