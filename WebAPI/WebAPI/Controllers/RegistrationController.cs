@@ -13,7 +13,7 @@ namespace WebAPI.Controllers
     [RoutePrefix("api/registration")]
     public class RegistrationController : ApiController
     {
-      
+        public List<Korisnik> listaKorisnika = new List<Korisnik>(); 
 
         [HttpPost]
         public HttpResponseMessage Post([FromBody]JToken jToken) {
@@ -26,78 +26,50 @@ namespace WebAPI.Controllers
             var potvrda = jToken.Value<string>("korPasP");
             var tel = jToken.Value<string>("korTel");
             var email = jToken.Value<string>("korEmail");
-            Musterija m = new Musterija();
-            m.Ime = imeKor;
-            m.Lozinka = pasKor;
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotModified) ;
-            
 
-            //Musterija m = new Musterija();
-            //m.Ime = imeKor;
+            Korisnik kor = new Korisnik();
+            kor.iscitaj();
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotModified) ;
+        
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
             bool isMatch = false;
 
 
             if (imeKor != "" && prezKor != "" && pasKor != "" && potvrda != "" && tel != "" && email != "")
             {
-                using (StreamReader sr = File.OpenText(putanja))
-                {
-                    string[] lines = File.ReadAllLines(putanja);
-                    for (int x = 0; x < lines.Length - 1; x++)
-                    {
-                        if (imeKor == lines[x])
-                        {
-                            sr.Close();
-                            result = "Vec postoji";
-                            isMatch = true;
-                            response = Request.CreateErrorResponse(HttpStatusCode.BadRequest, "User already exist");
 
-                        }
+                foreach (Korisnik korisnik in kor.listaKorisnika)
+                {
+                    if (imeKor == korisnik.Ime)
+                    {
+
+                        response = Request.CreateResponse(HttpStatusCode.BadRequest,"User alredy exsist");
+                        isMatch = true;
+
                     }
 
                 }
 
                 if (!isMatch)
                 {
-                    if (!File.Exists(putanja))
-                    {
-                        //ako ne postoji u fajlu ubaci datu musteriju
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja))
-                        {
 
-                            file.WriteLine(imeKor);
-                            file.WriteLine(pasKor);
-                            ///file.WriteLine(prezKor);
-                            result = "Dodat";
-                            //response = Request.CreateResponse(HttpStatusCode.Created,m);
-                            response = Request.CreateResponse(HttpStatusCode.Moved);
-                            response.Headers.Location = new Uri("http://localhost:10482/Reg.html");
+                    Korisnik k = new Korisnik();
+                    k.Ime = imeKor;
+                    k.Lozinka = pasKor;
+                    listaKorisnika.Add(k);
 
-
-                        }
-                    }
-                    else
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
                     {
 
-                        using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
-                        {
-
-                            file.WriteLine(imeKor);
-                            file.WriteLine(pasKor);
-                           // file.WriteLine(pasKor);
-                            result = "Dodat";
-                            response = Request.CreateResponse(HttpStatusCode.Moved);
-
-                            //response = Request.CreateResponse(HttpStatusCode.Created, m);
-                            response.Headers.Location = new Uri("http://localhost:10482/Reg.html");
-
-                        }
+                        file.WriteLine(k.Ime);
+                        file.WriteLine(k.Lozinka);
+                        response = Request.CreateResponse(HttpStatusCode.Moved);
+                        response.Headers.Location = new Uri("http://localhost:10482/Reg.html");
 
                     }
 
                 }
             }
-            
             return response;
         }
     }

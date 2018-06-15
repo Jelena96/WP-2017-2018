@@ -41,6 +41,19 @@ $(document).ready(function () {
         $('#pasE').text('');
     };
 
+    let korJmbgZacrveni = function (poruka) {
+        $('#korJmbg').css('border-color', 'red');
+        $('#registracijaDIV :nth-child(3)').css('color', 'red');
+        $('#jmbgE').text(`\xA0${poruka}`);
+    };
+
+    let korJmbg = function (poruka) {
+
+        $('#korJmbg').css('border-color', 'white');
+        $('#registracijaDIV :nth-child(3)').css('color', 'white');
+        $('#jmbgE').text('');
+    };
+
     $('#btnReg').click(function () {
 
         if ($('#korIme').val() == "") {
@@ -52,9 +65,16 @@ $(document).ready(function () {
             korPrezZacrveni('Morate uneti prezime');
             korIme();
 
-        } else if ($('#korPas').val() == "") {
-            korPasZacrveni('Morate uneti lozinku');
+        }
+         else if ($('#korJmbg').val() == "") {
+
+            korJmbgZacrveni('Morate uneti jmbg');
             korPrez();
+
+        }
+        else if ($('#korPas').val() == "") {
+            korPasZacrveni('Morate uneti lozinku');
+            korJmbg();
 
         }
         else if (isNaN($('#korTel').val())) {
@@ -192,21 +212,28 @@ $(document).ready(function () {
 
             korPas2();
 
-            var musterija = new Object();
-            var ime = $('#korImeL').val();
-            var pas = $('#korPasL').val();
+            var korisnik = {
+                Ime: $("#korImeL").val(),
+                Lozinka: $("#korPasL").val(),
+                
+            }
 
+            korisnik.Ime = $("#korImeL").val();
+            korisnik.Lozinka = $("#korPasL").val();
             korEmail();
-            if (musterija != null) {
+            
+            if (korisnik != null) {
                 $.ajax({
                     type: "POST",
                     url: "/api/Login",
-                    data: JSON.stringify({ Name: ime, Pas: pas }),
+                    data: JSON.stringify(korisnik),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
                         sessionStorage.setItem("logged", JSON.stringify(response));
-                        alert("Succesffully logged in");
+                      
+                            $('#target').html(response.msg);
+                        
                         
 
                     },
