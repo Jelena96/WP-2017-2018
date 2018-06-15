@@ -11,75 +11,40 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    
+  
     public class LoginController : ApiController
     {
         Korisnik k = new Korisnik();
         Admini a = new Admini();
 
-        /*[HttpPost]
-         public HttpResponseMessage Post([FromBody]JToken jToken)
-         {
-            var imeKor = jToken.Value<string>("korImeL");
-            var pasKor = jToken.Value<string>("korPasL");
-            HttpResponseMessage response= Request.CreateResponse(HttpStatusCode.NotModified);
-            bool isMatch = false;
-
-            if (Post2(jToken))
-            {
-                response = Request.CreateResponse(HttpStatusCode.Moved);
-                response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
-                isMatch = true;
-
-            }
-
-
-
-            if (!isMatch)
-            {
-
-
-                if (!PretragaAdminTxt(imeKor, pasKor))
-                {
-                    response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Moved);
-                    response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
-
-
-                }
-
-            }
-
-             return response;
-
-                 }*/
-
-
+       
        
        
         [HttpPost]
-        public HttpResponseMessage Post2([FromBody]Korisnik jToken)
+        
+        public string Post2([FromBody]Korisnik jToken)
         {
             k.iscitaj();
             a.iscitaj();
+            string korisnik="";
             bool uspesno = false;
-           /* var imeKor = jToken.Value<string>("korImeL");
+            /*var imeKor = jToken.Value<string>("korImeL");
             var pasKor = jToken.Value<string>("korPasL");*/
+            var imeKor = jToken.Ime;
+            var pasKor = jToken.Lozinka;
 
             var response= Request.CreateResponse(HttpStatusCode.NotModified);
 
             foreach (Korisnik k in k.listaKorisnika) {
-                if (jToken.Ime == k.Ime)
+                if (imeKor == k.Ime)
                 {
-                    if (jToken.Lozinka == k.Lozinka)
+                    if (pasKor == k.Lozinka)
                     {
                         response = Request.CreateResponse(HttpStatusCode.Moved);
                         response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
 
                         uspesno = true;
+                        korisnik = k.Lozinka;
                         break;
                     }
                 }
@@ -90,15 +55,17 @@ namespace WebAPI.Controllers
             {
                 foreach (Admini a in a.listaAdmina)
                 {
-                    if (jToken.Ime == a.Ime)
+                    if (imeKor == a.Ime)
                     {
-                        if (jToken.Lozinka == a.Lozinka)
+                        if (pasKor == a.Lozinka)
                         {
                             response = Request.CreateResponse(HttpStatusCode.Moved);
                             response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
-
+                            
                             uspesno = true;
+                            korisnik = a.Lozinka;
                             break;
+
                         }
                     }
                     else {
@@ -113,7 +80,7 @@ namespace WebAPI.Controllers
             }
 
 
-            return response;
+            return korisnik;
 
         }
 
@@ -137,13 +104,6 @@ namespace WebAPI.Controllers
                             break;
                             
                             }
-                            else
-                            {
-
-                            
-
-                            }
-
 
                         }
 

@@ -66,7 +66,7 @@ $(document).ready(function () {
             korIme();
 
         }
-         else if ($('#korJmbg').val() == "") {
+        else if ($('#korJmbg').val() == "") {
 
             korJmbgZacrveni('Morate uneti jmbg');
             korPrez();
@@ -93,78 +93,69 @@ $(document).ready(function () {
         else if ($('#korEmail').val() != '') {
 
 
-            
-                let userinput = $('#korEmail').val();
-                let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
+
+            let userinput = $('#korEmail').val();
+            let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
 
             if (!pattern.test(userinput)) {
 
                 korEmailZacrveni('Morate uneti validan email');
-            
+
 
             } else {
 
                 korEmail();
             }
 
-            
+
         }
         else if (pattern.test(userinput) && !isNaN(telefon)) {
 
-            let musterija = {
-             Ime: $('#korIme').val(),
-             Prezime: $('#korPrez').val(),
-             Lozinka: $('#korPas').val(),
-             BrojTelefona: $('#korTel').val(),
-             Jmbg: $('#korEmail').val(),
-             Email: $('#korEmail').val(),
-            };
+            if ($('#korPas').val() != $('#korPasP').val()) {
 
+                korPasPZacrveni('Lozinke se ne podudaraju');
+
+            } else {
+
+                korPasP();
+
+
+
+
+
+
+                let musterija = {
+                    Ime: `${$('#korImeL').val()}`,
+                    Lozinka: `${$('#korPasL').val()}`
+                };
+
+
+
+                korEmail();
+                if (musterija != null) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/registration",
+                        data: JSON.stringify(musterija),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                    }).done(function (data) {
+                        if (data != null) {
+                            
+                            alert("Uspesno");
+                        } else {
+
+                        }
+
+
+
+
+                    });
+                }
+            }
+        }
             
 
-            korEmail();
-            if (musterija != null) {
-                $.ajax({
-                    type: "POST",
-                    url: "/api/Registration",
-                    data: JSON.stringify(musterija),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (response) {
-                        sessionStorage.setItem("logged", JSON.stringify(response));
-                        alert("Succesffully registred in");
-
-                    },
-                    error: function (msg) {
-                        alert("Error - " + msg.responseText);
-
-                    }
-
-
-
-
-                });
-            }
-
-        }
-
-        
-
-        if ($('#korPas').val() != $('#korPasP').val()) {
-
-            korPasPZacrveni('Lozinke se ne podudaraju');
-
-        } else {
-
-            korPasP();
-
-        }
-
-
-      
-
-          
-        
 
     });
 
@@ -214,13 +205,11 @@ $(document).ready(function () {
 
             let korisnik = {
                 Ime: $('#korImeL').val(),
-                Prezime: $('#korPrez').val(),
+
                 Lozinka: $('#korPasL').val(),
-                BrojTelefona: $('#korTel').val(),
-                Jmbg: $('#korEmail').val(),
-                Email: $('#korEmail').val(),
-                
-            }
+
+
+            };
 
 
           
@@ -233,8 +222,8 @@ $(document).ready(function () {
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        sessionStorage.setItem("logged", JSON.stringify(response));
-                      
+                        sessionStorage.setItem("logged", korisnik.Ime);
+                        alert("USpesno");
                             $('#target').html(response.msg);
                         
                         
