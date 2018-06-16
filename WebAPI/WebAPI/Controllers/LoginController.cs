@@ -11,25 +11,26 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-  
+  [RoutePrefix("api/Login")]
     public class LoginController : ApiController
     {
         Korisnik k = new Korisnik();
         Admini a = new Admini();
 
-       
-       
-       
-        [HttpPost]
-        
-        public string Post2([FromBody]Korisnik jToken)
+
+
+
+        [Route("Login")]
+        public Korisnik Login([FromBody]Korisnik jToken)
         {
             k.iscitaj();
             a.iscitaj();
             string korisnik="";
             bool uspesno = false;
-            /*var imeKor = jToken.Value<string>("korImeL");
+           /* var imeKor = jToken.Value<string>("korImeL");
             var pasKor = jToken.Value<string>("korPasL");*/
+            Korisnik kor = new Korisnik();
+            //kor = null;
             var imeKor = jToken.Ime;
             var pasKor = jToken.Lozinka;
 
@@ -40,13 +41,22 @@ namespace WebAPI.Controllers
                 {
                     if (pasKor == k.Lozinka)
                     {
-                        response = Request.CreateResponse(HttpStatusCode.Moved);
-                        response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
-
+                        //response = Request.CreateResponse(HttpStatusCode.Moved);
+                        //response.Headers.Location = new Uri("http://localhost:10482/Nalog.html");
+                        kor = k;
                         uspesno = true;
-                        korisnik = k.Lozinka;
+                        korisnik = k.Ime;
                         break;
                     }
+                    else
+                    {
+
+                        kor = null;
+                    }
+                }
+                else {
+
+                    kor = null;
                 }
                
               }
@@ -59,19 +69,23 @@ namespace WebAPI.Controllers
                     {
                         if (pasKor == a.Lozinka)
                         {
-                            response = Request.CreateResponse(HttpStatusCode.Moved);
-                            response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
-                            
+                            kor = a;
+                            // response = Request.CreateResponse(HttpStatusCode.Moved);
+                            //response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
+
                             uspesno = true;
-                            korisnik = a.Lozinka;
+                            korisnik = a.Ime;
                             break;
 
+                        }
+                        else {
+
+                            kor = null;
                         }
                     }
                     else {
 
-                        response = Request.CreateResponse(HttpStatusCode.Created);
-                        response = Request.CreateResponse(HttpStatusCode.BadRequest, "User not registred");
+                        kor = null;
                     
                 }
 
@@ -80,7 +94,7 @@ namespace WebAPI.Controllers
             }
 
 
-            return korisnik;
+            return kor;
 
         }
 

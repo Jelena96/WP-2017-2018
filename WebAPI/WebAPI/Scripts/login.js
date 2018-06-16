@@ -1,7 +1,7 @@
 ﻿
-$(document).ready(function () {  
+$(document).ready(function () {
 
-    
+
     let korImeZacrveni = function (poruka) {
         $('#korIme').css('border-color', 'red');
         $('#registracijaDIV :nth-child(1)').css('color', 'red');
@@ -9,7 +9,7 @@ $(document).ready(function () {
     };
 
     let korIme = function (poruka) {
-            
+
         $('#korIme').css('border-color', 'white');
         $('#registracijaDIV :nth-child(1)').css('color', 'white');
         $('#imeE').text('');
@@ -141,7 +141,7 @@ $(document).ready(function () {
                         dataType: "json",
                     }).done(function (data) {
                         if (data != null) {
-                            
+
                             alert("Uspesno");
                         } else {
 
@@ -154,7 +154,7 @@ $(document).ready(function () {
                 }
             }
         }
-            
+
 
 
     });
@@ -212,26 +212,30 @@ $(document).ready(function () {
             };
 
 
-          
-            
+
+
             if (korisnik != null) {
                 $.ajax({
                     type: "POST",
-                    url: "/api/Login",
+                    url: "/api/Login/Login",
                     data: JSON.stringify(korisnik),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        sessionStorage.setItem("logged", korisnik.Ime);
+                        sessionStorage.setItem("logged", JSON.stringify(response));
+                        window.location.href = "Nalog.html";
                         alert("USpesno");
-                            $('#target').html(response.msg);
-                        
-                        
+                        $('#target').html(response.msg);
+                        if (response == null) {
+                            alert("Error - Nije registrovan " + msg.responseText);
+                            window.location.href = "Login.html";
+                        }
+
 
                     },
                     error: function (msg) {
                         alert("Error - Nije registrovan " + msg.responseText);
-                       
+
                     }
 
 
@@ -241,75 +245,75 @@ $(document).ready(function () {
             }
 
 
-        } 
-
-    
-
-    }); 
-
-        let korPasPZacrveni = function (poruka) {
-            $('#korPasP').css('border-color', 'red');
-            $('#registracijaDIV :nth-child(1)').css('color', 'red');
-            $('#pasPE').text(`\xA0${poruka}`);
-        };
-
-        let korPasP = function (poruka) {
-
-            $('#korPasP').css('border-color', 'white');
-            $('#registracijaDIV :nth-child(1)').css('color', 'white');
-            $('#pasPE').text('');
-        };
-
-        
-
-        let korEmailZacrveni = function (poruka) {
-            $('#korEmail').css('border-color', 'red');
-            $('#registracijaDIV :nth-child(1)').css('color', 'red');
-            $('#emailE').text(`\xA0${poruka}`);
-        };
-
-        let korEmail = function (poruka) {
-
-            $('#korEmail').css('border-color', 'white');
-            $('#registracijaDIV :nth-child(1)').css('color', 'white');
-            $('#emailE').text('');
-        };
-
-        function validateEmail(sEmail) {
-            var filter = /^[w-.+]+@[a-zA-Z0-9.-]+.[a-zA-z0-9]{2,4}$/;
-            if (filter.test(sEmail)) {
-                return true;
-            }
-            else {
-                korEmailZacrveni('Nije u dobrom formatu');
-            }
         }
 
-        function validateNumber(sEmail) {
-            var filter = /^[0-9]{0,10}$/;
-            if (filter.test(sEmail)) {
-                return true;
-            }
-            else {
-                return false;
-            }
+
+
+    });
+
+    let korPasPZacrveni = function (poruka) {
+        $('#korPasP').css('border-color', 'red');
+        $('#registracijaDIV :nth-child(1)').css('color', 'red');
+        $('#pasPE').text(`\xA0${poruka}`);
+    };
+
+    let korPasP = function (poruka) {
+
+        $('#korPasP').css('border-color', 'white');
+        $('#registracijaDIV :nth-child(1)').css('color', 'white');
+        $('#pasPE').text('');
+    };
+
+
+
+    let korEmailZacrveni = function (poruka) {
+        $('#korEmail').css('border-color', 'red');
+        $('#registracijaDIV :nth-child(1)').css('color', 'red');
+        $('#emailE').text(`\xA0${poruka}`);
+    };
+
+    let korEmail = function (poruka) {
+
+        $('#korEmail').css('border-color', 'white');
+        $('#registracijaDIV :nth-child(1)').css('color', 'white');
+        $('#emailE').text('');
+    };
+
+    function validateEmail(sEmail) {
+        var filter = /^[w-.+]+@[a-zA-Z0-9.-]+.[a-zA-z0-9]{2,4}$/;
+        if (filter.test(sEmail)) {
+            return true;
         }
-       
+        else {
+            korEmailZacrveni('Nije u dobrom formatu');
+        }
+    }
 
-        let korTelZacrveni = function (poruka) {
-            $('#korTel').css('border-color', 'red');
-            $('#registracijaDIV :nth-child(1)').css('color', 'red');
-            $('#telE').text(`\xA0${poruka}`);
-        };
+    function validateNumber(sEmail) {
+        var filter = /^[0-9]{0,10}$/;
+        if (filter.test(sEmail)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
-        let korTel = function (poruka) {
 
-            $('#korTel').css('border-color', 'white');
-            $('#registracijaDIV :nth-child(1)').css('color', 'white');
-            $('#telE').text('');
-        };
+    let korTelZacrveni = function (poruka) {
+        $('#korTel').css('border-color', 'red');
+        $('#registracijaDIV :nth-child(1)').css('color', 'red');
+        $('#telE').text(`\xA0${poruka}`);
+    };
 
-       
+    let korTel = function (poruka) {
+
+        $('#korTel').css('border-color', 'white');
+        $('#registracijaDIV :nth-child(1)').css('color', 'white');
+        $('#telE').text('');
+    };
+
+
 
 });
 
