@@ -55,6 +55,8 @@ $(document).ready(function () {
     };
 
     $('#btnReg').click(function () {
+        
+
 
         if ($('#korIme').val() == "") {
 
@@ -86,16 +88,68 @@ $(document).ready(function () {
 
         else if (($('#korEmail').val() == '')) {
 
+
             korEmailZacrveni('Niste uneli email');
             korTel();
 
+        } else {
+
+            korTel();
+            //validateEmail();
+            let musterija = {
+
+                Ime: $('#korIme').val(),
+                Lozinka: $('#korPas').val(),
+
+            };
+
+            korEmail();
+            if (musterija != null) {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Registration/Registration",
+                    data: JSON.stringify(musterija),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                }).done(function (data) {
+                    if (data != null) {
+
+                        sessionStorage.setItem('logged', JSON.stringify(data));
+                        window.location.href = "Reg.html";
+                        alert("Data"+data.Ime);
+                    } else {
+
+                        alert("Vec registrovan");
+                    }
+
+
+
+                });
+            }
+
+
+
         }
-        else if ($('#korEmail').val() != '') {
+       
+        if ($('#korPas').val() != $('#korPasP').val()) {
+
+            korPasPZacrveni('Lozinke se ne podudaraju');
+
+        } else {
+
+            korPas();
+        } 
+
+
+           
 
 
 
-            let userinput = $('#korEmail').val();
-            let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
+    });
+
+    function validateEmail() {
+        let userinput = $('#korEmail').val();
+        let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
 
             if (!pattern.test(userinput)) {
 
@@ -106,59 +160,7 @@ $(document).ready(function () {
 
                 korEmail();
             }
-
-
-        }
-        else if (pattern.test(userinput) && !isNaN(telefon)) {
-
-            if ($('#korPas').val() != $('#korPasP').val()) {
-
-                korPasPZacrveni('Lozinke se ne podudaraju');
-
-            } else {
-
-                korPasP();
-
-
-
-
-
-
-                let musterija = {
-                    Ime: `${$('#korImeL').val()}`,
-                    Lozinka: `${$('#korPasL').val()}`
-                };
-
-
-
-                korEmail();
-                if (musterija != null) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/registration",
-                        data: JSON.stringify(musterija),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                    }).done(function (data) {
-                        if (data != null) {
-
-                            alert("Uspesno");
-                        } else {
-
-                        }
-
-
-
-
-                    });
-                }
-            }
-        }
-
-
-
-    });
-
+    }
 
     let korImeZacrveni2 = function (poruka) {
         $('#korImeL').css('border-color', 'red');
@@ -213,7 +215,6 @@ $(document).ready(function () {
 
 
 
-
             if (korisnik != null) {
                 $.ajax({
                     type: "POST",
@@ -221,29 +222,21 @@ $(document).ready(function () {
                     data: JSON.stringify(korisnik),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    success: function (response) {
-                        sessionStorage.setItem("logged", JSON.stringify(response));
+                }).done(function (data) {
+                    if (data != null) {
+
+                        sessionStorage.setItem('logged', JSON.stringify(data));
                         window.location.href = "Nalog.html";
-                        alert("USpesno");
-                        $('#target').html(response.msg);
-                        if (response == null) {
-                            alert("Error - Nije registrovan " + msg.responseText);
-                            window.location.href = "Login.html";
-                        }
 
+                    } else {
 
-                    },
-                    error: function (msg) {
-                        alert("Error - Nije registrovan " + msg.responseText);
-
+                        alert("Nije registrovan");
                     }
-
-
+                        
 
 
                 });
             }
-
 
         }
 

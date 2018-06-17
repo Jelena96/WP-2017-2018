@@ -11,74 +11,63 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    
+    [RoutePrefix("api/Registration")]
     public class RegistrationController : ApiController
     {
 
 
 
-        [HttpPost]
-        public HttpResponseMessage Post([FromBody]Korisnik jToken) {
-
-            string result = "";
-
-            //var imeKor = jToken.Value<string>("korIme");
-            //var pasKor = jToken.Value<string>("korPas");
-            //var prezKor = jToken.Value<string>("korPrez");
-            //var potvrda = jToken.Value<string>("korPasP");
-            //var tel = jToken.Value<string>("korTel");
-            //var email = jToken.Value<string>("korEmail");
-
-            var imeKor = jToken.Ime;
-            var pasKor = jToken.Lozinka;
-            var prezKor = jToken.Prezime;
-            var tel = jToken.BrojTelefona;
-            var email = jToken.Email;
-
+        [Route("Registration")]
+        public Korisnik Registration([FromBody]Korisnik jToken)
+        {
             Korisnik kor = new Korisnik();
-            kor.iscitaj();
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.NotModified) ;
-        
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
-            bool isMatch = false;
-
-
-            if (imeKor != "" && prezKor != "" && pasKor != ""  && email != "")
+            
+            if (!provera(jToken))
             {
 
-                foreach (Korisnik korisnik in kor.listaKorisnika)
+                kor.Ime = jToken.Ime;
+                kor.Lozinka = jToken.Lozinka;
+                Upis(kor.Ime, kor.Lozinka);
+
+            }
+            else {
+
+                kor = null;
+            }
+
+            return kor;
+            
+        }
+
+        public bool provera([FromBody]Korisnik jToken) {
+
+            bool isMatch = false;
+            Korisnik kor = new Korisnik();
+            kor.iscitaj();
+            foreach (Korisnik korisnik in kor.listaKorisnika)
+            {
+                if (korisnik.Ime == jToken.Ime)
                 {
-                    if (imeKor == korisnik.Ime)
-                    {
 
-                        response = Request.CreateResponse(HttpStatusCode.BadRequest,"User alredy exsist");
-                        isMatch = true;
-
-                    }
-
-                }
-
-                if (!isMatch)
-                {
-
-                    Korisnik k = new Korisnik();
-                    k.Ime = imeKor;
-                    k.Lozinka = pasKor;
-                    k.listaKorisnika.Add(k);
-
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
-                    {
-
-                        file.WriteLine(k.Ime);
-                        file.WriteLine(k.Lozinka);
-                        response = Request.CreateResponse(HttpStatusCode.Moved);
-                        response.Headers.Location = new Uri("http://localhost:10482/Reg.html");
-
-                    }
+                    isMatch = true;
 
                 }
             }
-            return response;
+
+            return isMatch;
         }
+        public void Upis(string ime,string pas) {
+
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
+            {
+
+                file.WriteLine(ime);
+                file.WriteLine(pas);
+
+            }
+
+        }
+       
     }
 }
