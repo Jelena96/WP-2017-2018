@@ -46,10 +46,7 @@ $(document).ready(function () {
         $('.prikaz :nth-child(14)').css('color', 'black');
         $('.prikaz :nth-child(14)').val(korisnik['Uloga']);
 
-        $('html, body').animate({
-            scrollTop: $('#prikaziNalog').offset().top
-        }, 500);
-        $('.popupKartica :nth-child(2)').focus();
+       
     });
 
 
@@ -58,113 +55,64 @@ $(document).ready(function () {
         $('#popupKarticaPrikaz').show();
 
         $('#imeIzmeni').val(korisnik['Ime']);
-        $('.izmena :nth-child(6)').val(korisnik['Prezime']);
+        $('#prezimeIzmena').val(korisnik['Prezime']);
         $('#lozinkaIzmeni').val(korisnik['Lozinka']);
-        $('.izmena :nth-child(14)').val(korisnik['JMBG']);
-        $('.izmena :nth-child(18)').val(korisnik['BrojTelefona']);
-        $('.izmena :nth-child(22)').val(korisnik['Email']);
-        $('.izmena :nth-child(26)').val(korisnik['Pol']);
+        $('#jmbgIzmena').val(korisnik['JMBG']);
+        $('#telIzmena').val(korisnik['BrojTelefona']);
+        $('#emailIzmena').val(korisnik['Email']);
+        $('#polPolje').val(korisnik['Pol']);
         $('.izmena :nth-child(26)').css('color', 'black');
 
-        $('html, body').animate({
-            scrollTop: $('#popupKarticaPrikaz').offset().top
-        }, 500);
-        $('.izmena :nth-child(2)').focus();
+       
     });
 
     $('#izmeniDugme').click(function () {
 
-        let uspesno = true;
+        var nameReg = /^[A-Za-z]+$/;
+        var numberReg = /^\b\d{13}\b$/i;
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        let email = $('#emailIzmeni').val();
+        let telefon = $('#telIzmeni').val();
+        let podudaranje = true;
 
-        if ($('#imeIzmeni').val() != "") {
-            korIme();
-            
+        if ($('#imeIzmeni').val() == "") {
 
-        }
-        else {
-            uspesno = false;
             korImeGreska('Morate uneti ime');
-           
+
+        } else if ($('#prezimeIzmeni').val() == "") {
+
+            korPrezGreska('Morate uneti prezime');
+            korIme();
+
         }
+        else if (!numberReg.test($('#jmbgIzmeni').val())) {
 
-        if ($('#prezimeIzmeni').val() != "") {
-
-           
-           
+            korJmbgGreska('Morate uneti jmbg(13 cifara)');
             korPrez();
 
         }
-        else {
-
-            uspesno = false;
-            korPrezGreska('Morate uneti prezime');
-        }
-
-        if ($('#jmbgIzmena').val() != "") {
-
+        else if ($('#lozinkaIzmeni').val() == "") {
+            korPasGreska('Morate uneti lozinku');
             korJmbg();
-            uspesno = true;
 
-        } else {
-
-            korJmbgGreska('Morate uneti jmbg');
-            uspesno = false;
-            
         }
-        if ($('#lozinkaIzmena').val() != "") {
-           
-            uspesno = true;
+        else if (isNaN(telefon) || telefon == '') {
+
+            korTelGreska('Niste uneli broj telefona');
             korPas();
 
-        } else {
-            uspesno = false;
-            korPasGreska('Morate uneti lozinku');
-        }
-
-        if ($('#telIzmena').val() != '') {
-
-            if (isNaN($('#telIzmena').val()))
-                korTelGreska("Niste uneli u pravom formatu");
-
-            else {
-                korTel();
-                uspesno = true;
-            }
-
-
-        }
-        else {
-
-            korTelZacrveni('Niste uneli broj telefona');
-            uspesno = false;
-        }
-
-        if (($('#emailIzmena').val() != '')) {
-
-            let userinput = $('#emailIzmena').val();
-            let pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/;
-
-            if (!pattern.test(userinput)) {
-
-                korEmailGreska('Morate uneti validan email');
-
-
-            } else {
-
-                uspesno = true;
-                korEmail();
-            }
-
             
+        }
 
-        } else {
+        else if ((!emailReg.test(email)) || email == "") {
+
 
             korEmailGreska('Niste uneli email');
-            uspesno = false;
-        }
+            korTel();
 
+        } else if (emailReg.test(email) && !isNaN(telefon) && email != '' && telefon != '') {
 
-        if (uspesno == true) {
+            korEmail();
             let musterija = {
                 Ime: `${$('.izmena :nth-child(2)').val()}`,
                 Prezime: `${$('.izmena :nth-child(6)').val()}`,
@@ -201,83 +149,83 @@ $(document).ready(function () {
 
 
     let korPasGreska = function (poruka) {
-        $('#lozinkaIzmena').css('border-color', 'red');
-        $('#izmenaDiv :nth-child(1)').css('color', 'red');
+        $('#lozinkaIzmeni').css('border-color', 'red');
+        $('#izmenaDiv :nth-child(7)').css('color', 'red');
         $('#lozinkaE').text(`\xA0${poruka}`);
     };
 
     let korPas = function (poruka) {
 
-        $('#lozinkaIzmena').css('border-color', 'white');
-        $('#izmenaDiv :nth-child(1)').css('color', 'white');
+        $('#lozinkaIzmeni').css('border-color', 'white');
+        $('#izmenaDiv :nth-child(7)').css('color', 'white');
         $('#lozinkaE').text('');
     };
 
 
 
     let korEmailGreska = function (poruka) {
-        $('#emailIzmena').css('border-color', 'red');
+        $('#emailIzmeni').css('border-color', 'red');
         $('#izmenaDiv :nth-child(1)').css('color', 'red');
         $('#emailE').text(`\xA0${poruka}`);
     };
 
     let korEmail = function (poruka) {
 
-        $('#emailIzmena').css('border-color', 'white');
+        $('#emailIzmeni').css('border-color', 'white');
         $('#izmenaDiv :nth-child(1)').css('color', 'white');
         $('#emailE').text('');
     };
 
 
     let korPrezGreska = function (poruka) {
-        $('#prezimeIzmena').css('border-color', 'red');
-        $('#izmenaDiv :nth-child(1)').css('color', 'red');
+        $('#prezimeIzmeni').css('border-color', 'red');
+        $('#izmenaDiv :nth-child(5)').css('color', 'red');
         $('#prezimeE').text(`\xA0${poruka}`);
     };
 
     let korPrez = function (poruka) {
 
-        $('#prezimeIzmena').css('border-color', 'white');
-        $('#izmenaDiv :nth-child(1)').css('color', 'white');
+        $('#prezimeIzmeni').css('border-color', 'white');
+        $('#izmenaDiv :nth-child(5)').css('color', 'white');
         $('#prezimeE').text('');
     };
 
 
     let korImeGreska = function (poruka) {
-        $('#imeIzmena').css('border-color', 'red');
-        $('#izmenaDiv :nth-child(1)').css('color', 'red');
+        $('#imeIzmeni').css('border-color', 'red');
+        $('#izmenaDiv :nth-child(2)').css('color', 'red');
         $('#imeE').text(`\xA0${poruka}`);
     };
 
     let korIme = function (poruka) {
 
-        $('#imeIzmena').css('border-color', 'white');
-        $('#izmenaDiv :nth-child(1)').css('color', 'white');
+        $('#imeIzmeni').css('border-color', 'white');
+        $('#izmenaDiv :nth-child(2)').css('color', 'white');
         $('#imeE').text('');
     };
     
     let korTelGreska = function (poruka) {
-        $('#telIzmena').css('border-color', 'red');
+        $('#telIzmeni').css('border-color', 'red');
         $('#izmenaDiv :nth-child(1)').css('color', 'red');
         $('#telE').text(`\xA0${poruka}`);
     };
 
     let korTel = function (poruka) {
 
-        $('#telIzmena').css('border-color', 'white');
+        $('#telIzmeni').css('border-color', 'white');
         $('#izmenaDiv :nth-child(1)').css('color', 'white');
         $('#telE').text('');
     };
 
     let korJmbgGreska = function (poruka) {
-        $('#jmbgIzmena').css('border-color', 'red');
+        $('#jmbgIzmeni').css('border-color', 'red');
         $('#izmenaDiv :nth-child(1)').css('color', 'red');
         $('#jmbgE').text(`\xA0${poruka}`);
     };
 
     let korJmbg = function (poruka) {
 
-        $('#jmbgIzmena').css('border-color', 'white');
+        $('#jmbgIzmeni').css('border-color', 'white');
         $('#izmenaDiv :nth-child(1)').css('color', 'white');
         $('#jmbgE').text('');
     };

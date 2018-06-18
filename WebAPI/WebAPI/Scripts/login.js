@@ -56,7 +56,12 @@ $(document).ready(function () {
 
     $('#btnReg').click(function () {
         
-
+        var nameReg = /^[A-Za-z]+$/;
+        var numberReg = /^\b\d{13}\b$/i;
+        var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+        let email = $('#korEmail').val();
+        let telefon = $('#korTel').val();
+        let podudaranje = true;
 
         if ($('#korIme').val() == "") {
 
@@ -68,9 +73,9 @@ $(document).ready(function () {
             korIme();
 
         }
-        else if ($('#korJmbg').val() == "") {
+        else if (!numberReg.test($('#korJmbg').val())) {
 
-            korJmbgZacrveni('Morate uneti jmbg');
+            korJmbgZacrveni('Morate uneti jmbg(13 cifara)');
             korPrez();
 
         }
@@ -79,22 +84,31 @@ $(document).ready(function () {
             korJmbg();
 
         }
-        else if (isNaN($('#korTel').val())) {
+        else if (isNaN($('#korTel').val()) || $('#korTel').val()=='') {
 
             korTelZacrveni('Niste uneli broj telefona');
             korPas();
-            var telefon = $('#korTel').val();
+
+            if ($('#korPas').val() != $('#korPasP').val()) {
+
+                korPasPZacrveni('Lozinke se ne podudaraju');
+                podudaranje = false;
+
+            } else {
+
+                korPas();
+            }
         }
 
-        else if (($('#korEmail').val() == '')) {
+        else if ((!emailReg.test($('#korEmail').val())) || $('#korEmail').val()=="") {
 
 
             korEmailZacrveni('Niste uneli email');
             korTel();
 
-        } else {
+        } else if (emailReg.test(email) && !isNaN(telefon) && email != '' && telefon != '' && podudaranje) {
 
-            korTel();
+            
             //validateEmail();
             let musterija = {
 
@@ -130,15 +144,7 @@ $(document).ready(function () {
 
 
         }
-       
-        if ($('#korPas').val() != $('#korPasP').val()) {
-
-            korPasPZacrveni('Lozinke se ne podudaraju');
-
-        } else {
-
-            korPas();
-        } 
+        
 
 
            
