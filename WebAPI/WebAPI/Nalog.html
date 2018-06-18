@@ -27,23 +27,76 @@
                 <h1>Taksi služba <span style="color:yellow">"SuperTaxi"</span></h1>
                 <p style="font-size:45px">
                     <b>Telefoni:021/65000 i 021/64000</b><br />
-
-                    </p>
+                </p>
                 <h2>Vas nalog</h2>
-                <p id="result"></p>
-                <p id="korIme"></p>
-            </header>
-           
 
-           
+                <p id="korIme"></p>
+                <div>
+                    <button id="pogledajProfil">Prikazi profil</button>
+
+                    <button id="editProfil">Izmeni profil</button>
+                </div>
+
+                <div>
+
+                    <div  id="prikaz" style="margin-top: 2%; filter: 0; display:none">
+                        <button type="button" id="closePrikazNaloga">&#10006;</button>
+                        <div id="" class="prikazNaloga" align="center">
+                            <div>
+                                <h1 style="font-size:45px">Pregled naloga</h1>
+                            </div>
+                            <div class="pregledDiv">
+                                <div class="prikaz">
+                                    <span>Ime: </span><input width="50" type="text" readonly="readonly" class="inputP" />
+                                    <span>Prezime: </span><input type="text" readonly="readonly" class="inputP" />
+                                    <span>Lozinka: </span><input type="text" readonly="readonly" class="input" />
+                                    <span>JMBG: </span><input type="text" readonly="readonly" class="input" />
+                                    <span>Kontakt telefon: </span><input type="text" readonly="readonly" class="input" />
+                                    <span>Email: </span><input type="text" readonly="readonly" class="input">
+                                    <span>Pol: </span><input style="color: gray;" readonly="readonly" class="input" />
+                                    <span>Uloga: </span><input type="text" readonly="readonly" class="input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--izmena!-->
+
+                <div class="col-80p popupKartica" id="izmena"  style="margin-top: 2%; filter: 0; display:none">
+                    <button type="button" id="closeButton">&#10006;</button>
+                    <div id="" class="izmenaNaloga" align="center">
+                        <div class="izmenaDiv">
+                            <h1 style="font-size:45px">Izmena naloga</h1>
+                        </div>
+                        <div id="izmenaDiv">
+                            <div class="izmena">
+                                <span>Ime: </span><input type="text" id="imeIzmeni" class="inputP" placeholder="Ime">							<inline id="imeE" style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Prezime: </span><input type="text" id="prezimeIzmeni" class="inputP" placeholder="Prezime">					<inline id="prezE" style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Lozinka: </span><input type="text" id="lozinkaIzmeni"  class="inputP" placeholder="Lozinka" >
+
+                                <span>JMBG: </span><input type="text" id="jmbgIzmeni" class="inputP" placeholder="JMBG">		<inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Kontakt telefon: </span><input id="telefonIzmeni" type="text" class="inputP" placeholder="Kontakt telefon">	<inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Email: </span><input type="text" id="emailIzmeni" class="inputP" placeholder="Email">		<inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Pol: </span>
+                                <select style="color: white;" id="polPolje" class="inputP">
+                                    <option value="Musko" style="color: black;">Muskarac</option>
+                                    <option value="Znesko" style="color: black;">Zena</option>
+                                </select>																			<inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <input type="submit" id="izmeniDugme" style="margin-top: 2%;" value="Izmeni">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
         </div>
     </section>
-  <script>
-      //document.getElementById("result").innerHTML = sessionStorage.getItem("logged");
-    </script>
-        
+
+    
+    
 
 
+   
 
     <script src="Scripts/jquery-3.3.1.js"></script>
     <script src="assets/js/jquery.min.js"></script>

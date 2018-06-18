@@ -1143,6 +1143,48 @@
 
 		}
 
+.inputP {
+    margin-top: 0.5%;
+    margin-bottom: 1%;
+    width: 25%;
+    height: 4%;
+    -moz-transition: 0.5s;
+    padding-left: 1%;
+    -o-transition: 0.5s;
+    border: 3px solid pink;
+    -webkit-transition: 0.5s;
+    outline: none;
+    border-radius: 11px 11px 11px 11px;
+    font-size: 12px;
+}
+
+.prikaz {
+    height: 100%;
+}
+
+    .prikaz span {
+        -moz-transition: 0.5s;
+        -o-transition: 0.5s;
+        -webkit-transition: 0.5s;
+        font-size: 18px;
+        color: pink;
+    }
+
+
+    .prikaz input, .prikazForma select {
+        padding: 8px 8px;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+
+    .prikaz span {
+        -moz-transition: 0.5s;
+        -o-transition: 0.5s;
+        -webkit-transition: 0.5s;
+        display: block;
+    }
+
 /* Banner */
 
 	#banner {

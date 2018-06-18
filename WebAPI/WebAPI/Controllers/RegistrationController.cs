@@ -11,11 +11,47 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
+
+  
+
     [RoutePrefix("api/Registration")]
     public class RegistrationController : ApiController
     {
+        Korisnik k = new Korisnik();
+        string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
 
+        [Route("IzmeniProfil")]
+        public Korisnik IzmeniProfil([FromBody]Korisnik ko)
+        {
+            Korisnik korisnik = null;
+            k.iscitaj();
+            bool isMatch = false;
+            foreach (Korisnik k in k.listaKorisnika)
+            {
 
+                if (k.Ime == ko.Ime)
+                {
+
+                    korisnik = k;
+
+                }
+            }
+
+            k.listaKorisnika.Remove(korisnik);
+            File.WriteAllLines(putanja, File.ReadLines(putanja).Where(s => s != korisnik.Ime && s!=korisnik.Lozinka).ToList());
+
+            Korisnik NoviK = new Korisnik();
+            NoviK = ko;
+            k.listaKorisnika.Add(NoviK);
+            Upis(NoviK.Ime, NoviK.Lozinka);
+            return NoviK;
+
+        }
+
+        public void Brisanje() {
+
+           
+        }
 
         [Route("Registration")]
         public Korisnik Registration([FromBody]Korisnik jToken)
