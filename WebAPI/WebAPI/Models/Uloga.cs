@@ -9,6 +9,6 @@ namespace WebAPI.Models
     {
         Vozac,
         Musterija,
-        Administrator
+        Admin
     }
 }

@@ -19,6 +19,59 @@ $(document).ready(function () {
 
     });
 
+    //dodavanje vozaca - samo admini
+
+    if (korisnik.UlogaKorisnika === "Admin") {
+        $('#vozaciDivDugme').show();
+        
+
+    }
+    $('#vozaciDivDugme').click(function () {
+        $('#vozaciDiv').show();
+
+
+    });
+
+    $('#dodajV').click(function () {
+
+        let imeV = $('#imeVozac').val();
+        let prezimeV = $('#prezimeVozac').val();
+        let lozinkaV = $('#lozinkaVozac').val();
+        let jmbgV = $('#jmbgVozac').val();
+        let telV = $('#telVozac').val();
+        let emailV = $('#emailVozac').val();
+        let polV = $('#pol').val();
+
+        let vozac = {
+            Ime: imeV,
+            Prezime: prezimeV,
+            Lozinka: lozinkaV,
+            JMBG: jmbgV,
+            KontaktTelefon: telV,
+            Email: emailV,
+            Pol: polV,
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Vozac/Dodaj',
+            data: JSON.stringify(vozac),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === null) {
+                alert("Neuspesno dodavanje");
+            } else {
+                alert("Uspesno dodavanje");
+                $('.izmena').css('display', 'none');
+                $('#vozaciDiv').after('<button type="button" href="Nalog.html" class="closeButton2">OK</button>');
+                $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste dodali vozaca! <p>');
+                sessionStorage.setItem('logged', data);
+                korisnik = data;
+            }
+        });
+
+    });
 
     $('#pogledajProfil').click(function () {
         $('#prikaz').show();
@@ -26,6 +79,10 @@ $(document).ready(function () {
 
     });
 
+    $('#izlogujSe').click(function () {
+        sessionStorage.setItem('logged', null);
+        window.location.href = "login.html";
+    });
 
     $('#editProfil').click(function () {
         $('#izmena').show();
@@ -44,7 +101,7 @@ $(document).ready(function () {
         $('.prikaz :nth-child(10)').val(korisnik['BrojTelefona']);
         $('.prikaz :nth-child(12)').val(korisnik['Email']);
         $('.prikaz :nth-child(14)').css('color', 'black');
-        $('.prikaz :nth-child(14)').val(korisnik['Uloga']);
+        $('.prikaz :nth-child(14)').val(korisnik['UlogaKorisnika']);
 
        
     });

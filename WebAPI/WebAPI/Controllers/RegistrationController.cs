@@ -64,6 +64,7 @@ namespace WebAPI.Controllers
                 kor.Ime = jToken.Ime;
                 kor.Lozinka = jToken.Lozinka;
                 Upis(kor.Ime, kor.Lozinka);
+                kor.listaKorisnika.Add(kor);
 
             }
             else {

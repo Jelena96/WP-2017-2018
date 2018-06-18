@@ -159,16 +159,21 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VozacController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Admini.cs" />
+    <Compile Include="Models\Adresa.cs" />
+    <Compile Include="Models\Automobil.cs" />
     <Compile Include="Models\Korisnik.cs" />
+    <Compile Include="Models\Lokacija.cs" />
     <Compile Include="Models\Musterija.cs" />
     <Compile Include="Models\Pol.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Uloga.cs" />
+    <Compile Include="Models\Vozac.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

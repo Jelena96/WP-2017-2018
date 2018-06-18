@@ -32,8 +32,9 @@
 
                 <p id="korIme"></p>
                 <div>
+                    <button style="display:none" id="vozaciDivDugme">Dodaj Vozace</button>
                     <button id="pogledajProfil">Prikazi profil</button>
-
+                    <button id="izlogujSe">Izloguj se</button>
                     <button id="editProfil">Izmeni profil</button>
                 </div>
 
@@ -87,11 +88,38 @@
                                 <select style="color: gray;" id="polPolje" class="inputP">
                                     <option value="Musko" style="color: black;">Muskarac</option>
                                     <option value="Znesko" style="color: black;">Zena</option>
-                                </select>																			<inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                </select>																			
                                 <input type="submit" id="izmeniDugme" style="margin-top: 2%;" value="Izmeni">
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!--kreiraj vozaca-->
+                <div id="vozaciDiv" style="display:none">
+                    <h1>Kreiranje vozaca</h1>
+                    <span>Ime: </span><input type="text" id="imeVozac" class="inputP" placeholder="Ime">
+                    <p id="imeE" />
+                    <span>Prezime: </span><input type="text" id="prezimeVozac" class="inputP" placeholder="Prezime">
+                    <p id="prezE" />
+                    <span>Lozinka: </span><input type="password" id="lozinkaVozac" class="inputP" placeholder="Lozinka">
+                    <p id="pasE" />
+                    <span>Potvrda lozinke: </span><input type="password" id="lozinkaVozacP" class="inputP" placeholder="Lozinka">
+                    <p id="pasE" />
+
+                    <span>JMBG: </span><input type="text" id="jmbgVozac" class="inputP" placeholder="JMBG">
+                    <p id="jmbgE" />
+                    <span>Kontakt telefon: </span><input id="telVozac" type="text" class="inputP" placeholder="Kontakt telefon">
+                    <p id="telE" />
+                    <span>Email: </span><input type="text" id="emailVozac" class="inputP" placeholder="Email">
+                    <p id="emailE" />
+                    <span>Pol: </span>
+                    <select style="color: gray;" id="polPolje" class="inputP">
+                        <option value="Musko" style="color: black;">Muskarac</option>
+                        <option value="Znesko" style="color: black;">Zena</option>
+                    </select>
+                    <input type="submit" id="dodajV" style="margin-top: 2%;" value="Dodaj vozaca">
+
                 </div>
             </header>
         </div>

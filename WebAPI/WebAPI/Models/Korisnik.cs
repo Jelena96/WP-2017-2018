@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -14,7 +16,9 @@ namespace WebAPI.Models
         public int BrojTelefona { get; set; }
         public string Jmbg { get; set; }
         public string Email { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Pol PolKorisnika { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
         public Uloga UlogaKorisnika { get; set; }
 
         public List<Korisnik> listaKorisnika = new List<Korisnik>();
