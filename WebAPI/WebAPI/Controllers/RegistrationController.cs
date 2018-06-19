@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             Korisnik korisnik = null;
             k.iscitaj();
-            bool isMatch = false;
+            
             foreach (Korisnik k in k.listaKorisnika)
             {
 
@@ -48,10 +48,7 @@ namespace WebAPI.Controllers
 
         }
 
-        public void Brisanje() {
-
-           
-        }
+      
 
         [Route("Registration")]
         public Korisnik Registration([FromBody]Korisnik jToken)

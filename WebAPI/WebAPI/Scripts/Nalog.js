@@ -41,6 +41,10 @@ $(document).ready(function () {
 
     if (korisnik.UlogaKorisnika === "Vozac") {
         $('#dugmePromenaLokacije').show();
+        $('#izmeniA').show();
+        $('#izmeniV').show();
+        $('#editProfil').hide();
+
 
 
     }
@@ -56,6 +60,18 @@ $(document).ready(function () {
 
 
     });
+
+    $('#izmeniA').click(function () {
+        $('#izmeniAutomobil').show();
+        
+
+    });
+    $('#izmeniV').click(function () {
+        $('#izmenaVozaca').show();
+
+
+    });
+   
 
     $('#dodajV').click(function () {
 
@@ -98,10 +114,84 @@ $(document).ready(function () {
 
     });
 
+    $('#izmeniV').click(function () {
+        $('.prikazStranice').children().hide();
+       
+
+        $('#imeIzmeniV').val(korisnik['Ime']);
+        $('#prezimeIzmeniV').val(korisnik['Prezime']);
+        $('#lozinkaIzmeniV').val(korisnik['Lozinka']);
+        $('#jmbgIzmeniV').val(korisnik['Jmbg']);
+        $('#telIzmeniV').val(korisnik['BrojTelefona']);
+        $('#emailIzmeniV').val(korisnik['Email']);
+        $('#polPoljeV').val(korisnik['Pol']);
+        $('.izmena :nth-child(26)').css('color', 'black');
+
+
+    });
+
+    $('#dugmePromenaLokacije').click(function () {
+        $('.prikazStranice').children().hide();
+
+
+        $('#x').val(korisnik.vozac.lokacija.X['X']);
+        $('#y').val(korisnik.lokacija.Y['Y']);
+        $('#mesto').val(korisnik.lokacija.adresa['NaseljenoMesto']);
+        $('#ulica').val(korisnik.lokacija.adresa.UlicaIBroj['UlicaIBroj']);
+        $('#broj').val(korisnik.lokacija.adresa.UlicaIBroj['UlicaIBroj']);
+        $('#pozivniBroj').val(korisnik.lokacija.adresa.PozivniBroj['PozivniBroj']);
+
+
+    });
+
+    $('#izmeniA').click(function () {
+        $('.prikazStranice').children().hide();
+
+
+        $('#godiste').val(korisnik.Automobil['GodisteAuta']);
+        $('#regOznaka').val(korisnik.Automobil['RegistarskaOznaka']);
+        $('#brojTaksiVozila').val(korisnik.Automobil['BrojVozila']);
+        $('#tipAuta').val(korisnik.Automobil['TipAuta']);
+     
+
+
+    });
+
+    $('#izmeniDugmeV').click(function () {
+
+     
+
+        let vozac = {
+            Ime: $('#imeIzmeniV').val(),
+            Prezime: $('#prezimeIzmeniV').val(),
+            Lozinka: $('#lozinkaIzmeniV').val(),
+            Jmbg: $('#jmbgIzmeniV').val(),
+            KontaktTelefon: $('#telIzmeniV').val(),
+            Email: $('#emailIzmeniV').val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Vozac/IzmeniProfil',
+            data: JSON.stringify(vozac),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === null) {
+                alert("Neuspesno dodavanje");
+            } else {
+                alert("Uspesno dodavanje");
+                $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste izmenli vozaca! <p>');
+                sessionStorage.setItem('logged', data);
+                korisnik = data;
+            }
+        });
+
+    });
 
     $('#promeniLokacijuDugme').click(function () {
 
-        alert("Pritisnuto");
+       
         let ulicao = $('#ulica').val();
         let broj = $('#broj').val();
         let mesto = $('#mesto').val();
@@ -132,6 +222,61 @@ $(document).ready(function () {
                 alert("Uspesna izmena");
                 $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste promenili lokaciju! <p>');
                
+            }
+        });
+
+    });
+
+   
+
+
+    $('#promeniAutomobil').click(function () {
+
+
+       
+
+        let auto = {
+
+            GodisteAuta: $('#godiste').val(),
+            RegistarskaOznaka: $('#regOznaka').val(),
+            BrojVozila: $('#brojTaksiVozila').val(),
+            TipAuta: $('#tipAuta').val()
+
+        };
+
+
+        let vozac = {
+            Ime: korisnik.Ime,
+            Prezime: korisnik["Prezime"],
+            Lozinka: korisnik["Lozinka"],
+            JMBG: korisnik["JMBG"],
+            BrojTelefona: korisnik["BrojTelefona"],
+            Email: korisnik["Email"],
+            Pol:korisnik["Pol"],
+            Automobil:auto
+            /*Prezime: korisnik.Prezime,
+            Lozinka: korisnik.Lozinka,
+            JMBG: korisnik.JMBG,
+            KontaktTelefon: korisnik.BrojTelefona,
+            Email: korisnik.Email,
+            Pol: korisnik.Pol,
+                Automobil: auto*/
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Vozac/IzmeniAuto',
+            data: JSON.stringify(vozac),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === null) {
+                alert("Neuspesna izmena");
+            } else {
+                alert("Uspesna izmena");
+                $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste promenili lokaciju! <p>');
+
             }
         });
 
@@ -176,11 +321,11 @@ $(document).ready(function () {
         $('#popupKarticaPrikaz').show();
 
         $('#imeIzmeni').val(korisnik['Ime']);
-        $('#prezimeIzmena').val(korisnik['Prezime']);
+        $('#prezimeIzmeni').val(korisnik['Prezime']);
         $('#lozinkaIzmeni').val(korisnik['Lozinka']);
-        $('#jmbgIzmena').val(korisnik['JMBG']);
-        $('#telIzmena').val(korisnik['BrojTelefona']);
-        $('#emailIzmena').val(korisnik['Email']);
+        $('#jmbgIzmeni').val(korisnik['JMBG']);
+        $('#telIzmeni').val(korisnik['BrojTelefona']);
+        $('#emailIzmeni').val(korisnik['Email']);
         $('#polPolje').val(korisnik['Pol']);
         $('.izmena :nth-child(26)').css('color', 'black');
 
@@ -189,7 +334,7 @@ $(document).ready(function () {
 
     $('#izmeniDugme').click(function () {
 
-        var nameReg = /^[A-Za-z]+$/;
+        /*var nameReg = /^[A-Za-z]+$/;
         var numberReg = /^\b\d{13}\b$/i;
         var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
         let email = $('#emailIzmeni').val();
@@ -232,7 +377,7 @@ $(document).ready(function () {
             korTel();
 
         } else if (emailReg.test(email) && !isNaN(telefon) && email !== '' && telefon !== '') {
-
+        */
             korEmail();
             let musterija = {
                 Ime: `${$('.izmena :nth-child(2)').val()}`,
@@ -264,7 +409,7 @@ $(document).ready(function () {
             });
 
 
-        }
+        //}
 
     });
 

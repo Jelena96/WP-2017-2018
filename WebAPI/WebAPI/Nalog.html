@@ -37,6 +37,8 @@
                     <button id="pogledajProfil">Prikazi profil</button>
                     <button id="izlogujSe">Izloguj se</button>
                     <button id="editProfil">Izmeni profil</button>
+                    <button style="display:none" id="izmeniA">Izmeni automobil</button>
+                    <button style="display:none" id="izmeniV">Izmeni vozaca</button>
                 </div>
 
                 <div>
@@ -123,27 +125,78 @@
 
                 </div>
 
-                <div id="promenaLokacije" style="display:none">
-                <button type="button" id="closePromena">&#10006;</button>
-                <div class="izmenaNaloga" align="center">
-                    <div class="izmenaDiv">
-                        <h1>Promena lokacije</h1>
-                    </div>
-                    <div class="izmeniLokaciju">
+                <div  id="izmenaVozaca" style="margin-top: 2%; filter: 0; display:none">
+                    <button type="button" id="closeIzmenaVozaca">&#10006;</button>
+                    <div  align="center">
+                        <div >
+                            <h1 style="font-size:45px">Izmena naloga vozaca</h1>
+                        </div>
                         <div>
-                            <span>Ulica: </span><input type="text" id="ulica" class="inputP" placeholder="Ulica">
-                            <span>Broj: </span><input type="text" id="broj" class="inputPolje" placeholder="Broj">
-                            <span>Naseljeno mesto: </span><input type="text" id="mesto" class="inputP" placeholder="Naseljeno mesto">
-                            <span>Pozivni broj mesta: </span><input type="text" id="pozivniBroj" class="inputP" placeholder="Pozivni broj mesta">
-                            <span>X koordinata: </span><input type="text" id="x" class="inputP" placeholder="x koordinata">
-                            <span>Y koordinata: </span><input type="text" id="y" class="inputP" placeholder="y koordinata">
-
-                            <input type="submit" id="promeniLokacijuDugme" value="Promeni lokaciju">
+                            <div >
+                                <span>Ime: </span><input type="text" id="imeIzmeniV" class="inputP" placeholder="Ime">
+                                <p id="imeE" />
+                                <span>Prezime: </span><input type="text" id="prezimeIzmeniV" class="inputP" placeholder="Prezime">
+                                <p id="prezE" />
+                                <span>Lozinka: </span><input type="text" id="lozinkaIzmeniV" class="inputP" placeholder="Lozinka">
+                                <p id="pasE" />
+                                <span>JMBG: </span><input type="text" id="jmbgIzmeniV" class="inputP" placeholder="JMBG">
+                                <p id="jmbgE" />
+                                <span>Kontakt telefon: </span><input id="telIzmeniV" type="text" class="inputP" placeholder="Kontakt telefon">
+                                <p id="telE" />
+                                <span>Email: </span><input type="text" id="emailIzmeniV" class="inputP" placeholder="Email">
+                                <p id="emailE" />
+                                <span>Pol: </span>
+                                <select style="color: gray;" id="polPoljeV" class="inputP">
+                                    <option value="Musko" style="color: black;">Muskarac</option>
+                                    <option value="Znesko" style="color: black;">Zena</option>
+                                </select>
+                                <input type="submit" id="izmeniDugmeV" style="margin-top: 2%;" value="Izmeni">
+                            </div>
                         </div>
                     </div>
                 </div>
-        </div>
-        </header>
+
+                <div id="promenaLokacije" style="display:none">
+                    <button type="button" id="closePromena">&#10006;</button>
+                    <div class="izmenaNaloga" align="center">
+                        <div class="izmenaDiv">
+                            <h1>Promena lokacije</h1>
+                        </div>
+                        <div class="izmeniLokaciju">
+                            <div>
+                                <span>Ulica: </span><input type="text" id="ulica" class="inputP" placeholder="Ulica">
+                                <span>Broj: </span><input type="text" id="broj" class="inputPolje" placeholder="Broj">
+                                <span>Naseljeno mesto: </span><input type="text" id="mesto" class="inputP" placeholder="Naseljeno mesto">
+                                <span>Pozivni broj mesta: </span><input type="text" id="pozivniBroj" class="inputP" placeholder="Pozivni broj mesta">
+                                <span>X koordinata: </span><input type="text" id="x" class="inputP" placeholder="x koordinata">
+                                <span>Y koordinata: </span><input type="text" id="y" class="inputP" placeholder="y koordinata">
+
+                                <input type="submit" id="promeniLokacijuDugme" value="Promeni lokaciju">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="izmeniAutomobil" style="display:none">
+                    <button type="button" id="closeIzmenaAutomobila">&#10006;</button>
+                    <div align="center">
+                        <div>
+                            <h1>Izmena automobila</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <span>Godiste: </span><input type="text" id="godiste" class="inputP" placeholder="Godiste automobila">
+                                <span>Broj registarske oznake: </span><input type="text" id="regOznaka" class="inputPolje" placeholder="Registarska oznaka">
+                                <span>Broj taksi vozila: </span><input type="text" id="brojTaksiVozila" class="inputP" placeholder="Broj taksi vozila">
+                                <span>Tip automobila: </span><input type="text" id="tipAuta" class="inputP" placeholder="Tip auta">
+
+                                <input type="submit" id="promeniAutomobil" value="Promeni automobi">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </header>
         </div>
     </section>
 

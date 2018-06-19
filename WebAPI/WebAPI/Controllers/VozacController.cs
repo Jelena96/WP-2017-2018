@@ -13,11 +13,76 @@ namespace WebAPI.Controllers
     [RoutePrefix("api/Vozac")]
     public class VozacController : ApiController
     {
-        string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+        string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
 
         RegistrationController rg = new RegistrationController();
         Vozac v = new Vozac();
         Korisnik k = new Korisnik();
+
+        [Route("IzmeniProfil")]
+        public Vozac IzmeniProfil([FromBody]Vozac ko)
+        {
+            Vozac korisnik = null;
+            v.iscitaj2();
+            
+            foreach (Vozac k in v.vozaci)
+            {
+
+                if (k.Ime == ko.Ime)
+                {
+
+                    korisnik = k;
+
+                }
+            }
+
+            Vozac NoviK = new Vozac();
+            NoviK = ko;
+            NoviK.Automobil = korisnik.Automobil;
+            NoviK.Lokacija = korisnik.Lokacija;
+                k.listaKorisnika.Remove(korisnik);
+            Brisi(korisnik);
+               
+              
+                k.listaKorisnika.Add(NoviK);
+                v.vozaci.Add(NoviK);
+                Upis(NoviK);
+            
+            return NoviK;
+
+        }
+
+        [Route("IzmeniAuto")]
+        public Vozac IzmeniAuto([FromBody]Vozac ko)
+        {
+            Vozac korisnik = null;
+            v.iscitaj2();
+
+            foreach (Vozac k in v.vozaci)
+            {
+
+                if (k.Ime == ko.Ime)
+                {
+
+                    korisnik = k;
+
+                }
+            }
+
+            Vozac NoviK = new Vozac();
+            NoviK = ko;
+            NoviK.Lokacija = korisnik.Lokacija;
+           
+            k.listaKorisnika.Remove(korisnik);
+            Brisi(korisnik);
+           
+            k.listaKorisnika.Add(NoviK);
+            v.vozaci.Add(NoviK);
+            Upis(NoviK);
+
+            return NoviK;
+
+        }
 
         [Route("PromeniLokaciju")]
         public Vozac PromeniLokaciju([FromBody]JToken jToken)
@@ -45,8 +110,8 @@ namespace WebAPI.Controllers
             {
                 k.listaKorisnika.Remove(korisnik);
                 v.vozaci.Remove(korisnik);
-                Brisi(korisnik);
-                // File.WriteAllLines(putanja, File.ReadLines(putanja).Where(s => s != korisnik.Lokacija. && s != korisnik.Lozinka).ToList()); 
+                
+                vozac2 = korisnik;
                 vozac2.Lokacija.X = Convert.ToDouble(xK);
                 vozac2.Lokacija.Y = Convert.ToDouble(yK);
 
@@ -54,19 +119,19 @@ namespace WebAPI.Controllers
                 a.NaseljenoMesto = mesto;
                 a.PozivniBroj = pozivni;
                 a.UlicaIBroj = ulicaibroj;
-
+                BrisiPoImenu(imeV);
                 vozac2.Lokacija.Adresa = a;
 
                 v.vozaci.Add(vozac2);
                 k.listaKorisnika.Add(vozac2);
                 Upis(vozac2);
             }
-            return korisnik;
+            return vozac2;
         }
 
         public void Brisi(Vozac vozac)
         {
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
 
             string tempFile = Path.GetTempFileName();
 
@@ -86,18 +151,40 @@ namespace WebAPI.Controllers
             File.Move(tempFile, putanja);
         }
 
-                public void Upis(Vozac vozac) {
+        public void BrisiPoImenu(string ime)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
 
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(putanja))
+            using (var sw = new StreamWriter(tempFile))
             {
-                string korisnik = vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
-            + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
-            + "|" + Convert.ToString(vozac.UlogaKorisnika)
-            + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj 
-            + "|" + vozac.Lokacija.Adresa.UlicaIBroj
-           + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y)+"|" /*+ Convert.ToString(vozac.Automobil.BrojVozila)+ "|" + Convert.ToString(vozac.Automobil.GodisteAuta)+ "|" + vozac.Automobil.RegistarskaOznaka+ "|" + vozac.Automobil.TipAuta+ "|" + vozac.Automobil.VozacAuta*/;
-                file.WriteLine(korisnik);
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(ime))
+                        sw.WriteLine(line);
+                }
+            }
+
+            File.Delete(putanja);
+            File.Move(tempFile, putanja);
+        }
+
+        public void Upis(Vozac vozac) {
+
+                    string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
+                    {
+                        string korisnik = vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+                    + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
+                    + "|" + Convert.ToString(vozac.UlogaKorisnika)
+                    + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj 
+                    + "|" + vozac.Lokacija.Adresa.UlicaIBroj
+                   + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y)+"|" + Convert.ToString(vozac.Automobil.BrojVozila)+ "|" + Convert.ToString(vozac.Automobil.GodisteAuta)+ "|" + vozac.Automobil.RegistarskaOznaka+ "|" + vozac.Automobil.TipAuta+ "|" ;
+                        file.WriteLine(korisnik);
               
 
             }

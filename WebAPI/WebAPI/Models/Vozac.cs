@@ -15,9 +15,9 @@ namespace WebAPI.Models
 
         public void iscitaj2()
         {
-            Korisnik k = new Korisnik();
-            k.iscitaj();
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+
 
             using (StreamReader sr = File.OpenText(putanja))
             {
@@ -35,6 +35,8 @@ namespace WebAPI.Models
                         korisnik.Prezime = splitovano[1];
                         korisnik.BrojTelefona =Convert.ToInt32(splitovano[2]);
                         korisnik.Lozinka = splitovano[5];
+                        korisnik.Email = splitovano[3];
+                        korisnik.Jmbg = splitovano[4];
 
                         Lokacija lokacija = new Lokacija();
                         Adresa adresa = new Adresa();
@@ -49,8 +51,15 @@ namespace WebAPI.Models
                         korisnik.Lokacija = lokacija;
                         korisnik.Lokacija.Adresa = adresa;
 
+                        Automobil a = new Automobil();
+                        a.BrojVozila = Convert.ToInt32( splitovano[13]);
+                        a.GodisteAuta= Convert.ToInt32(splitovano[14]);
+                        a.RegistarskaOznaka = splitovano[15];
+                        a.TipAuta = splitovano[16];
+                        korisnik.Automobil = a;
+
                         vozaci.Add(korisnik);
-                        k.listaKorisnika.Add(korisnik);
+                        //k.listaKorisnika.Add(korisnik);
                     }
 
                 }
