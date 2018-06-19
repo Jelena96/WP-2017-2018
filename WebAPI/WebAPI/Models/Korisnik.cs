@@ -32,12 +32,13 @@ namespace WebAPI.Models
                 string[] lines = File.ReadAllLines(putanja);
                 for (int x = 0; x < lines.Length - 1; x++)
                 {
-                   
-                        
+
+                    string[] splitovano = lines[x].Split('|');
 
                             Korisnik korisnik = new Korisnik();
-                            korisnik.Ime = lines[x];
-                            korisnik.Lozinka = lines[x + 1];
+                            korisnik.Ime = splitovano[0];
+                            korisnik.Lozinka = splitovano[5];
+                             
                             listaKorisnika.Add(korisnik);
                         
                     

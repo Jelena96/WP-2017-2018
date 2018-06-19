@@ -16,7 +16,7 @@ namespace WebAPI.Controllers
     {
         Korisnik k = new Korisnik();
         Admini a = new Admini();
-
+        Vozac v = new Vozac();
 
 
 
@@ -79,20 +79,56 @@ namespace WebAPI.Controllers
                             break;
 
                         }
-                        else {
+                        else
+                        {
 
                             kor = null;
                         }
                     }
-                    else {
+                    else
+                    {
 
                         kor = null;
-                    
-                }
+
+                    }
 
                 }
-
             }
+
+                v.iscitaj2();
+                if (!uspesno)
+                {
+                    foreach (Vozac a in v.vozaci)
+                    {
+                        if (imeKor == a.Ime)
+                        {
+                            if (pasKor == a.Lozinka)
+                            {
+                                kor = a;
+                                // response = Request.CreateResponse(HttpStatusCode.Moved);
+                                //response.Headers.Location = new Uri("http://localhost:10482/NalogAdmin.html");
+
+                                uspesno = true;
+                                korisnik = a.Ime;
+                                break;
+
+                            }
+                            else
+                            {
+
+                                kor = null;
+                            }
+                        }
+                        else
+                        {
+
+                            kor = null;
+
+                        }
+
+                    }
+
+                }
 
 
             return kor;

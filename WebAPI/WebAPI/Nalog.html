@@ -33,6 +33,7 @@
                 <p id="korIme"></p>
                 <div>
                     <button style="display:none" id="vozaciDivDugme">Dodaj Vozace</button>
+                    <button style="display:none" id="dugmePromenaLokacije">Promeni lokaciju</button>
                     <button id="pogledajProfil">Prikazi profil</button>
                     <button id="izlogujSe">Izloguj se</button>
                     <button id="editProfil">Izmeni profil</button>
@@ -40,7 +41,7 @@
 
                 <div>
 
-                    <div  id="prikaz" style="margin-top: 2%; filter: 0; display:none">
+                    <div id="prikaz" style="margin-top: 2%; filter: 0; display:none">
                         <button type="button" id="closePrikazNaloga">&#10006;</button>
                         <div id="" class="prikazNaloga" align="center">
                             <div>
@@ -64,31 +65,31 @@
 
                 <!--izmena!-->
 
-                <div class="col-80p popupKartica" id="izmena"  style="margin-top: 2%; filter: 0; display:none">
+                <div class="col-80p popupKartica" id="izmena" style="margin-top: 2%; filter: 0; display:none">
                     <button type="button" id="closeButton">&#10006;</button>
                     <div id="" class="izmenaNaloga" align="center">
                         <div class="izmenaDiv">
                             <h1 style="font-size:45px">Izmena naloga</h1>
                         </div>
-                        <div >
+                        <div>
                             <div id="izmenaDiv" class="izmena">
                                 <span>Ime: </span><input type="text" id="imeIzmeni" class="inputP" placeholder="Ime">
                                 <p id="imeE" />
-                                <span>Prezime: </span><input type="text" id="prezimeIzmeni" class="inputP" placeholder="Prezime">					
+                                <span>Prezime: </span><input type="text" id="prezimeIzmeni" class="inputP" placeholder="Prezime">
                                 <p id="prezE" />
                                 <span>Lozinka: </span><input type="text" id="lozinkaIzmeni" class="inputP" placeholder="Lozinka">
                                 <p id="pasE" />
-                                <span>JMBG: </span><input type="text" id="jmbgIzmeni" class="inputP" placeholder="JMBG">		
-                               <p id="jmbgE"/>
-                                <span>Kontakt telefon: </span><input id="telIzmeni" type="text" class="inputP" placeholder="Kontakt telefon">	
-                                <p id="telE"/>
-                                <span>Email: </span><input type="text" id="emailIzmeni" class="inputP" placeholder="Email">		
-                                <p id="emailE"/>
+                                <span>JMBG: </span><input type="text" id="jmbgIzmeni" class="inputP" placeholder="JMBG">
+                                <p id="jmbgE" />
+                                <span>Kontakt telefon: </span><input id="telIzmeni" type="text" class="inputP" placeholder="Kontakt telefon">
+                                <p id="telE" />
+                                <span>Email: </span><input type="text" id="emailIzmeni" class="inputP" placeholder="Email">
+                                <p id="emailE" />
                                 <span>Pol: </span>
                                 <select style="color: gray;" id="polPolje" class="inputP">
                                     <option value="Musko" style="color: black;">Muskarac</option>
                                     <option value="Znesko" style="color: black;">Zena</option>
-                                </select>																			
+                                </select>
                                 <input type="submit" id="izmeniDugme" style="margin-top: 2%;" value="Izmeni">
                             </div>
                         </div>
@@ -121,7 +122,28 @@
                     <input type="submit" id="dodajV" style="margin-top: 2%;" value="Dodaj vozaca">
 
                 </div>
-            </header>
+
+                <div id="promenaLokacije" style="display:none">
+                <button type="button" id="closePromena">&#10006;</button>
+                <div class="izmenaNaloga" align="center">
+                    <div class="izmenaDiv">
+                        <h1>Promena lokacije</h1>
+                    </div>
+                    <div class="izmeniLokaciju">
+                        <div>
+                            <span>Ulica: </span><input type="text" id="ulica" class="inputP" placeholder="Ulica">
+                            <span>Broj: </span><input type="text" id="broj" class="inputPolje" placeholder="Broj">
+                            <span>Naseljeno mesto: </span><input type="text" id="mesto" class="inputP" placeholder="Naseljeno mesto">
+                            <span>Pozivni broj mesta: </span><input type="text" id="pozivniBroj" class="inputP" placeholder="Pozivni broj mesta">
+                            <span>X koordinata: </span><input type="text" id="x" class="inputP" placeholder="x koordinata">
+                            <span>Y koordinata: </span><input type="text" id="y" class="inputP" placeholder="y koordinata">
+
+                            <input type="submit" id="promeniLokacijuDugme" value="Promeni lokaciju">
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </header>
         </div>
     </section>
 

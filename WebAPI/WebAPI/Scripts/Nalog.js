@@ -1,4 +1,4 @@
-﻿if (sessionStorage.getItem("logged") == null) {
+﻿if (sessionStorage.getItem("logged") === null) {
     window.location.href = "login.html";
 } else {
     var korisnikJson = sessionStorage.getItem("logged");
@@ -32,6 +32,31 @@ $(document).ready(function () {
 
     });
 
+
+    $('#okDugme').click(function () {
+        window.location.href = "login.html";
+
+
+    });
+
+    if (korisnik.UlogaKorisnika === "Vozac") {
+        $('#dugmePromenaLokacije').show();
+
+
+    }
+
+    $('#dugmePromenaLokacije').click(function () {
+        $('#promenaLokacije').show();
+
+
+    });
+
+    $('#closePromena').click(function () {
+        $('#promenaLokacije').hide();
+
+
+    });
+
     $('#dodajV').click(function () {
 
         let imeV = $('#imeVozac').val();
@@ -49,7 +74,7 @@ $(document).ready(function () {
             JMBG: jmbgV,
             KontaktTelefon: telV,
             Email: emailV,
-            Pol: polV,
+            Pol: polV
         };
 
         $.ajax({
@@ -64,10 +89,49 @@ $(document).ready(function () {
             } else {
                 alert("Uspesno dodavanje");
                 $('.izmena').css('display', 'none');
-                $('#vozaciDiv').after('<button type="button" href="Nalog.html" class="closeButton2">OK</button>');
+                $('#vozaciDiv').after('<button type="button" id="okDugme">OK</button>');
                 $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste dodali vozaca! <p>');
                 sessionStorage.setItem('logged', data);
                 korisnik = data;
+            }
+        });
+
+    });
+
+
+    $('#promeniLokacijuDugme').click(function () {
+
+        alert("Pritisnuto");
+        let ulicao = $('#ulica').val();
+        let broj = $('#broj').val();
+        let mesto = $('#mesto').val();
+        let pozivniBroj = $('#pozivniBroj').val();
+        let x = $('#x').val();
+        let y = $('#y').val();
+
+        let lokacija = {
+            imeV: korisnik.Ime,
+            ulica: `${ulicao}*${broj}`,
+            NaseljenoMesto: mesto,
+            PozivniBroj: pozivniBroj,
+            X: x,
+            Y:y
+            
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Vozac/PromeniLokaciju',
+            data: JSON.stringify(lokacija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data === null) {
+                alert("Neuspesna izmena");
+            } else {
+                alert("Uspesna izmena");
+                $('#vozaciDiv').after('<p style="color: yellow; font-size: 22px;">Uspesno ste promenili lokaciju! <p>');
+               
             }
         });
 
@@ -132,11 +196,11 @@ $(document).ready(function () {
         let telefon = $('#telIzmeni').val();
         let podudaranje = true;
 
-        if ($('#imeIzmeni').val() == "") {
+        if ($('#imeIzmeni').val() === "") {
 
             korImeGreska('Morate uneti ime');
 
-        } else if ($('#prezimeIzmeni').val() == "") {
+        } else if ($('#prezimeIzmeni').val() === "") {
 
             korPrezGreska('Morate uneti prezime');
             korIme();
@@ -148,12 +212,12 @@ $(document).ready(function () {
             korPrez();
 
         }
-        else if ($('#lozinkaIzmeni').val() == "") {
+        else if ($('#lozinkaIzmeni').val() === "") {
             korPasGreska('Morate uneti lozinku');
             korJmbg();
 
         }
-        else if (isNaN(telefon) || telefon == '') {
+        else if (isNaN(telefon) || telefon === '') {
 
             korTelGreska('Niste uneli broj telefona');
             korPas();
@@ -161,13 +225,13 @@ $(document).ready(function () {
             
         }
 
-        else if ((!emailReg.test(email)) || email == "") {
+        else if ((!emailReg.test(email)) || email === "") {
 
 
             korEmailGreska('Niste uneli email');
             korTel();
 
-        } else if (emailReg.test(email) && !isNaN(telefon) && email != '' && telefon != '') {
+        } else if (emailReg.test(email) && !isNaN(telefon) && email !== '' && telefon !== '') {
 
             korEmail();
             let musterija = {
