@@ -120,7 +120,11 @@ $(document).ready(function () {
 
                 KorisnickoIme: $('#korIme').val(),
                 Ime: $('#ime').val(),
+                Prezime: $('#korPrez').val(),
                 Lozinka: $('#korPas').val(),
+                BrojTelefona: $('#korTel').val(),
+                Jmbg: $('#korJmbg').val(),
+                Email: $('#korEmail').val(),
 
 
             };
@@ -221,7 +225,7 @@ $(document).ready(function () {
 
             let korisnik = {
                 KorisnickoIme: $('#korImeL').val(),
-
+                
                 Lozinka: $('#korPasL').val(),
 
 

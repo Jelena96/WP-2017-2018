@@ -202,7 +202,7 @@ namespace WebAPI.Controllers
                 v.listaKorisnika.Add(jToken);
                 kor = jToken;
                 kor.UlogaKorisnika = Uloga.Vozac;
-                rg.Upis(jToken.KorisnickoIme, jToken.Lozinka);
+                rg.Upis(jToken);
             }
             else
                 kor = null;

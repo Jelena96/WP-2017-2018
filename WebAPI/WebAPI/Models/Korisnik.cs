@@ -36,14 +36,21 @@ namespace WebAPI.Models
 
                     string[] splitovano = lines[x].Split('|');
 
-                    if (splitovano[7] == Convert.ToString(Uloga.Musterija))
-                    {
+                    //if (splitovano[8] == Convert.ToString(Uloga.Musterija))
+                    
                         Korisnik korisnik = new Korisnik();
-                        korisnik.Ime = splitovano[0];
-                        korisnik.Lozinka = splitovano[5];
-                        korisnik.UlogaKorisnika = Uloga.Musterija;
+                        korisnik.KorisnickoIme = splitovano[0];
+                        korisnik.Ime = splitovano[1];
+                    korisnik.Prezime = splitovano[2];
+                    korisnik.BrojTelefona = Convert.ToInt32( splitovano[3]);
+                    korisnik.Email = splitovano[4];
+                    korisnik.Jmbg = splitovano[5];
+                    korisnik.Lozinka = splitovano[6];
+                    
+
+                    korisnik.UlogaKorisnika = Uloga.Musterija;
                         listaKorisnika.Add(korisnik);
-                    }
+                    
                     
                 }
 

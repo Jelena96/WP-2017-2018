@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
             Korisnik NoviK = new Korisnik();
             NoviK = ko;
             k.listaKorisnika.Add(NoviK);
-            Upis(NoviK.Ime, NoviK.Lozinka);
+            Upis(NoviK);
             return NoviK;
 
         }
@@ -58,10 +58,9 @@ namespace WebAPI.Controllers
             if (!provera(jToken))
             {
 
-                kor.KorisnickoIme = jToken.KorisnickoIme;
-                kor.Lozinka = jToken.Lozinka;
-                Upis(kor.KorisnickoIme, kor.Lozinka);
-                kor.listaKorisnika.Add(kor);
+                kor = jToken ;
+                Upis(kor);
+                k.listaKorisnika.Add(kor);
 
             }
             else {
@@ -77,8 +76,8 @@ namespace WebAPI.Controllers
 
             bool isMatch = false;
             Korisnik kor = new Korisnik();
-            kor.iscitaj();
-            foreach (Korisnik korisnik in kor.listaKorisnika)
+            k.iscitaj();
+            foreach (Korisnik korisnik in k.listaKorisnika)
             {
                 if (korisnik.KorisnickoIme == jToken.KorisnickoIme)
                 {
@@ -90,17 +89,20 @@ namespace WebAPI.Controllers
 
             return isMatch;
         }
-        public void Upis(string ime,string pas) {
+        public void Upis(Korisnik vozac)
+        {
 
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
             {
+                string korisnik = "\n"+ vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+            + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
+            + "|" + Convert.ToString(vozac.UlogaKorisnika);
 
-                file.WriteLine(ime);
-                file.WriteLine(pas);
+
+                file.WriteLine(korisnik);
 
             }
-
         }
        
     }
