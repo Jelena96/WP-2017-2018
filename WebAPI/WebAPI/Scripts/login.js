@@ -65,12 +65,18 @@ $(document).ready(function () {
 
         if ($('#korIme').val() == "") {
 
-            korImeZacrveni('Morate uneti ime');
+            korImeZacrveni('Morate uneti korisnicko ime');
 
-        } else if ($('#korPrez').val() == "") {
+        }else  if ($('#ime').val() == "") {
+
+            ImeZacrveni('Morate uneti ime');
+            korIme();
+        }
+
+        else if ($('#korPrez').val() == "") {
 
             korPrezZacrveni('Morate uneti prezime');
-            korIme();
+            ime();
 
         }
         else if (!numberReg.test($('#korJmbg').val())) {
@@ -112,8 +118,10 @@ $(document).ready(function () {
             //validateEmail();
             let musterija = {
 
-                Ime: $('#korIme').val(),
+                KorisnickoIme: $('#korIme').val(),
+                Ime: $('#ime').val(),
                 Lozinka: $('#korPas').val(),
+
 
             };
 
@@ -199,7 +207,7 @@ $(document).ready(function () {
 
         if ($('#korImeL').val() == "") {
 
-            korImeZacrveni2('Morate uneti ime');
+            korImeZacrveni2('Morate uneti korisnicko ime');
 
         } else if ($('#korPasL').val() == "") {
 
@@ -212,7 +220,7 @@ $(document).ready(function () {
             korPas2();
 
             let korisnik = {
-                Ime: $('#korImeL').val(),
+                KorisnickoIme: $('#korImeL').val(),
 
                 Lozinka: $('#korPasL').val(),
 
@@ -263,7 +271,18 @@ $(document).ready(function () {
         $('#pasPE').text('');
     };
 
+    let imeZacrveni = function (poruka) {
+        $('#ime').css('border-color', 'red');
+        $('#registracijaDIV :nth-child(1)').css('color', 'red');
+        $('#imekE').text(`\xA0${poruka}`);
+    };
 
+    let ime = function (poruka) {
+
+        $('#ime').css('border-color', 'white');
+        $('#registracijaDIV :nth-child(1)').css('color', 'white');
+        $('#imekE').text('');
+    };
 
     let korEmailZacrveni = function (poruka) {
         $('#korEmail').css('border-color', 'red');

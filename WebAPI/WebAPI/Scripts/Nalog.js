@@ -6,7 +6,7 @@
 }
 
 $(document).ready(function () {
-    $('#korIme').text('Korisnicko ime: ' + korisnik.Ime);
+    $('#korIme').text('Korisnicko ime: ' + korisnik.KorisnickoIme);
     $('#closePrikazNaloga').click(function () {
         $('#prikaz').hide();
 
@@ -84,7 +84,8 @@ $(document).ready(function () {
         let polV = $('#pol').val();
 
         let vozac = {
-            Ime: imeV,
+            Ime: $('#ImeVozac').val(),
+            KorisnickoIme: imeV,
             Prezime: prezimeV,
             Lozinka: lozinkaV,
             JMBG: jmbgV,
@@ -163,10 +164,11 @@ $(document).ready(function () {
 
         let vozac = {
             Ime: $('#imeIzmeniV').val(),
+            KorisnickoIme: korisnik.KorisnickoIme,
             Prezime: $('#prezimeIzmeniV').val(),
             Lozinka: $('#lozinkaIzmeniV').val(),
             Jmbg: $('#jmbgIzmeniV').val(),
-            KontaktTelefon: $('#telIzmeniV').val(),
+            BrojTelefona: $('#telIzmeniV').val(),
             Email: $('#emailIzmeniV').val(),
         };
 
@@ -200,7 +202,7 @@ $(document).ready(function () {
         let y = $('#y').val();
 
         let lokacija = {
-            imeV: korisnik.Ime,
+            imeV: korisnik.KorisnickoIme,
             ulica: `${ulicao}*${broj}`,
             NaseljenoMesto: mesto,
             PozivniBroj: pozivniBroj,
@@ -246,10 +248,11 @@ $(document).ready(function () {
 
 
         let vozac = {
-            Ime: korisnik.Ime,
+            KorisnickoIme: korisnik.KorisnickoIme,
+            Ime: korisnik["Ime"],
             Prezime: korisnik["Prezime"],
             Lozinka: korisnik["Lozinka"],
-            JMBG: korisnik["JMBG"],
+            JMBG: korisnik["Jmbg"],
             BrojTelefona: korisnik["BrojTelefona"],
             Email: korisnik["Email"],
             Pol:korisnik["Pol"],
@@ -303,14 +306,15 @@ $(document).ready(function () {
         //$('.prikazStranice').children().hide();
         $('#prikaziNalog').show();
 
-        $('.prikaz :nth-child(2)').val(korisnik['Ime']);
-        $('.prikaz :nth-child(4)').val(korisnik['Prezime']);
-        $('.prikaz :nth-child(6)').val(korisnik['Lozinka']);
-        $('.prikaz :nth-child(8)').val(korisnik['JMBG']);
-        $('.prikaz :nth-child(10)').val(korisnik['BrojTelefona']);
-        $('.prikaz :nth-child(12)').val(korisnik['Email']);
-        $('.prikaz :nth-child(14)').css('color', 'black');
-        $('.prikaz :nth-child(14)').val(korisnik['UlogaKorisnika']);
+        $('.prikaz :nth-child(2)').val(korisnik['KorisnickoIme']);
+        $('.prikaz :nth-child(4)').val(korisnik['Ime']);
+        $('.prikaz :nth-child(6)').val(korisnik['Prezime']);
+        $('.prikaz :nth-child(8)').val(korisnik['Lozinka']);
+        $('.prikaz :nth-child(10)').val(korisnik['Jmbg']);
+        $('.prikaz :nth-child(12)').val(korisnik['BrojTelefona']);
+        $('.prikaz :nth-child(14)').val(korisnik['Email']);
+        $('.prikaz :nth-child(16)').css('color', 'black');
+        $('.prikaz :nth-child(16)').val(korisnik['UlogaKorisnika']);
 
        
     });
@@ -323,7 +327,7 @@ $(document).ready(function () {
         $('#imeIzmeni').val(korisnik['Ime']);
         $('#prezimeIzmeni').val(korisnik['Prezime']);
         $('#lozinkaIzmeni').val(korisnik['Lozinka']);
-        $('#jmbgIzmeni').val(korisnik['JMBG']);
+        $('#jmbgIzmeni').val(korisnik['Jmbg']);
         $('#telIzmeni').val(korisnik['BrojTelefona']);
         $('#emailIzmeni').val(korisnik['Email']);
         $('#polPolje').val(korisnik['Pol']);
@@ -379,8 +383,9 @@ $(document).ready(function () {
         } else if (emailReg.test(email) && !isNaN(telefon) && email !== '' && telefon !== '') {
         */
             korEmail();
-            let musterija = {
-                Ime: `${$('.izmena :nth-child(2)').val()}`,
+        let musterija = {
+            KorisnickoIme: korisnik.KorisnickoIme,
+                Ime: `${$('.izmena :nth-child(4)').val()}`,
                 Prezime: `${$('.izmena :nth-child(6)').val()}`,
                 Lozinka: `${$('#lozinkaIzmeni').val()}`,
                 JMBG: $('.izmena :nth-child(14)').val(),

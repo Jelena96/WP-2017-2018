@@ -23,7 +23,7 @@ namespace WebAPI.Models
 
 
                     Admini korisnik = new Admini();
-                    korisnik.Ime = lines[x];
+                    korisnik.KorisnickoIme = lines[x];
                     korisnik.Lozinka = lines[x + 1];
                     korisnik.UlogaKorisnika = Uloga.Admin;
                     listaAdmina.Add(korisnik);

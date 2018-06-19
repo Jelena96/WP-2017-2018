@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
             foreach (Vozac k in v.vozaci)
             {
 
-                if (k.Ime == ko.Ime)
+                if (k.KorisnickoIme == ko.KorisnickoIme)
                 {
 
                     korisnik = k;
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             foreach (Vozac k in v.vozaci)
             {
 
-                if (k.Ime == ko.Ime)
+                if (k.KorisnickoIme == ko.KorisnickoIme)
                 {
 
                     korisnik = k;
@@ -99,7 +99,7 @@ namespace WebAPI.Controllers
             var yK = jToken.Value<string>("Y");
 
             foreach (Vozac vozac in v.vozaci) {
-                if (vozac.Ime == imeV)
+                if (vozac.KorisnickoIme == imeV)
                 {
                     korisnik = vozac;
                     vozac2 = vozac;
@@ -142,7 +142,7 @@ namespace WebAPI.Controllers
 
                 while ((line = sr.ReadLine()) != null)
                 {
-                    if (!line.Contains(vozac.Ime))
+                    if (!line.Contains(vozac.KorisnickoIme))
                         sw.WriteLine(line);
                 }
             }
@@ -178,7 +178,7 @@ namespace WebAPI.Controllers
                     string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
                     using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
                     {
-                        string korisnik = vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+                        string korisnik = vozac.KorisnickoIme + "|"+ vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
                     + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
                     + "|" + Convert.ToString(vozac.UlogaKorisnika)
                     + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj 
@@ -202,7 +202,7 @@ namespace WebAPI.Controllers
                 v.listaKorisnika.Add(jToken);
                 kor = jToken;
                 kor.UlogaKorisnika = Uloga.Vozac;
-                rg.Upis(jToken.Ime, jToken.Lozinka);
+                rg.Upis(jToken.KorisnickoIme, jToken.Lozinka);
             }
             else
                 kor = null;
@@ -218,7 +218,7 @@ namespace WebAPI.Controllers
             kor.iscitaj();
             foreach (Korisnik korisnik in kor.listaKorisnika)
             {
-                if (korisnik.Ime == jToken.Ime)
+                if (korisnik.KorisnickoIme == jToken.KorisnickoIme)
                 {
 
                     isMatch = true;

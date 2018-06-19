@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
                 string[] lines = File.ReadAllLines(putanja);
                 for (int x = 0; x < lines.Length - 1; x++)
                 {
-                    admini.Ime = lines[x];
+                    admini.KorisnickoIme = lines[x];
                     admini.Prezime = lines[x + 1];
                 }
 

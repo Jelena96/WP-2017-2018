@@ -32,13 +32,13 @@ namespace WebAPI.Controllers
             var pasKor = jToken.Value<string>("korPasL");*/
             Korisnik kor = new Korisnik();
             //kor = null;
-            var imeKor = jToken.Ime;
+            var imeKor = jToken.KorisnickoIme;
             var pasKor = jToken.Lozinka;
 
             var response= Request.CreateResponse(HttpStatusCode.NotModified);
 
             foreach (Korisnik k in k.listaKorisnika) {
-                if (imeKor == k.Ime)
+                if (imeKor == k.KorisnickoIme)
                 {
                     if (pasKor == k.Lozinka)
                     {
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
             {
                 foreach (Admini a in a.listaAdmina)
                 {
-                    if (imeKor == a.Ime)
+                    if (imeKor == a.KorisnickoIme)
                     {
                         if (pasKor == a.Lozinka)
                         {
@@ -100,7 +100,7 @@ namespace WebAPI.Controllers
                 {
                     foreach (Vozac a in v.vozaci)
                     {
-                        if (imeKor == a.Ime)
+                        if (imeKor == a.KorisnickoIme)
                         {
                             if (pasKor == a.Lozinka)
                             {

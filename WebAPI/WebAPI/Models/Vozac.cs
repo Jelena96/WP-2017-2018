@@ -22,40 +22,41 @@ namespace WebAPI.Models
             using (StreamReader sr = File.OpenText(putanja))
             {
                 string[] lines = File.ReadAllLines(putanja);
-                for (int x = 0; x < lines.Length - 1; x++)
+                for (int x = 0; x < lines.Length; x++)
                 {
                     string[] splitovano = lines[x].Split('|');
 
-                    if (splitovano[7] == "Vozac")
+                    if (splitovano[8] == "Vozac")
                     {
 
 
                         Vozac korisnik = new Vozac();
-                        korisnik.Ime = splitovano[0];
-                        korisnik.Prezime = splitovano[1];
-                        korisnik.BrojTelefona =Convert.ToInt32(splitovano[2]);
-                        korisnik.Lozinka = splitovano[5];
-                        korisnik.Email = splitovano[3];
-                        korisnik.Jmbg = splitovano[4];
+                        korisnik.KorisnickoIme = splitovano[0];
+                        korisnik.Ime = splitovano[1];
+                        korisnik.Prezime = splitovano[2];
+                        korisnik.BrojTelefona =Convert.ToInt32(splitovano[3]);
+                        korisnik.Lozinka = splitovano[6];
+                        korisnik.Email = splitovano[4];
+                        korisnik.Jmbg = splitovano[5];
 
                         Lokacija lokacija = new Lokacija();
                         Adresa adresa = new Adresa();
 
-                        adresa.UlicaIBroj = splitovano[10];
-                        adresa.PozivniBroj = splitovano[9];
-                        adresa.NaseljenoMesto = splitovano[8];
+                        adresa.UlicaIBroj = splitovano[11];
+                        adresa.PozivniBroj = splitovano[10];
+                        adresa.NaseljenoMesto = splitovano[9];
 
-                        lokacija.X = Convert.ToDouble(splitovano[11]);
-                        lokacija.Y = Convert.ToDouble(splitovano[12]);
+                        lokacija.X = Convert.ToDouble(splitovano[12]);
+                        lokacija.Y = Convert.ToDouble(splitovano[13]);
 
                         korisnik.Lokacija = lokacija;
                         korisnik.Lokacija.Adresa = adresa;
 
                         Automobil a = new Automobil();
-                        a.BrojVozila = Convert.ToInt32( splitovano[13]);
-                        a.GodisteAuta= Convert.ToInt32(splitovano[14]);
-                        a.RegistarskaOznaka = splitovano[15];
-                        a.TipAuta = splitovano[16];
+                        a.BrojVozila = Convert.ToInt32( splitovano[14]);
+                        a.GodisteAuta= Convert.ToInt32(splitovano[15]);
+                        a.RegistarskaOznaka = splitovano[16];
+                        a.TipAuta = splitovano[17];
                         korisnik.Automobil = a;
 
                         vozaci.Add(korisnik);

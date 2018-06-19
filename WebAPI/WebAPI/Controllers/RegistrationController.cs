@@ -29,7 +29,7 @@ namespace WebAPI.Controllers
             foreach (Korisnik k in k.listaKorisnika)
             {
 
-                if (k.Ime == ko.Ime)
+                if (k.KorisnickoIme == ko.KorisnickoIme)
                 {
 
                     korisnik = k;
@@ -58,9 +58,9 @@ namespace WebAPI.Controllers
             if (!provera(jToken))
             {
 
-                kor.Ime = jToken.Ime;
+                kor.KorisnickoIme = jToken.KorisnickoIme;
                 kor.Lozinka = jToken.Lozinka;
-                Upis(kor.Ime, kor.Lozinka);
+                Upis(kor.KorisnickoIme, kor.Lozinka);
                 kor.listaKorisnika.Add(kor);
 
             }
@@ -80,7 +80,7 @@ namespace WebAPI.Controllers
             kor.iscitaj();
             foreach (Korisnik korisnik in kor.listaKorisnika)
             {
-                if (korisnik.Ime == jToken.Ime)
+                if (korisnik.KorisnickoIme == jToken.KorisnickoIme)
                 {
 
                     isMatch = true;
