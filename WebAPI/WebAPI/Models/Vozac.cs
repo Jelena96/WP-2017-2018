@@ -10,6 +10,7 @@ namespace WebAPI.Models
     {
         public Automobil Automobil { get; set; }
         public Lokacija Lokacija { get; set; }
+        public bool Zauzet { get; set; }
 
         public List<Vozac> vozaci = new List<Vozac>();
 
@@ -57,6 +58,7 @@ namespace WebAPI.Models
                         a.GodisteAuta= Convert.ToInt32(splitovano[15]);
                         a.RegistarskaOznaka = splitovano[16];
                         a.TipAuta = splitovano[17];
+                        //korisnik.Zauzet =  (splitovano[18]);
                         korisnik.Automobil = a;
 
                         vozaci.Add(korisnik);

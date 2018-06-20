@@ -183,7 +183,7 @@ namespace WebAPI.Controllers
                     + "|" + Convert.ToString(vozac.UlogaKorisnika)
                     + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj 
                     + "|" + vozac.Lokacija.Adresa.UlicaIBroj
-                   + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y)+"|" + Convert.ToString(vozac.Automobil.BrojVozila)+ "|" + Convert.ToString(vozac.Automobil.GodisteAuta)+ "|" + vozac.Automobil.RegistarskaOznaka+ "|" + vozac.Automobil.TipAuta+ "|" ;
+                   + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y)+"|" + Convert.ToString(vozac.Automobil.BrojVozila)+ "|" + Convert.ToString(vozac.Automobil.GodisteAuta)+ "|" + vozac.Automobil.RegistarskaOznaka+ "|" + vozac.Automobil.TipAuta + "|" + vozac.Zauzet;
                         file.WriteLine(korisnik);
               
 

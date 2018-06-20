@@ -10,7 +10,7 @@ namespace WebAPI.Models
         public string Opis { get; set; }
         public DateTime VremeObjave { get; set; }
         public string KorisnikKomentar { get; set; }
-        public int IdVoznjaKomentar { get; set; }
+        public int IdVoznje { get; set; }
         public int Ocena { get; set; }
     }
 }

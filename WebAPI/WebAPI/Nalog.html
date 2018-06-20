@@ -37,19 +37,25 @@
                     <button id="pogledajProfil">Prikazi profil</button>
                     <button id="izlogujSe">Izloguj se</button>
                     <button id="editProfil">Izmeni profil</button>
+                    <button id="zakaziVoznjuDugme">Zakazi voznju</button>
                     <button style="display:none" id="izmeniA">Izmeni automobil</button>
                     <button style="display:none" id="izmeniV">Izmeni vozaca</button>
+                    <button id="dugme">Otkazi voznju</button>
+                    <button id="prikazVoznje">Prikaz voznje</button>
                 </div>
 
                 <div>
 
-                    <div id="prikaz" style="margin-top: 2%; filter: 0; display:none">
+                    <div id="prikaz"  style="margin-top: 2%; filter: 0; display:none">
                         <button type="button" id="closePrikazNaloga">&#10006;</button>
                         <div id="" class="prikazNaloga" align="center">
+                            <div id="prikazi">
+                                <h1>Pregled voznji</h1>
+                                </div>
                             <div>
                                 <h1 style="font-size:45px">Pregled naloga</h1>
                             </div>
-                            <div class="pregledDiv">
+                            <div >
                                 <div class="prikaz">
                                     <span>Ime: </span><input width="50" type="text" readonly="readonly" class="inputP" />
                                     <span>Prezime: </span><input type="text" readonly="readonly" class="inputP" />
@@ -59,12 +65,14 @@
                                     <span>Email: </span><input type="text" readonly="readonly" class="input">
                                     <span>Pol: </span><input style="color: gray;" readonly="readonly" class="input" />
                                     <span>Uloga: </span><input type="text" readonly="readonly" class="input" />
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                
                 <!--izmena!-->
 
                 <div class="col-80p popupKartica" id="izmena" style="margin-top: 2%; filter: 0; display:none">
@@ -127,14 +135,14 @@
 
                 </div>
 
-                <div  id="izmenaVozaca" style="margin-top: 2%; filter: 0; display:none">
+                <div id="izmenaVozaca" style="margin-top: 2%; filter: 0; display:none">
                     <button type="button" id="closeIzmenaVozaca">&#10006;</button>
-                    <div  align="center">
-                        <div >
+                    <div align="center">
+                        <div>
                             <h1 style="font-size:45px">Izmena naloga vozaca</h1>
                         </div>
                         <div>
-                            <div >
+                            <div>
                                 <span>Ime: </span><input type="text" id="imeIzmeniV" class="inputP" placeholder="Ime">
                                 <p id="imeE" />
                                 <span>Prezime: </span><input type="text" id="prezimeIzmeniV" class="inputP" placeholder="Prezime">
@@ -194,6 +202,59 @@
 
                                 <input type="submit" id="promeniAutomobil" value="Promeni automobi">
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Zakazivanje voznje-->
+
+                <div id="zakaziVoznju" style="display:none">
+                    <button type="button" class="closeZakaziVoznju">&#10006;</button>
+                    <div align="center">
+                        <div>
+                            <h1 style="margin-bottom: 1%; margin-top: 1%;">Kreiraj voznju</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <span>Ulica: </span><input style="font-weight: normal;" type="text" id="ulicaZakazi" class="inputPolje" placeholder="Ulica"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Broj: </span><input style="font-weight: normal;" type="text" id="brojZakazi" class="inputPolje" placeholder="Broj"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Naseljeno mesto: </span><input style="font-weight: normal;" type="text" id="mestoZakazi" class="inputPolje" placeholder="Naseljeno mesto"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Pozivni broj mesta: </span><input style="font-weight: normal;" type="text" id="pozivniBrojMestaZakazi" class="inputPolje" placeholder="Pozivni broj mesta"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>X koordinata: </span><input type="text" id="xZakazi" class="inputP" placeholder="x koordinata">
+                                <span>Y koordinata: </span><input type="text" id="yZakazi" class="inputP" placeholder="y koordinata">
+
+                                <span style="color: pink;">Tip vozila: </span>
+                                <select id="tipVozila" class="inputPolje">
+                                    <option value="BezNaznake" selected style="color: black;">BezNaznake</option>
+                                    <option value="Putnicki" style="color: black;">Putnicki</option>
+                                    <option value="Kombi" style="color: black;">Kombi</option>
+                                </select>
+                                <input type="submit" id="DugmeZakaziVoznju" value="Kreiraj voznju">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+
+                <div id="komentarNaVoznju" style="display:none">
+                   
+                    <div align="center">
+                        <div>
+                            <h1 style="margin-bottom: 1%; margin-top: 1%;">Komenar na  voznju</h1>
+                        </div>
+                        <div>
+                            <div>
+                                <span>Opis: </span><input style="font-weight: normal;" type="text" id="opis" class="inputP" placeholder="Opis"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Ocena: </span><input style="font-weight: normal;" type="text" id="ocena" class="inputP" placeholder="Ocena"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Vreme objave: </span><input style="font-weight: normal;" type="text" id="vremeObjave" class="inputP" placeholder="Vreme objave"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Korisnik: </span><input style="font-weight: normal;" type="text" id="korisnik" class="inputP" placeholder="Korisnik usluge"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                                <span>Id Voznje: </span><input type="text" id="idVoznje" class="inputP" placeholder="Id voznje">
+                               
+                                  <input type="submit" id="DugmeKomentarNaVoznju" value="Komentarisi voznju">
+                            </div>
+                            <button type="button" class="closeKomentarNaVoznju">&#10006;</button>
                         </div>
                     </div>
                 </div>

@@ -160,6 +160,7 @@
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
+    <Compile Include="Controllers\VoznjaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +174,7 @@
     <Compile Include="Models\Pol.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Products.cs" />
+    <Compile Include="Models\StatusVoznje.cs" />
     <Compile Include="Models\TipAutomobila.cs" />
     <Compile Include="Models\Uloga.cs" />
     <Compile Include="Models\Vozac.cs" />

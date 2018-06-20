@@ -72,6 +72,213 @@ $(document).ready(function () {
 
     });
    
+    //dodajem voznju
+    $('#zakaziVoznjuDugme').click(function () {
+        $('#zakaziVoznju').show();
+        $('#tipVozila').val('BezNaznake');
+
+    });
+
+    $('#closeZakaziVoznju').click(function () {
+        $('#zakaziVoznju').hide();
+
+
+    });
+
+    $('#dugme').click(function () {
+        let trenutnaVoznja = sessionStorage.getItem("trenutnaVoznja");
+
+        
+            $("#komentarNaVoznju").show();
+    
+
+
+    });
+
+
+
+
+
+
+    $('#prikazVoznje').click(function () {
+
+       
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/Ucitaj',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+            
+            let tabela = '<div id="voznjeKartica"><table id="tabelaPrikaz">' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (let i = 0; i < retVal.length; i++) {
+
+                let cena = retVal[i].Iznos;
+                let tipAuta = "";
+
+                if (retVal[i].TipAutaVoznje == 1) {
+
+                    tipAuta = "Putnicki";
+
+                } else {
+
+                    tipAuta = "Kombi";
+                }
+
+                tabela += '</tr>' +
+                    '<tr>' +
+                    '<td>' + retVal[i].DTPorudzbine + '</td>' +
+                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                    '<td>' + retVal[i].Dolazak.Adresa.UlicaIBroj + '</td>' +
+                    '<td>' + tipAuta + '</td>' + 
+                    '<td> - </td>' +
+                    '<td> - </td>' +
+                    '<td> - </td>' +
+                    '<td>' +cena+ '</td>' +
+                    '<td> Kreirana - na cekanju' +
+                    '<button value = ' + retVal[i].IdVoznje + ' class="otkaziVoznju" style = "float: right; color: gray;" >Otkazi</button >' +
+                    '<button value = ' + retVal[i].IdVoznje + ' class="promeniVoznju" style = "margin-right: 10px; float: right; color: gray;" >Promeni</button >' +
+                    '</td > ' +
+                    '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
+                    '<td> - </td>' +
+                    '<td> 0 </td>' +
+                    '<td> - </td>' +
+                    '</tr>';
+                
+            }
+            
+
+            $("#prikaz").append(tabela);
+        });
+       
+
+            
+        });
+
+    $('#DugmeKomentarNaVoznju').click(function () {
+
+
+        let trenutnaVoznja = sessionStorage.getItem("trenutnaVoznja");
+     
+        
+        let komentar = {
+
+            Opis: $("#opis").val(),
+            VremeObjave: $("#vremeObjave").val(),
+            KorisnikKomentar: $("#korisnik").val(),
+            IdVoznje: $("#idVoznje").val(),
+            Ocena: $("#ocena").val(),
+                
+
+        };
+
+
+        let voznja = {
+
+            TrenutnaVoznja: trenutnaVoznja,
+            MusterijaVoznja: korisnik.KorisnickoIme,
+            VozacVoznja: null,
+            Iznos: 0,
+            DispecerVoznja: null,
+            Komentar: komentar,
+            StatusVoznje: "Otkazana",
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/OtkaziVoznju',
+            data: JSON.stringify(voznja),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function () {
+                $('#zakaziVoznju').after('<p style="color: yellow; font-size: 24px;">Uspesno ste otkazali voznju! <p>');
+               
+            },
+            error: function (data) {
+                alert('Nije dodata voznja!');
+            }
+        });
+
+
+
+
+    });
+  
+
+    
+    $('#DugmeZakaziVoznju').click(function () {
+
+        let ulicao = $('#ulicaZakazi').val();
+        let broj = $('#brojZakazi').val();
+        let mesto = $('#mestoZakazi').val();
+        let pozivniBroj = $('#pozivniBrojMestaZakazi').val();
+        let x = $('#xZakazi').val();
+        let y = $('#yZakazi').val();
+
+        let adresa = {
+
+            UlicaIBroj: `${ulicao}*${broj}`,
+            NaseljenoMesto: mesto,
+            PozivniBroj: pozivniBroj,
+
+        };
+
+        let lokacija = {
+            
+           Adresa: adresa,
+            X: x,
+            Y: y
+
+        };
+
+        
+
+        let voznja = {
+          
+            Odrediste: lokacija,
+            TipAutaVoznje: `${$('#tipVozila').val()}`,
+            MusterijaVoznja: korisnik.KorisnickoIme
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/ZakaziVoznju',
+            data: JSON.stringify(voznja),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function () {
+                  $('#zakaziVoznju').after('<p style="color: yellow; font-size: 24px;">Uspesno ste kreirali voznju! <p>');
+                  sessionStorage.setItem("trenutnaVoznja", JSON.stringify(data));
+            },
+            error: function (data) {
+                alert('Nije dodata voznja!');
+            }
+        });
+
+
+    });
 
     $('#dodajV').click(function () {
 
@@ -331,7 +538,7 @@ $(document).ready(function () {
         $('#telIzmeni').val(korisnik['BrojTelefona']);
         $('#emailIzmeni').val(korisnik['Email']);
         $('#polPolje').val(korisnik['Pol']);
-        $('.izmena :nth-child(26)').css('color', 'black');
+        $('.izmena :nth-child(26)').css('color', 'green');
 
        
     });
@@ -384,13 +591,13 @@ $(document).ready(function () {
         */
             korEmail();
         let musterija = {
-            KorisnickoIme: korisnik.KorisnickoIme,
-                Ime: `${$('.izmena :nth-child(4)').val()}`,
-                Prezime: `${$('.izmena :nth-child(6)').val()}`,
-                Lozinka: `${$('#lozinkaIzmeni').val()}`,
-                JMBG: $('.izmena :nth-child(14)').val(),
-                KontaktTelefon: $('.izmena :nth-child(18)').val(),
-                Email: `${$('.izmena :nth-child(22)').val()}`,
+
+            Ime: $("#imeIzmeni").val(),
+            Prezime: $("#prezimeIzmeni").val(),
+            Lozinka: $("#lozinkaIzmeni").val(),
+            JMBG: $("#jmbgIzmeni").val(),
+            KontaktTelefon: $("#telIzmeni").val(),
+            Email: $("#emailIzmeni").val(),
 
                 Pol: `${$('.izmena :nth-child(26) option:selected').text()}`
             };

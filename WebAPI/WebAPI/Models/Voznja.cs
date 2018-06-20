@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -23,6 +25,90 @@ namespace WebAPI.Models
         public double Iznos { get; set; }
         public Komentar Komentar { get; set; }
         public StatusVoznje StatusVoznje { get; set; }
+        public Voznja TrenutnaVoznja { get; set; }
 
-    }
+        public List<Voznja> IzlistajVoznje()
+        {
+            List<Voznja> voznje = new List<Voznja>();
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Voznje.txt";
+
+            using (StreamReader sr = File.OpenText(putanja))
+            {
+                string[] lines = File.ReadAllLines(putanja);
+                for (int x = 0; x < lines.Length - 1; x++)
+                {
+
+                    string[] splitovano = lines[x].Split('|');
+
+                   
+
+                        Voznja korisnik = new Voznja();
+                        korisnik.IdVoznje = Convert.ToInt32(splitovano[0]);
+
+                  
+                    DateTime dt = DateTime.ParseExact(splitovano[1], "dd.M.yyyy. HH:mm:ss",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+                    korisnik.DTPorudzbine = dt;
+
+                    Lokacija loDol = new Lokacija();
+                    loDol.X = Convert.ToInt32(splitovano[2]);
+                    loDol.Y = Convert.ToInt32(splitovano[3]);
+                    korisnik.Dolazak = loDol;
+
+                    Adresa adDol = new Adresa();
+                    korisnik.Dolazak.Adresa = adDol;
+                    adDol.UlicaIBroj = splitovano[4];
+                    adDol.NaseljenoMesto = splitovano[5];
+                    adDol.PozivniBroj = splitovano[6];
+                    loDol.Adresa = adDol;
+                    string tip = splitovano[7];
+                    TipAutomobila tipVozila = (TipAutomobila)Enum.Parse(typeof(TipAutomobila), tip, true);
+
+                    korisnik.TipAutaVoznje = tipVozila;
+                    korisnik.MusterijaVoznja = splitovano[8];
+
+                    Lokacija lokOdr = new Lokacija();
+                    Adresa adrOdr = new Adresa();
+
+
+                    lokOdr.X = Convert.ToInt32(splitovano[9]);
+                    lokOdr.Y= Convert.ToInt32(splitovano[10]);
+                    adrOdr.UlicaIBroj = splitovano[11];
+                    adrOdr.NaseljenoMesto = splitovano[12];
+                    adrOdr.PozivniBroj = splitovano[13];
+
+                    lokOdr.Adresa = adrOdr;
+                    korisnik.Odrediste = lokOdr;
+                    korisnik.VozacVoznja = splitovano[14];
+                    korisnik.Iznos = Convert.ToInt32(splitovano[15]);
+                    korisnik.DispecerVoznja = splitovano[16];
+
+                    Komentar komentar = new Komentar();
+                    
+                    komentar.Opis = splitovano[17];
+                    komentar.IdVoznje = Convert.ToInt32(splitovano[18]);
+
+                    DateTime dt2 = DateTime.ParseExact(splitovano[19], "dd.M.yyyy. HH:mm:ss",
+                                       System.Globalization.CultureInfo.InvariantCulture);
+
+                    komentar.VremeObjave = dt2;
+                    komentar.Ocena = Convert.ToInt32(splitovano[20]);
+                    korisnik.Komentar = komentar;
+                    string tip2 = splitovano[21];
+                    StatusVoznje status = (StatusVoznje)Enum.Parse(typeof(StatusVoznje), tip2, true);
+
+                    korisnik.StatusVoznje = status;
+                    
+
+
+                    voznje.Add(korisnik);
+
+                    }
+                }
+
+            return voznje;
+
+            }
+
+        }
 }

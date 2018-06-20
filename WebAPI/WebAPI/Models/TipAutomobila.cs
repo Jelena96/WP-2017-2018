@@ -11,5 +11,5 @@ namespace WebAPI.Models
         Putnicki
     }
 
-    public enum StatusVoznje { Kreirana, Formirana, Obradjena, Prihvacena, Otkazana, Neuspesna, Uspesna, Utoku }
+    
 }
