@@ -25,7 +25,7 @@ namespace WebAPI.Models
         public double Iznos { get; set; }
         public Komentar Komentar { get; set; }
         public StatusVoznje StatusVoznje { get; set; }
-        public Voznja TrenutnaVoznja { get; set; }
+       // public Voznja TrenutnaVoznja { get; set; }
 
         public List<Voznja> IzlistajVoznje()
         {
@@ -35,7 +35,7 @@ namespace WebAPI.Models
             using (StreamReader sr = File.OpenText(putanja))
             {
                 string[] lines = File.ReadAllLines(putanja);
-                for (int x = 0; x < lines.Length - 1; x++)
+                for (int x = 0; x < lines.Length; x++)
                 {
 
                     string[] splitovano = lines[x].Split('|');

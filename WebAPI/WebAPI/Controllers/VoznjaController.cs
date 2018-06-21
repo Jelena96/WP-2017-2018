@@ -19,33 +19,142 @@ namespace WebAPI.Controllers
         Vozac v = new Vozac();
         Voznja vo = new Voznja();
 
-        [Route("OtkaziVoznju")]
-        public Voznja OtkaziVoznju([FromBody]Voznja voznja)
+        [Route("PromeniVoznju")]
+        public Voznja PromeniVoznju([FromBody]Voznja voznja)
         {
+            Voznja k = new Voznja();
             Voznja NovaVoznja = new Voznja();
-            List<Voznja> voznje = vo.IzlistajVoznje();
+            Voznja privremena = new Voznja();
+
+            List<Voznja> voznje = k.IzlistajVoznje();
 
             foreach (Voznja v in voznje)
             {
-                if (voznja.DispecerVoznja != null) {
-
+                if (v.IdVoznje == voznja.IdVoznje)
+                {
+                    NovaVoznja = voznja;
+                    privremena = v;
                     break;
                 }
-                else if (v.MusterijaVoznja == voznja.MusterijaVoznja)
+                else {
+
+                    NovaVoznja = null;
+                    break;
+                }
+            }
+
+            voznje.Remove(privremena);
+            voznje.Add(NovaVoznja);
+            for (int i = 0; i < voznje.Count; i++)
+                Upis(voznje[i]);
+
+            return NovaVoznja;
+                }
+
+        [Route("OtkaziVoznju")]
+        public Voznja OtkaziVoznju([FromBody]JToken voznja)
+        {
+            Voznja NovaVoznja = new Voznja();
+            Admini a = new Admini();
+            Korisnik k = new Korisnik();
+            k.iscitaj();
+            a.iscitaj();
+
+            bool isMatch = false;
+            bool isMatchIme = false;
+            List<Voznja> voznje = vo.IzlistajVoznje();
+
+            var ime = voznja.Value<string>("ime");
+            var id = voznja.Value<string>("i");
+            Voznja privremena = null;
+
+            foreach (Voznja v in voznje)
+            {
+                foreach (Admini admin in a.listaAdmina)
                 {
-                    if (v.StatusVoznje == StatusVoznje.Kreirana)
-                    {
-                        v.StatusVoznje = StatusVoznje.Otkazana;
+                    if (v.MusterijaVoznja==admin.KorisnickoIme) {
+
+                        isMatchIme = true;
                     }
 
                 }
 
-                voznja = v;
             }
-            return voznja;
+
+            if (!isMatchIme)
+            {
+                foreach (Voznja v in voznje)
+                {
+
+                    if (v.IdVoznje == Convert.ToInt32(id) && v.StatusVoznje == StatusVoznje.Kreirana && v.MusterijaVoznja == ime)
+                    {
+                        isMatch = true;
+                        NovaVoznja = v;
+                        privremena = v;
+                    }
+
+                }
+            }
+            else {
+                NovaVoznja = null;
+
+            }
+
+            if (isMatch)
+            {
+                Brisi(privremena);
+                voznje.Remove(privremena);
+                NovaVoznja.StatusVoznje = StatusVoznje.Otkazana;
+               
+                
+                voznje.Add(NovaVoznja);
+               
+               for(int i=0; i<voznje.Count; i++)
+                Upis(voznje[i]);
+            }
+            else {
+
+                NovaVoznja = null;
+            }
+                
+            return NovaVoznja;
 
         }
 
+        [Route("KomentarisiVoznju")]
+        public Voznja KomentarisiVoznju([FromBody]Komentar komentar)
+        {
+            Voznja voznja = new Voznja();
+            Voznja NovaVoznja = new Voznja();
+            Voznja StaraVoznja = new Voznja();
+            List<Voznja> voznje = voznja.IzlistajVoznje();
+
+            foreach (Voznja v in voznje) {
+
+                if (v.IdVoznje == komentar.IdVoznje) {
+
+                   
+                    NovaVoznja = v;
+                    StaraVoznja = v;
+                    NovaVoznja.Komentar = komentar;
+                    NovaVoznja.Komentar.VremeObjave = DateTime.Now;
+                }
+             }
+
+            
+            
+            voznje.Add(NovaVoznja);
+            Brisi(StaraVoznja);
+            voznje.Remove(StaraVoznja);
+
+            for (int i = 0; i < voznje.Count; i++)
+            {
+                Upis(voznje[i]);
+            }
+           
+            return NovaVoznja;
+
+        }
         [Route("Ucitaj")]
         public HttpResponseMessage Ucitaj([FromBody]JToken jtoken)
         {
@@ -139,6 +248,7 @@ namespace WebAPI.Controllers
             voznja.TipAutaVoznje = jToken.TipAutaVoznje;
             voznja.IdVoznje = GetHashCode();
             voznja.DTPorudzbine = DateTime.Now;
+            
             voznja.Dolazak = jToken.Odrediste;
             
             //izmenii
@@ -146,6 +256,7 @@ namespace WebAPI.Controllers
             
             voznja.Komentar = new Komentar();
             voznja.Komentar.IdVoznje = voznja.IdVoznje;
+            voznja.Komentar.VremeObjave = DateTime.Now;
             Upis(voznja);
             return voznja;
         }
@@ -173,6 +284,28 @@ namespace WebAPI.Controllers
                 tw.WriteLine(upis);
             }
             stream.Close();
+        }
+
+        public void Brisi(Voznja vozac)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Voznje.txt";
+
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(putanja))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(vozac.IdVoznje.ToString()))
+                        sw.WriteLine(line);
+                }
+            }
+
+            File.Delete(putanja);
+            File.Move(tempFile, putanja);
         }
     }
 }
