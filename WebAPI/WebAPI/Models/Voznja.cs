@@ -50,17 +50,19 @@ namespace WebAPI.Models
                                        System.Globalization.CultureInfo.InvariantCulture);
                     korisnik.DTPorudzbine = dt;
 
-                    Lokacija loDol = new Lokacija();
-                    loDol.X = Convert.ToInt32(splitovano[2]);
-                    loDol.Y = Convert.ToInt32(splitovano[3]);
-                    korisnik.Dolazak = loDol;
+                    Lokacija lokDol = new Lokacija();
+                    Adresa adrDol = new Adresa();
 
-                    Adresa adDol = new Adresa();
-                    korisnik.Dolazak.Adresa = adDol;
-                    adDol.UlicaIBroj = splitovano[4];
-                    adDol.NaseljenoMesto = splitovano[5];
-                    adDol.PozivniBroj = splitovano[6];
-                    loDol.Adresa = adDol;
+
+                    lokDol.X = Convert.ToInt32(splitovano[2]);
+                    lokDol.Y = Convert.ToInt32(splitovano[3]);
+                    adrDol.UlicaIBroj = splitovano[4];
+                    adrDol.NaseljenoMesto = splitovano[5];
+                    adrDol.PozivniBroj = splitovano[6];
+
+                    lokDol.Adresa = adrDol;
+                    korisnik.Dolazak = lokDol;
+
                     string tip = splitovano[7];
                     TipAutomobila tipVozila = (TipAutomobila)Enum.Parse(typeof(TipAutomobila), tip, true);
 

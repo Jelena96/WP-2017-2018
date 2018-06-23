@@ -4,7 +4,10 @@
     var korisnikJson = sessionStorage.getItem("logged");
     var korisnik = $.parseJSON(korisnikJson);
 }
+
 var zapamtiId;
+var zapamtiId2;
+
 $(document).ready(function () {
     $('#korIme').text('Korisnicko ime: ' + korisnik.KorisnickoIme);
     $('#closePrikazNaloga').click(function () {
@@ -46,6 +49,8 @@ $(document).ready(function () {
         $('#editProfil').hide();
         $('#DugmePrikazVoznjeV').show();
         $('#DugmePrikazVoznjeA').hide();
+        $('#DumePrikazKreiranih').show();
+        
 
 
 
@@ -107,6 +112,94 @@ $(document).ready(function () {
         $('#zakaziVoznjuAdmin').show();
     });
 
+
+    
+    $('#DumePrikazKreiranih').click(function () {
+
+        $('#voznjeKartica').hide();
+        $('#voznjeKarticaAdmin').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKarticaSve').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajKreirane',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+
+            let tabela = '<div id="voznjeKarticaSve"><h2>Prikaz voznji na cekanju</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (let i = 0; i < retVal.length; i++) {
+
+                let cena = retVal[i].Iznos;
+                let tipAuta = "";
+                let stanje = "";
+                let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+
+                if (retVal[i].TipAutaVoznje == 1) {
+
+                    tipAuta = "Putnicki";
+
+                } else {
+
+                    tipAuta = "Kombi";
+                }
+
+                tabela += '</tr>' +
+                    '<tr>' +
+                    '<td>' + vreme + '</td>' +
+                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                    '<td>' + ulica + '</td>' +
+                    '<td>' + tipAuta + '</td>' +
+                    '<td> - </td>' +
+                    '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                    '<td> - </td>' +
+                    '<td>' + cena + '</td>' +
+                    '<td> ' + retVal[i].StatusVoznje +
+
+                    '</td > ' +
+                    '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
+                    '<td> - </td>' +
+                    '<td> 0 </td>' +
+                    '<td> - </td>' +
+                    '</tr>';
+
+            }
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+
+
+
+        });
+
+
+
+    });
+
     $('#DugmePrikazVoznjeV').click(function () {
 
         $('#voznjeKartica').hide();
@@ -161,7 +254,7 @@ $(document).ready(function () {
                     tipAuta = "Kombi";
                 }
 
-                if (retVal[i].StatusVoznje == 6) {
+                if (retVal[i].StatusVoznje == 6 || retVal[i].StatusVoznje == 5) {
 
                     tabela += '</tr>' +
                         '<tr>' +
@@ -184,7 +277,7 @@ $(document).ready(function () {
 
 
 
-                } else {
+                } else{
 
 
                     tabela += '</tr>' +
@@ -229,9 +322,11 @@ $(document).ready(function () {
     var id;
     $('#prikazi').on("click", "#izmeni", function () {
 
+        $('#voznjeKarticaVozac').hide();
         $('#vozacevaPromena').show();
-
+        zapamtiId2 = $(this).val();
         id = $(this).val();
+       
 
     });
 
@@ -537,15 +632,68 @@ $(document).ready(function () {
 
     });
 
-    if ($('#stanje option:selected').text() == "Neuspesno") {
+    
 
-        $('#komentarNaVoznju').show();
 
-    }
+    
+    $('#unesiOdredisteDugme').click(function () {
+
+        let ulicaU = $('#ulicaU').val();
+        let brojU = $('#brojU').val();
+        let mestoU = $('#mestoU').val();
+        let pozivniBrojU = $('#pozivniBrojU').val();
+        let xU = $('#xU').val();
+        let yU = $('#yU').val();
+        let pare = $("#iznosU").val();
+
+        let adresa = {
+
+            UlicaIBroj: `${ulicaU}*${brojU}`,
+            NaseljenoMesto: mestoU,
+            PozivniBroj: pozivniBrojU,
+
+        };
+
+        let lokacija = {
+
+            Adresa: adresa,
+            X: xU,
+            Y: yU,
+
+        };
+
+
+
+        let voznja = {
+
+            ulica: `${ulicaU}*${brojU}`,
+            mesto: mestoU,
+            broj: pozivniBrojU,
+            x: xU,
+            iznos:pare,
+            y: yU,
+            IdVoznje: id,
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UnesiOdredisteVozac',
+            data: JSON.stringify(voznja),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function () {
+                $('#unesiOdrediste').after('<p style="color: yellow; font-size: 24px;">Uspesno ste uneli odrediste voznje! <p>');
+
+            },
+            error: function (data) {
+                alert('Nije promenjena voznja!');
+            }
+        });
+    });
 
     $('#vozacevaPromenaDugme').click(function () {
 
-        $('#komentarNaVoznju').show();
+        
         let voznja = {
 
             i: id,
@@ -555,13 +703,21 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'POST',
-            url: '/api/Voznja/PromeniVoznjuVozac',
+            url: '/api/Voznja/PromeniStanjeVozac',
             data: JSON.stringify(voznja),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function () {
-                $('#vozacevaPromena').after('<p style="color: yellow; font-size: 24px;">Uspesno ste promenili voznju! <p>');
-                
+                $('#vozacevaPromena').after('<p style="color: yellow; font-size: 24px;">Uspesno ste promenili stanje voznje! <p>');
+                if ($('#stanje option:selected').text() == "Neuspesna") {
+
+                    $('#komentarNaVoznju').show();
+                } else {
+
+                        $('#unesiOdrediste').show();
+
+                    
+                }
             },
             error: function (data) {
                 alert('Nije promenjena voznja!');
@@ -656,6 +812,7 @@ $(document).ready(function () {
                 '<th>Vozac</th>' +
                 '<th>Iznos</th>' +
                 '<th>Status voznje</th>' +
+                '<th>Operacije</th>' +
                 '<th>Komentar</th>' +
                 '<th>Korisnik</th>' +
                 '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
@@ -677,28 +834,75 @@ $(document).ready(function () {
                     tipAuta = "Kombi";
                 }
 
-                
+                if (retVal[i].StatusVoznje == 5) {
 
-                tabela += '</tr>' +
-                    '<tr>' +
-                    '<td>' + vreme + '</td>' +
-                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                    '<td>' + ulica + '</td>' +
-                    '<td>' + tipAuta + '</td>' +
-                    '<td> - </td>' +
-                    '<td> - </td>' +
-                    '<td> - </td>' +
-                    '<td>' + cena + '</td>' +
-                    '<td> Kreirana - na cekanju' +
-                    '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
-                    '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
-                    '</td > ' +
-						   '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
-                    '<td> - </td>' +
-                    '<td> 0 </td>' +
-                    '<td> - </td>' +
-                    '</tr>';
+                    tabela += '</tr>' +
+                        '<tr>' +
+                        '<td>' + vreme + '</td>' +
+                        '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                        '<td>' + ulica + '</td>' +
+                        '<td>' + tipAuta + '</td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td>' + cena + '</td>' +
+                        '<td>' + retVal[i].StatusVoznje + '</td>' +
+                        '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
+                        '<td> - </td>' +
+                        '<td> 0 </td>' +
+                        '<td> - </td>' +
+                        '</tr>';
 
+                } else if (retVal[i].StatusVoznje == 6)
+                {
+                    tabela += '</tr>' +
+                        '<tr>' +
+                        '<td>' + vreme + '</td>' +
+                        '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                        '<td>' + ulica + '</td>' +
+                        '<td>' + tipAuta + '</td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td>' + cena + '</td>' +
+                        '<td>' + retVal[i].StatusVoznje + '</td>' +
+                        '<td>' +
+                        '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: right; color: blue;" >Komentarisi</button >' +
+                         '</td > ' +
+                        '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
+                        '<td> - </td>' +
+                        '<td> 0 </td>' +
+                        '<td> - </td>' +
+                        '</tr>';
+
+
+                }
+                else {
+
+                    tabela += '</tr>' +
+                        '<tr>' +
+                        '<td>' + vreme + '</td>' +
+                        '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                        '<td>' + ulica + '</td>' +
+                        '<td>' + tipAuta + '</td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td> - </td>' +
+                        '<td>' + cena + '</td>' +
+                        '<td>' + retVal[i].StatusVoznje + '</td>' +
+                        '<td>' +
+                        '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                        '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                        '</td > ' +
+
+                           '<td><div style="word-wrap:break-word; width: 150px; height: 80px;"> - </div></td>' +
+                        '<td> - </td>' +
+                        '<td> 0 </td>' +
+                        '<td> - </td>' +
+                        '</tr>';
+
+
+                }
             }
             tabela += '</table></div>';
             $("#prikazi").append(tabela);
@@ -712,7 +916,12 @@ $(document).ready(function () {
 
     });
 
+    var komPam;
+    $('#prikazi').on("click", "#komentar", function () {
 
+        komPam = $(this).val();
+        $('#komentarNaVoznju').show();
+    });
 
     $('#prikazi').on("click", "#otkazi", function () {
 
@@ -810,11 +1019,9 @@ $(document).ready(function () {
             
         });
 
-
-
-
-
     });
+
+   
 
     $('#DugmeKomentarNaVoznju').click(function ()
     {
@@ -825,7 +1032,7 @@ $(document).ready(function () {
             Opis: $("#opis").val(),
             VremeObjave: Date.now,
             KorisnikKomentar: korisnik.KorisnickoIme,
-            IdVoznje: zapamtiId,
+            IdVoznje: komPam,
             Ocena:$("#ocena").val(),
             
         };
@@ -837,7 +1044,7 @@ $(document).ready(function () {
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function () {
-                $('#prikazi').after('<p style="color: yellow; font-size: 24px;">Uspesno ste komentarisali voznju! <p>');
+                $('#komentarNaVoznju').after('<p style="color: yellow; font-size: 24px;">Uspesno ste komentarisali voznju! <p>');
                 
             },
             error: function (data) {

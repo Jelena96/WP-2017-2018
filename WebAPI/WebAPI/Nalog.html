@@ -45,6 +45,7 @@
                     <button style="display:none" id="otkaziDugme">Otkazi voznju</button>
                     <button id="DugmePrikazNeobradjenihVoznji" style="display:none">Prikaz neobradjenih voznji</button>
                     <button id="DugmePrikazSvihVoznji" style="display:none">Prikaz svih voznji</button>
+                    <button id="DumePrikazKreiranih" style="display:none">Prikazi voznji na cekanju</button>
 
                     <button id="prikazVoznje">Prikaz voznje</button>
                     <button style="display:none" id="DugmePrikazVoznjeA">Prikaz voznje</button>
@@ -330,16 +331,39 @@
                         </div>
                         <div>
                             <div>
-                                      <select id="stanje" class="inputP">
+                                <select id="stanje" class="inputP">
+                                    <option value="-" selected style="color: black;">-</option>
+
                                     <option value="Neuspesna" selected style="color: black;">Neuspesna</option>
                                     <option value="Uspesna" style="color: black;">Uspesna</option>
-                                      </select>
+                                </select>
                                 <input type="submit" id="vozacevaPromenaDugme" value="Promeni voznju">
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <div id="unesiOdrediste" style="display:none">
+                    <button type="button" id="closePromena">&#10006;</button>
+                    <div class="izmenaNaloga" align="center">
+                        <div class="izmenaDiv">
+                            <h1>Uspesna voznja</h1>
+                        </div>
+                        <div class="izmeniLokaciju">
+                            <div>
+                                <span>Ulica: </span><input type="text" id="ulicaU" class="inputP" placeholder="Ulica">
+                                <span>Broj: </span><input type="text" id="brojU" class="inputP" placeholder="Broj">
+                                <span>Naseljeno mesto: </span><input type="text" id="mestoU" class="inputP" placeholder="Naseljeno mesto">
+                                <span>Pozivni broj mesta: </span><input type="text" id="pozivniBrojU" class="inputP" placeholder="Pozivni broj mesta">
+                                <span>X koordinata: </span><input type="text" id="xU" class="inputP" placeholder="x koordinata">
+                                <span>Y koordinata: </span><input type="text" id="yU" class="inputP" placeholder="y koordinata">
+                                <span>Iznos: </span><input type="text" id="iznosU" class="inputP" placeholder="Iznos">
+
+                                <input type="submit" id="unesiOdredisteDugme" value="Unesi lokaciju">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </header>
         </div>
