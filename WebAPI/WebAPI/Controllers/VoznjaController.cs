@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -19,6 +20,49 @@ namespace WebAPI.Controllers
         Vozac v = new Vozac();
         Voznja vo = new Voznja();
 
+        
+        [Route("PromeniVoznjuVozac")]
+        public Voznja PromeniVoznjuVozac([FromBody]JToken jtoken)
+        {
+            Voznja NovaVoznja = null;
+            Voznja StaraVoznja = null;
+
+            bool isMatch = false;
+            var id = jtoken.Value<string>("i");
+            var ime = jtoken.Value<string>("izabrano");
+            List<Voznja> voznje = vo.IzlistajVoznje();
+
+
+            foreach (Voznja voznja in voznje)
+            {
+                if (voznja.IdVoznje == Convert.ToInt32(id))
+                {
+                    StaraVoznja = voznja;
+                    NovaVoznja = voznja;
+                    
+                    isMatch = true;
+                   
+                }
+
+            }
+
+            if (isMatch)
+            {
+                Brisi(StaraVoznja);
+                if (ime == "Otkazana")
+                    NovaVoznja.StatusVoznje = StatusVoznje.Otkazana;
+                else
+                    NovaVoznja.StatusVoznje = StatusVoznje.Uspesna;
+
+                voznje.Remove(StaraVoznja);
+                voznje.Add(NovaVoznja);
+                Upis(NovaVoznja);
+                    
+                    }
+
+            return NovaVoznja;
+
+        }
 
         [Route("UcitajNeobradjene")]
         public HttpResponseMessage UcitajNeobradjene([FromBody]JToken jtoken)
@@ -34,6 +78,26 @@ namespace WebAPI.Controllers
 
                 }
                 
+            }
+
+
+            var json = JsonConvert.SerializeObject(voznjeKorisnik);
+
+            return Request.CreateResponse(HttpStatusCode.OK, json);
+        }
+
+        [Route("UcitajVozac")]
+        public HttpResponseMessage UcitajVozac([FromBody]JToken jtoken)
+        {
+            var ime = jtoken.Value<string>("ime");
+            List<Voznja> voznjeKorisnik = new List<Voznja>();
+
+            foreach (Voznja v in vo.IzlistajVoznje())
+            {
+                if (v.VozacVoznja == ime)
+                {
+                    voznjeKorisnik.Add(v);
+                }
             }
 
 
@@ -197,7 +261,7 @@ namespace WebAPI.Controllers
             {
                 NovaVoznja = voznja;
                 NovaVoznja.DTPorudzbine = privremena.DTPorudzbine;
-                NovaVoznja.StatusVoznje = privremena.StatusVoznje;
+                NovaVoznja.StatusVoznje = voznja.StatusVoznje;
                 
                 NovaVoznja.DispecerVoznja = "";
                 NovaVoznja.VozacVoznja = "";
@@ -450,14 +514,16 @@ namespace WebAPI.Controllers
         {
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Voznje.txt";
             FileStream stream = new FileStream(putanja ,FileMode.Append);
+            string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
+            string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
             using (StreamWriter tw = new StreamWriter(stream))
             {
                 string upis = k.IdVoznje.ToString() + '|' + k.DTPorudzbine.ToString() + '|' + 
                     k.Dolazak.X.ToString() + '|' + k.Dolazak.Y.ToString() + '|' + 
-                    k.Dolazak.Adresa.UlicaIBroj + '|' + k.Dolazak.Adresa.NaseljenoMesto + 
+                    ulicaD + '|' + k.Dolazak.Adresa.NaseljenoMesto + 
                     '|' + k.Dolazak.Adresa.PozivniBroj + '|' + k.TipAutaVoznje + '|' +
                     k.MusterijaVoznja  + '|' + k.Odrediste.X.ToString() + '|' +
-                    k.Odrediste.Y.ToString() + '|' + k.Odrediste.Adresa.UlicaIBroj + '|' 
+                    k.Odrediste.Y.ToString() + '|' + ulicaO + '|' 
                     + k.Odrediste.Adresa.NaseljenoMesto + '|' + k.Odrediste.Adresa.PozivniBroj +
                     '|' + k.VozacVoznja + '|' + k.Iznos.ToString() + '|' + k.DispecerVoznja + '|'
                     + k.Komentar.Opis  +  '|' + k.Komentar.IdVoznje.ToString() + '|' + k.Komentar.VremeObjave.ToString()+"|"+
