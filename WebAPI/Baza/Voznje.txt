@@ -1,3 +1,5 @@
 35|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|mnogooo|357725|23.6.2018. 21:03:48|7|Kreirana
 35|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|mnogooo|357725|23.6.2018. 21:03:48|7|Kreirana
-3|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|mnogooodobro|3|23.6.2018. 21:05:03|7|Uspesna
+35|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|mnogooo|357725|23.6.2018. 21:03:48|7|Kreirana
+35|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|mnogooo|357725|23.6.2018. 21:03:48|7|Kreirana
+3|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000||full|3|23.6.2018. 23:35:27|10|Uspesna

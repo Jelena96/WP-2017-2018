@@ -29,6 +29,7 @@ namespace WebAPI.Models
 
         public List<Voznja> IzlistajVoznje()
         {
+            
             List<Voznja> voznje = new List<Voznja>();
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Voznje.txt";
 

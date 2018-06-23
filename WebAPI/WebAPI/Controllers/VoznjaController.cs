@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
         Admini a = new Admini();
         Vozac v = new Vozac();
         Voznja vo = new Voznja();
-
+        Musterija m = new Musterija();
         
         [Route("PromeniStanjeVozac")]
         public Voznja PromeniStanjeVozac([FromBody]JToken jtoken)
@@ -241,7 +241,10 @@ namespace WebAPI.Controllers
             foreach (Vozac vozac in v.vozaci)
             {
                 if (!vozac.Zauzet)
+                {
+                    vozac.Zauzet = true;
                     NoviVozac = vozac;
+                }
 
             }
 
@@ -262,6 +265,7 @@ namespace WebAPI.Controllers
 
             foreach (Voznja v in voznje)
             {
+                
                 if (v.IdVoznje == Convert.ToInt32(id))
                 {
                     ZaBrisanjeVoznja = v;
@@ -473,9 +477,12 @@ namespace WebAPI.Controllers
             Voznja NovaVoznja = new Voznja();
             Voznja StaraVoznja = new Voznja();
             List<Voznja> voznje = voznja.IzlistajVoznje();
+            bool isMatchV = false;
+            bool isMatchA = false;
+            bool isMatchM = false;
 
             foreach (Voznja v in voznje) {
-
+                
                 if (v.IdVoznje == komentar.IdVoznje) {
 
                    
@@ -486,7 +493,7 @@ namespace WebAPI.Controllers
                 }
              }
 
-            
+          
             
             voznje.Add(NovaVoznja);
             Brisi(StaraVoznja);
