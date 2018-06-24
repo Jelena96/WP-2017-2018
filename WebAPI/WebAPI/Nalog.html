@@ -46,14 +46,29 @@
                     <button id="DugmePrikazNeobradjenihVoznji" style="display:none">Prikaz neobradjenih voznji</button>
                     <button id="DugmePrikazSvihVoznji" style="display:none">Prikaz svih voznji</button>
                     <button id="DumePrikazKreiranih" style="display:none">Prikazi voznji na cekanju</button>
-                    <span>Filtriranje po statusu voznje:</span><select style="color: gray;" id="filter">
-                        <option value="Uspesno" style="color: black;">Uspesno</option>
-                        <option value="Neuspesno" style="color: black;">Neuspesno</option>
-                    </select>
+                    <button id="dugmeFilter">Filtritaj voznje</button>
                     <button id="prikazVoznje">Prikaz voznje</button>
                     <button style="display:none" id="DugmePrikazVoznjeA">Prikaz voznji</button>
                     <button style="display:none" id="DugmePrikazVoznjeV">Prikaz voznji</button>
+                    <div id="spanFilter" style="display:none">
+                        <span>Filtriranje po statusu voznje:</span>
+                        <select style="color: gray;" id="filter">
+                            <option value="bez" style="color: black;">Bez</option>
+
+                            <option value="6" style="color: black;">Uspesna</option>
+                            <option value="2" style="color: black;">Obradjena</option>
+                            <option value="5" style="color: black;">Neuspesna</option>
+                            <option value="1" style="color: black;">Formirana</option>
+                            <option value="4" style="color: black;">Otkazana</option>
+                            <option value="0" style="color: black;">Kreirana</option>
+                            <option value="7" style="color: black;">Utoku</option>
+                            <option value="3" style="color: black;">Prihvacena</option>
+
+                        </select>
+                        <button style="display:none" id="prikazFiltera">Prikazi</button>
+                    </div>
                 </div>
+               
 
                 <div id="prikazi">
 
