@@ -15,6 +15,7 @@ namespace WebAPI.Controllers
     [RoutePrefix("api/Voznja")]
     public class VoznjaController : ApiController
     {
+        VozacController vc = new VozacController();
         Korisnik k = new Korisnik();
         Admini a = new Admini();
         Vozac v = new Vozac();
@@ -28,8 +29,14 @@ namespace WebAPI.Controllers
             Voznja StaraVoznja = null;
 
             bool isMatch = false;
+
+            Vozac NoviVozac = null;
+            Vozac StariVozac = null;
+
             var id = jtoken.Value<string>("i");
             var ime = jtoken.Value<string>("izabrano");
+            var imeVozaca = jtoken.Value<string>("imee");
+
             List<Voznja> voznje = vo.IzlistajVoznje();
 
 
@@ -46,19 +53,56 @@ namespace WebAPI.Controllers
 
             }
 
+            v.iscitaj2();
+            foreach (Vozac v in v.vozaci)
+            {
+                if (v.KorisnickoIme == imeVozaca) {
+
+                    StariVozac = v;
+                    NoviVozac = v;
+
+                }
+
+            }
+
+            if (NoviVozac != null || StariVozac != null)
+            {
+                NoviVozac.Zauzet = false;
+                vc.Brisi(StariVozac);
+                v.vozaci.Remove(StariVozac);
+                vc.Upis(NoviVozac);
+                v.vozaci.Add(NoviVozac);
+            }
+
             if (isMatch)
             {
                 Brisi(StaraVoznja);
                 if (ime == "Neuspesna")
-                    NovaVoznja.StatusVoznje = StatusVoznje.Neuspesna;
-                else
-                    NovaVoznja.StatusVoznje = StatusVoznje.Uspesna;
+                {
 
-                voznje.Remove(StaraVoznja);
-                voznje.Add(NovaVoznja);
-                Upis(NovaVoznja);
+                    if (NovaVoznja.StatusVoznje == StatusVoznje.Formirana || NovaVoznja.StatusVoznje == StatusVoznje.Obradjena || NovaVoznja.StatusVoznje == StatusVoznje.Prihvacena)
+                        NovaVoznja.StatusVoznje = StatusVoznje.Neuspesna;
+                    else
+                        NovaVoznja = null;
+                }
+                else
+                {
+
+                    if (NovaVoznja.StatusVoznje == StatusVoznje.Formirana || NovaVoznja.StatusVoznje == StatusVoznje.Obradjena || NovaVoznja.StatusVoznje == StatusVoznje.Prihvacena)
+                        NovaVoznja.StatusVoznje = StatusVoznje.Uspesna;
+                    else
+                        NovaVoznja = null;
+                  
+                }
+
+                if (NovaVoznja != null)
+                {
+                    voznje.Remove(StaraVoznja);
+                    voznje.Add(NovaVoznja);
+                    Upis(NovaVoznja);
+                }
                     
-                    }
+              }
 
             return NovaVoznja;
 
@@ -272,6 +316,7 @@ namespace WebAPI.Controllers
                     v.VozacVoznja = NoviVozac.KorisnickoIme;
                     v.DispecerVoznja = NovaVoznja.DispecerVoznja;
                     ReturnVoznja = v;
+                    ReturnVoznja.StatusVoznje = StatusVoznje.Obradjena;
                     isMatch = true;
                 }
     
@@ -498,11 +543,8 @@ namespace WebAPI.Controllers
             voznje.Add(NovaVoznja);
             Brisi(StaraVoznja);
             voznje.Remove(StaraVoznja);
-
-            for (int i = 0; i < voznje.Count; i++)
-            {
-                Upis(voznje[i]);
-            }
+            Upis(NovaVoznja);
+           
            
             return NovaVoznja;
 

@@ -90,10 +90,12 @@ namespace WebAPI.Models
                     
                     komentar.Opis = splitovano[17];
                     komentar.IdVoznje = Convert.ToInt32(splitovano[18]);
-
-                    DateTime dt2 = DateTime.ParseExact(splitovano[19], "dd.M.yyyy. HH:mm:ss",
-                                       System.Globalization.CultureInfo.InvariantCulture);
-
+                    DateTime dt2=DateTime.Now;
+                    if (splitovano[19] != "")
+                    {
+                        dt2 = DateTime.ParseExact(splitovano[19], "dd.M.yyyy. HH:mm:ss",
+                                           System.Globalization.CultureInfo.InvariantCulture);
+                    }
                     komentar.VremeObjave = dt2;
                     komentar.Ocena = Convert.ToInt32(splitovano[20]);
                     korisnik.Komentar = komentar;

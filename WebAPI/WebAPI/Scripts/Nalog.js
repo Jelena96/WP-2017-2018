@@ -686,6 +686,7 @@ $(document).ready(function () {
         
         let voznja = {
 
+            imee: korisnik.KorisnickoIme,
             i: id,
             izabrano: $('#stanje option:selected').text(),
 
@@ -697,23 +698,21 @@ $(document).ready(function () {
             data: JSON.stringify(voznja),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
-            success: function () {
-                $('#vozacevaPromena').after('<p style="color: yellow; font-size: 24px;">Uspesno ste promenili stanje voznje! <p>');
+        }).done(function (data) {
+            if (data != null) {
+                $('#vozacevaPromena').after('<p style="color: yellow; font-size: 24px;">Uspesccno ste promenili stanje voznje! <p>');
                 if ($('#stanje option:selected').text() == "Neuspesna") {
 
                     $('#komentarNaVoznju').show();
                 } else {
 
-                        $('#unesiOdrediste').show();
-
-                    
+                    $('#unesiOdrediste').show();
                 }
-            },
-            error: function (data) {
-                alert('Nije promenjena voznja!');
+            } else {
+
+                alert("Nije uspesno promenjeno stanje");
             }
         });
-
     });
 
 
@@ -909,10 +908,10 @@ $(document).ready(function () {
         });
     });
 
-    var komPam;
+    let komPam;
     $('#prikazi').on("click", "#komentar", function () {
 
-        komPam = $(this).val();
+        id = $(this).val();
         $('#komentarNaVoznju').show();
     });
 
@@ -943,10 +942,10 @@ $(document).ready(function () {
             });
     });
 
-    var pamti;
+    let pamti;
     $('#prikazi').on("click", "#promeni", function () {
         pamti = $(this).val();
-        
+        alert(pamti);
         $('#promenaVoznje').show();
         
     });
@@ -1021,7 +1020,7 @@ $(document).ready(function () {
             Opis: $("#opis").val(),
             VremeObjave: Date.now,
             KorisnikKomentar: korisnik.KorisnickoIme,
-            IdVoznje: komPam,
+            IdVoznje: id,
             Ocena:$("#ocena").val(),
             
         };
