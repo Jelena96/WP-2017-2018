@@ -272,6 +272,7 @@
     <Content Include="Scripts\login2.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\Nalog.js" />
+    <Content Include="Scripts\Nalog2.js" />
     <Content Include="Scripts\Reg.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />

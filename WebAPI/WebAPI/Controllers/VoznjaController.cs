@@ -21,7 +21,33 @@ namespace WebAPI.Controllers
         Vozac v = new Vozac();
         Voznja vo = new Voznja();
         Musterija m = new Musterija();
-        
+
+        [Route("Sortiranje")]
+        public HttpResponseMessage Sortiranje([FromBody]JToken jtoken)
+        {
+            var ime = jtoken.Value<string>("ime");
+            var vrsta = jtoken.Value<string>("vrstaS");
+            List<Voznja>voznje = vo.IzlistajVoznje();
+            
+            List<Voznja> NovaList = new List<Voznja>();
+
+            if (vrsta == "Datum")
+            {
+               voznje.OrderBy(x => x.DTPorudzbine).ToList();
+            }
+            else {
+
+                voznje = voznje.OrderBy(x => x.Komentar.Ocena).ToList();
+            }
+
+            var json = JsonConvert.SerializeObject(voznje);
+
+            return Request.CreateResponse(HttpStatusCode.OK, json);
+            
+        }
+
+
+
         [Route("PromeniStanjeVozac")]
         public Voznja PromeniStanjeVozac([FromBody]JToken jtoken)
         {

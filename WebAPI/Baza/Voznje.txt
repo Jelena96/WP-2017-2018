@@ -1,5 +1,4 @@
-6|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|full|3|23.6.2018. 23:35:27|10|Formirana
-4|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|full|3|23.6.2018. 23:35:27|10|Kreirana
-3|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|kul|3|24.6.2018. 14:47:59|88|Neuspesna
-7|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|kulijana|7|24.6.2018. 14:58:35|22|Uspesna
-5|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45||4000|pera|kulijana|5|24.6.2018. 15:00:16|22|Neuspesna
+3|19.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|kul|3|24.6.2018. 14:47:59|1|Neuspesna
+5|22.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45||4000|pera|kulijana|5|24.6.2018. 15:00:16|2|Formirana
+7|21.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|kulijana|7|24.6.2018. 14:58:35|22|Neuspesna
+6|20.6.2018. 14:16:09|8|10001|dsjd*9|fdf|555|Kombi|jelenica|78|78|caoo*78|caao i tebi|45|Rados|4000|pera|jh|6|25.6.2018. 00:15:52|4|Neuspesna

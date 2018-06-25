@@ -7,6 +7,7 @@
     <meta charset="utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script type="text/javascript" src="Scripts/Nalog.js"></script>
+    <script type="text/javascript" src="Scripts/Nalog2.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
 
@@ -48,11 +49,26 @@
                     <button id="DumePrikazKreiranih" style="display:none">Prikazi voznji na cekanju</button>
                     <button id="dugmeFilter">Filtritaj voznje</button>
                     <button id="prikazVoznje">Prikaz voznje</button>
+                    <button style="display:none" id="sortirajVoznje">Sortiraj voznje</button>
+                    <button style="display:none" id="sortirajVoznjeA">Sortiraj voznje</button>
+                    <button style="display:none" id="sortirajVoznjeV">Sortiraj voznje</button>
+                    <button style="display:none" id="sortirajDugme">Sortiraj</button>
+                    <button style="display:none" id="sortirajDugmeA">Sortiraj</button>
+                    <button style="display:none" id="sortirajDugmeV">Sortiraj</button>
+
                     <button style="display:none" id="DugmePrikazVoznjeA">Prikaz voznji</button>
                     <button style="display:none" id="DugmePrikazVoznjeV">Prikaz voznji</button>
+                    <div style="display:none" id="sortiranje">
+                        <span>Sortiranje:</span>
+                        <select style="color: white;" id="filterSort">
+                            <option value="ocena" style="color: black;">Datum</option>
+                            <option value="datum" style="color: black;">Ocena</option>
+                        </select>
+                    </div>
+
                     <div id="spanFilter" style="display:none">
                         <span>Filtriranje po statusu voznje:</span>
-                        <select style="color: gray;" id="filter">
+                        <select style="color: white;" id="filter">
                             <option value="bez" style="color: black;">Bez</option>
 
                             <option value="6" style="color: black;">Uspesna</option>
@@ -86,12 +102,13 @@
                             <h1 style="margin-bottom: 1%; margin-top: 1%;">Komentar na  voznju</h1>
                         </div>
                         <div>
-                            <div>
-                                <span>Opis: </span><input style="font-weight: normal;" type="text" id="opis" class="inputP" placeholder="Opis"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
-                                <span>Ocena: </span><input style="font-weight: normal;" type="text" id="ocena" class="inputP" placeholder="Ocena"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
+                            <div id="komentarDiv">
+                                <span>Opis: </span><input style="font-weight: normal;" type="text" id="opis" class="inputP" placeholder="Opis">
+                                <span>Ocena: </span><input style="font-weight: normal;" type="text" id="ocena" class="inputP" placeholder="Ocena">
+                                <p style="color:red" id="ocenaG" />
 
-                                <input type="submit" id="DugmeKomentarNaVoznju" value="Komentarisi voznju">
                             </div>
+                            <input type="submit" id="DugmeKomentarNaVoznju" value="Komentarisi voznju">
                             <button type="button" class="closeKomentarNaVoznju">&#10006;</button>
                         </div>
                     </div>

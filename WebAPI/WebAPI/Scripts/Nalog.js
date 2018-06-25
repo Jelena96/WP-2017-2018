@@ -24,11 +24,14 @@ $(document).ready(function () {
     });
 
     //dodavanje vozaca - samo admini
+    if (korisnik.UlogaKorisnika === "Musterija") {
 
+        $('#sortirajVoznje').show();
+    }
     if (korisnik.UlogaKorisnika === "Admin") {
         $('#vozaciDivDugme').show();
-
-
+        $('#sortirajVoznjeA').show();
+       
     }
     $('#vozaciDivDugme').click(function () {
         $('#vozaciDiv').show();
@@ -52,7 +55,7 @@ $(document).ready(function () {
         $('#DugmePrikazVoznjeA').hide();
         $('#DumePrikazKreiranih').show();
         $('#prikazVoznje').hide();
-        
+        $('#sortirajVoznjeV').show(); 
 
     }
 
@@ -119,9 +122,298 @@ $(document).ready(function () {
        
     });
 
-   
+    $('#sortirajVoznje').click(function () {
+        $('#sortiranje').show();
+        $('#sortirajDugme').show();
+
+    });
+
+    $('#sortirajVoznjeA').click(function () {
+        $('#sortiranje').show();
+        $('#sortirajDugmeA').show();
+
+    });
+
+    $('#sortirajVoznjeV').click(function () {
+        $('#sortiranje').show();
+        $('#sortirajDugmeV').show();
+
+    });
+
+    $('#sortirajDugmeA').click(function () {
 
 
+        filterskaVrednost();
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKartica').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajAdmin',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+            let datumi = [];
+            if ($('#filterSort option:selected').text() == "Datum") {
+
+                
+                for (let i = 0; i < retVal.length; i++) {
+
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    datumi.push(vreme);
+                }
+
+                let date_sort_desc = function (date1, date2) {
+                    if (date1 > date2) return -1;
+                    if (date1 < date2) return 1;
+                    return 0;
+                };
+
+                datumi.sort(date_sort_desc);
+            } else if ($('#filterSort option:selected').text() == "Ocena") {
+
+
+
+                SortirajOceneA();
+
+            }
+
+        let tabela = '<div id="voznjeKarticaAdmin"><h2>Prikaz voznji dispecera</h2><table>' +
+            '<tr> ' +
+            '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+            '<th>Musterija</th>' +
+            '<th>Adresa</th>' +
+            '<th>Tip automobila</th>' +
+            '<th>Odrediste</th>' +
+            '<th>Dispecer</th>' +
+            '<th>Vozac</th>' +
+            '<th>Iznos</th>' +
+            '<th>Status voznje</th>' +
+            '<th>Komentar</th>' +
+            '<th>Korisnik</th>' +
+            '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+
+            for (d in datumi) {
+
+                for (let i = 0; i < retVal.length; i++) {
+
+                    let cena = retVal[i].Iznos;
+                    let tipAuta = "";
+                    let stanje = "";
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                    let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+
+                    let ime = "-";
+                    if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                        ime = retVal[i].Komentar.KorisnikKomentar;
+                    }
+
+                    if (retVal[i].TipAutaVoznje == 1) {
+
+                        tipAuta = "Putnicki";
+
+                    } else {
+
+                        tipAuta = "Kombi";
+                    }
+
+                    if (datumi[d] == vreme) {
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+                    }
+                }
+            }
+        tabela += '</table></div>';
+        $("#prikazi").append(tabela);
+        $('#voznjeKartica').html(tabela);
+
+    });
+    });
+    
+    //admin - sortiranje
+    function SortirajOceneA(retVal) {
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKarticaAdmin').hide();
+
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+
+
+        let tabela = '<div id="voznjeKartica"><h2>Prikaz korisnikovih voznji</h2><table id="tabelaPrikaz">' +
+            '<tr> ' +
+            '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+            '<th>Musterija</th>' +
+            '<th>Adresa</th>' +
+            '<th>Tip automobila</th>' +
+            '<th>Odrediste</th>' +
+            '<th>Dispecer</th>' +
+            '<th>Vozac</th>' +
+            '<th>Iznos</th>' +
+            '<th>Status voznje</th>' +
+            '<th>Operacije</th>' +
+            '<th>Komentar</th>' +
+            '<th>Korisnik</th>' +
+            '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+            '<th>Datum</th>';
+        let ocene = [];
+        for (let i = 0; i < retVal.length; i++) {
+
+
+            ocene.push(retVal[i].Komentar.Ocena);
+        }
+
+        ocene.sort(function (a, b) {
+            return b - a;
+        });
+
+        for (o in ocene) {
+            for (let i = 0; i < retVal.length; i++) {
+                if (ocene[o] == retVal[i].Komentar.Ocena) {
+                    let cena = retVal[i].Iznos;
+                    let tipAuta = "";
+                    let stanje = "";
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                    let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                    let ime = "-";
+                    if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                        ime = retVal[i].Komentar.KorisnikKomentar;
+                    }
+
+                    if (retVal[i].TipAutaVoznje == 1) {
+
+                        tipAuta = "Putnicki";
+
+                    } else {
+
+                        tipAuta = "Kombi";
+                    }
+
+
+                    if (retVal[i].StatusVoznje == 5) {
+
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>' + retVal[i].StatusVoznje + '</td>' +
+                            '<td> -' +
+                            '</td>' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+                    } else if (retVal[i].StatusVoznje == 6) {
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>' + retVal[i].StatusVoznje + '</td>' +
+                            '<td>' +
+                            '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+                    }
+                    else {
+
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>' + retVal[i].StatusVoznje + '</td>' +
+                            '<td>' +
+                            '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                            '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+
+                    }
+                }
+
+            }
+
+        }
+
+
+        tabela += '</table></div>';
+        $("#prikazi").append(tabela);
+        $('#voznjeKartica').html(tabela);
+    }
+
+
+    var elems;
     $('#DumePrikazKreiranih').click(function () {
 
         $('#voznjeKartica').hide();
@@ -143,6 +435,8 @@ $(document).ready(function () {
             dataType: 'json',
         }).done(function (data) {
             retVal = JSON.parse(data);
+
+            
 
             let tabela = '<div id="voznjeKarticaSve"><h2>Prikaz voznji na cekanju</h2><table>' +
                 '<tr> ' +
@@ -168,6 +462,9 @@ $(document).ready(function () {
                 let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
                 let ime="";
                 let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+
+
+               
 
                 if (retVal[i].Komentar.KorisnikKomentar == null)
                     ime = "-";
@@ -197,18 +494,24 @@ $(document).ready(function () {
                     '</div></td> ' +
                     '<td>' + ime + '</td>' +
                     '<td>' + retVal[i].Komentar.Ocena + '</td>' +
-                    '<td>' + vremeK + '</td>' +
+                    '<td class="vreme">' + vremeK + '</td>' +
                     '</tr>';
+
+                
             }
+
+            
             tabela += '</table></div>';
             $("#prikazi").append(tabela);
             $('#voznjeKartica').html(tabela);
+            
         });
     });
 
     $('#DugmePrikazVoznjeV').click(function () {
 
         filterskaVrednost();
+        
         $('#voznjeKartica').hide();
         $('#voznjeKarticaAdmin').hide();
         $('#voznjeKarticaNeo').hide();
@@ -244,6 +547,10 @@ $(document).ready(function () {
                 '<th>Korisnik</th>' +
                 '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
                 '<th>Datum</th>';
+           
+
+
+
             for (let i = 0; i < retVal.length; i++) {
 
                 let cena = retVal[i].Iznos;
@@ -382,6 +689,284 @@ $(document).ready(function () {
         });
     });
 
+
+    $('#sortirajDugmeV').click(function () {
+
+       
+
+        $('#voznjeKartica').hide();
+        $('#voznjeKarticaAdmin').hide();
+        $('#voznjeKarticaNeo').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajVozac',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+            let datumi = [];
+            if ($('#filterSort option:selected').text() == "Datum") {
+
+                for (let i = 0; i < retVal.length; i++) {
+
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    datumi.push(vreme);
+                }
+
+                let date_sort_desc = function (date1, date2) {
+                    if (date1 > date2) return -1;
+                    if (date1 < date2) return 1;
+                    return 0;
+                };
+
+                datumi.sort(date_sort_desc);
+            } else if ($('#filterSort option:selected').text() == "Ocena") {
+
+
+
+                SortirajOceneV();
+
+            }
+            let tabela = '<div id="voznjeKarticaVozac"><h2>Prikaz vozacevih voznji</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Operacije</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (d in datumi) {
+                for (let i = 0; i < retVal.length; i++) {
+                    
+                        let cena = retVal[i].Iznos;
+                        let tipAuta = "";
+                        let stanje = "";
+                        let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                        let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                        let ime = "";
+                        let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+
+                        if (retVal[i].Komentar.KorisnikKomentar == null)
+                            ime = "-";
+
+                        if (retVal[i].TipAutaVoznje == 1) {
+
+                            tipAuta = "Putnicki";
+
+                        } else {
+
+                            tipAuta = "Kombi";
+                        }
+
+                    if (datumi[d] == vreme) {
+
+                        if (retVal[i].StatusVoznje == 6 || retVal[i].StatusVoznje == 5) {
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                '<td> ' + retVal[i].VozacVoznja + ' </td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].StatusVoznje +
+
+                                '</td > ' +
+                                '<td> -' +
+                                '</td>' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' + retVal[i].Komentar.Opis +
+                                '</div></td> ' +
+                                '<td>' + ime + '</td>' +
+                                '<td>' + retVal[i].Komentar.Ocena + '</td>' +
+                                '<td>' + vremeK + '</td>' +
+                                '</tr>';
+
+
+
+                        } else {
+
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                '<td> ' + retVal[i].VozacVoznja + ' </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td> ' + retVal[i].StatusVoznje + '</td>' +
+                                '<td>' +
+                                '<button value = ' + retVal[i].IdVoznje + ' id="izmeni" style = "margin-right:10px; float: left;  color: blue;" >Izmeni</button >' +
+
+                                '</td > ' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' + retVal[i].Komentar.Opis +
+                                '</div></td> ' +
+                                '<td>' + ime + '</td>' +
+                                '<td>' + retVal[i].Komentar.Ocena + '</td>' +
+                                '<td>' + vremeK + '</td>' +
+                                '</tr>';
+                        }
+                    }
+                }
+                }
+            
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+        });
+    });
+    function SortirajOceneV() {
+
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajVozac',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+            let tabela ='<div id="voznjeKarticaVozac"><h2>Prikaz vozacevih voznji</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Operacije</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            let ocene = [];
+            for (let i = 0; i < retVal.length; i++) {
+
+
+                ocene.push(retVal[i].Komentar.Ocena);
+            }
+
+            ocene.sort(function (a, b) {
+                return b - a;
+            });
+
+
+          
+            for (o in ocene) {
+                for (let i = 0; i < retVal.length; i++) {
+                    if (ocene[o] == retVal[i].Komentar.Ocena) {
+                        let cena = retVal[i].Iznos;
+                        let tipAuta = "";
+                        let stanje = "";
+                        let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                        let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                        let ime = "";
+                        let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+
+                        if (retVal[i].Komentar.KorisnikKomentar == null)
+                            ime = "-";
+
+                        if (retVal[i].TipAutaVoznje == 1) {
+
+                            tipAuta = "Putnicki";
+
+                        } else {
+
+                            tipAuta = "Kombi";
+                        }
+
+
+
+                        if (retVal[i].StatusVoznje == 6 || retVal[i].StatusVoznje == 5) {
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                '<td> ' + retVal[i].VozacVoznja + ' </td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].StatusVoznje +
+
+                                '</td > ' +
+                                '<td> -' +
+                                '</td>' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' + retVal[i].Komentar.Opis +
+                                '</div></td> ' +
+                                '<td>' + ime + '</td>' +
+                                '<td>' + retVal[i].Komentar.Ocena + '</td>' +
+                                '<td>' + vremeK + '</td>' +
+                                '</tr>';
+
+
+
+                        } else {
+
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                '<td> ' + retVal[i].VozacVoznja + ' </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td> ' + retVal[i].StatusVoznje + '</td>' +
+                                '<td>' +
+                                '<button value = ' + retVal[i].IdVoznje + ' id="izmeni" style = "margin-right:10px; float: left;  color: blue;" >Izmeni</button >' +
+
+                                '</td > ' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' + retVal[i].Komentar.Opis +
+                                '</div></td> ' +
+                                '<td>' + ime + '</td>' +
+                                '<td>' + retVal[i].Komentar.Ocena + '</td>' +
+                                '<td>' + vremeK + '</td>' +
+                                '</tr>';
+                        }
+                   }
+                }
+                    
+            }
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+        });
+    }
     var id;
     $('#prikazi').on("click", "#izmeni", function () {
 
@@ -965,7 +1550,7 @@ $(document).ready(function () {
                 '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
                 '<th>Datum</th>';
             for (let i = 0; i < retVal.length; i++) {
-
+               
                 let cena = retVal[i].Iznos;
                 let tipAuta = "";
                 let stanje = "";
@@ -987,162 +1572,505 @@ $(document).ready(function () {
                     tipAuta = "Kombi";
                 }
 
-                if (retVal[i].StatusVoznje == status) {
-                    if (retVal[i].StatusVoznje == 5) {
+                        if (retVal[i].StatusVoznje == status) {
+                            if (retVal[i].StatusVoznje == 5) {
 
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td> -' +
-                            '</td>' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td> -' +
+                                    '</td>' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
 
-                    } else if (retVal[i].StatusVoznje == 6) {
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td>' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
-                            '</td > ' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
+                            } else if (retVal[i].StatusVoznje == 6) {
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+                            }
+
+                            else {
+
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+                            }
+                        } else if (status == 8) {
+
+                            if (retVal[i].StatusVoznje == 5) {
+
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td> -' +
+                                    '</td>' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+
+                            } else if (retVal[i].StatusVoznje == 6) {
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+                            }
+
+                            else {
+
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+
+
+                            }
+                        }
                     }
-
-                    else {
-
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td>' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
-                            '</td > ' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
-                    }
-                } else if (status == 8) {
-
-                    if (retVal[i].StatusVoznje == 5) {
-
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td> -' +
-                            '</td>' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
-
-                    } else if (retVal[i].StatusVoznje == 6) {
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td>' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
-                            '</td > ' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
-                    }
-
-                    else {
-
-                        tabela += '</tr>' +
-                            '<tr>' +
-                            '<td>' + vreme + '</td>' +
-                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                            '<td>' + ulica + '</td>' +
-                            '<td>' + tipAuta + '</td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td> - </td>' +
-                            '<td>' + cena + '</td>' +
-                            '<td>' + retVal[i].StatusVoznje + '</td>' +
-                            '<td>' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
-                            '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
-                            '</td > ' +
-                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-                            retVal[i].Komentar.Opis +
-                            '</div ></td > ' +
-                            '<td> ' + ime + ' </td>' +
-                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                            '<td> ' + vremeK + ' </td>' +
-                            '</tr>';
-
-
-                    }
-                }
-            }
+                
             tabela += '</table></div>';
             $("#prikazi").append(tabela);
             $('#voznjeKartica').html(tabela);
         });
     });
+
+    //sortiranje ocena
+    function SortirajOcene() {
+    $('#voznjeKarticaSve').hide();
+    $('#voznjeKarticaNeo').hide();
+    $('#voznjeKarticaAdmin').hide();
+
+    
+    let musterija = {
+
+        ime: korisnik.KorisnickoIme,
+
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: '/api/Voznja/Ucitaj',
+        data: JSON.stringify(musterija),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+    }).done(function (data) {
+        retVal = JSON.parse(data);
+
+        let tabela = '<div id="voznjeKartica"><h2>Prikaz korisnikovih voznji</h2><table id="tabelaPrikaz">' +
+            '<tr> ' +
+            '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+            '<th>Musterija</th>' +
+            '<th>Adresa</th>' +
+            '<th>Tip automobila</th>' +
+            '<th>Odrediste</th>' +
+            '<th>Dispecer</th>' +
+            '<th>Vozac</th>' +
+            '<th>Iznos</th>' +
+            '<th>Status voznje</th>' +
+            '<th>Operacije</th>' +
+            '<th>Komentar</th>' +
+            '<th>Korisnik</th>' +
+            '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+            '<th>Datum</th>';
+        let ocene = [];
+        for (let i = 0; i < retVal.length; i++) {
+
+
+            ocene.push(retVal[i].Komentar.Ocena);
+        }
+
+        ocene.sort(function (a, b) {
+            return b - a;
+        });
+
+        for (o in ocene) {
+            for (let i = 0; i < retVal.length; i++) {
+                if (ocene[o] == retVal[i].Komentar.Ocena) {
+                    let cena = retVal[i].Iznos;
+                    let tipAuta = "";
+                    let stanje = "";
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                    let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                    let ime = "-";
+                    if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                        ime = retVal[i].Komentar.KorisnikKomentar;
+                    }
+
+                    if (retVal[i].TipAutaVoznje == 1) {
+
+                        tipAuta = "Putnicki";
+
+                    } else {
+
+                        tipAuta = "Kombi";
+                    }
+
+                    
+                        if (retVal[i].StatusVoznje == 5) {
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                '<td> -' +
+                                '</td>' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
+                                retVal[i].Komentar.Opis +
+                                '</div ></td > ' +
+                                '<td> ' + ime + ' </td>' +
+                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                '<td> ' + vremeK + ' </td>' +
+                                '</tr>';
+
+                        } else if (retVal[i].StatusVoznje == 6) {
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                '<td>' +
+                                '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
+                                '</td > ' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                retVal[i].Komentar.Opis +
+                                '</div ></td > ' +
+                                '<td> ' + ime + ' </td>' +
+                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                '<td> ' + vremeK + ' </td>' +
+                                '</tr>';
+                        }
+                        else {
+
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td> - </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                '<td>' +
+                                '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                                '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                                '</td > ' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                retVal[i].Komentar.Opis +
+                                '</div ></td > ' +
+                                '<td> ' + ime + ' </td>' +
+                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                '<td> ' + vremeK + ' </td>' +
+                                '</tr>';
+
+
+                        }
+                    }
+
+                }
+
+            }
+
+        
+        tabela += '</table></div>';
+        $("#prikazi").append(tabela);
+        $('#voznjeKartica').html(tabela);
+    });
+}
+
+    $('#sortirajDugme').click(function () {
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKarticaAdmin').hide();
+
+       
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/Ucitaj',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+            let datumi = [];
+            let ocene = [];
+            if ($('#filterSort option:selected').text() == "Datum") {
+
+                for (let i = 0; i < retVal.length; i++) {
+
+                    let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                    datumi.push(vreme);
+                }
+
+                let date_sort_desc = function (date1, date2) {
+                    if (date1 > date2) return -1;
+                    if (date1 < date2) return 1;
+                    return 0;
+                };
+
+                datumi.sort(date_sort_desc);
+            } else if ($('#filterSort option:selected').text() == "Ocena") {
+
+
+
+                SortirajOcene();
+
+            }
+
+            let tabela = '<div id="voznjeKartica"><h2>Prikaz korisnikovih voznji</h2><table id="tabelaPrikaz">' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Operacije</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+
+           
+           
+           
+            for (d in datumi) {
+                
+                    for (let i = 0; i < retVal.length; i++) {
+
+
+
+                        let cena = retVal[i].Iznos;
+                        let tipAuta = "";
+                        let stanje = "";
+                        let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                        let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                        let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                        let ime = "-";
+                        if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                            ime = retVal[i].Komentar.KorisnikKomentar;
+                        }
+
+                        if (retVal[i].TipAutaVoznje == 1) {
+
+                            tipAuta = "Putnicki";
+
+                        } else {
+
+                            tipAuta = "Kombi";
+                        }
+
+                        if (datumi[d] == vreme) {
+                            
+
+                            if (retVal[i].StatusVoznje == 5) {
+
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td> -' +
+                                    '</td>' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+
+                            } else if (retVal[i].StatusVoznje == 6) {
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="komentar" style = "float: left; color: blue;" >Komentarisi</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+                            }
+                            else {
+
+                                tabela += '</tr>' +
+                                    '<tr>' +
+                                    '<td>' + vreme + '</td>' +
+                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                    '<td>' + ulica + '</td>' +
+                                    '<td>' + tipAuta + '</td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td> - </td>' +
+                                    '<td>' + cena + '</td>' +
+                                    '<td>' + retVal[i].StatusVoznje + '</td>' +
+                                    '<td>' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="otkazi" style = "float: right; color: blue;" >Otkazi</button >' +
+                                    '<button value = ' + retVal[i].IdVoznje + ' id="promeni" style = "margin-right: 5px; float: right; color: blue;" >Izmeni</button >' +
+                                    '</td > ' +
+                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                    retVal[i].Komentar.Opis +
+                                    '</div ></td > ' +
+                                    '<td> ' + ime + ' </td>' +
+                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                    '<td> ' + vremeK + ' </td>' +
+                                    '</tr>';
+
+
+                            }
+                            }
+                        }
+                    }
+                
+            
+
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+
+            });
+    });
+
 
     let komPam;
     $('#prikazi').on("click", "#komentar", function () {
@@ -1245,38 +2173,60 @@ $(document).ready(function () {
 
     });
 
-   
+    let ocenaG = function (poruka) {
+        $('#ocena').css('border-color', 'red');
+        $('#komentarDiv :nth-child(4)').css('color', 'red');
+        $('#ocenaG').text(`\xA0${poruka}`);
+    };
+
+    let ocenaOk = function (poruka) {
+
+        $('#ocena').css('border-color', 'white');
+        $('#komentarDiv :nth-child(4)').css('color', 'white');
+        $('#ocenaG').text('');
+    };
 
     $('#DugmeKomentarNaVoznju').click(function ()
     {
+        let correct = true; 
+        if ($('#ocena').val() < 1 || $('#ocena').val() > 5) {
+            ocenaG('Unesi ocenu od 1 do 5');
+            correct = false;
+
+        } else {
 
 
-        let komentar = {
-
-            Opis: $("#opis").val(),
-            VremeObjave: Date.now,
-            KorisnikKomentar: korisnik.KorisnickoIme,
-            IdVoznje: id,
-            Ocena:$("#ocena").val(),
-            
-        };
-
-        $.ajax({
-            type: 'POST',
-            url: '/api/Voznja/KomentarisiVoznju',
-            data: JSON.stringify(komentar),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function () {
-                $('#komentarNaVoznju').after('<p style="color: yellow; font-size: 24px;">Uspesno ste komentarisali voznju! <p>');
-                
-            },
-            error: function (data) {
-                alert('Nije komentarisana voznja!');
-            }
-        });
+            ocenaOk();
 
 
+            let komentar = {
+
+                Opis: $("#opis").val(),
+                VremeObjave: Date.now,
+                KorisnikKomentar: korisnik.KorisnickoIme,
+                IdVoznje: id,
+                Ocena: $("#ocena").val(),
+
+            };
+
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/Voznja/KomentarisiVoznju',
+                data: JSON.stringify(komentar),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function () {
+                    $('#komentarNaVoznju').after('<p style="color: yellow; font-size: 24px;">Uspesno ste komentarisali voznju! <p>');
+
+                },
+                error: function (data) {
+                    alert('Nije komentarisana voznja!');
+                }
+            });
+
+        }
 
     });
   
