@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
             List<Voznja>voznje = vo.IzlistajVoznje();
             
             List<Voznja> NovaList = new List<Voznja>();
-
+            
             if (vrsta == "Datum")
             {
                voznje.OrderBy(x => x.DTPorudzbine).ToList();

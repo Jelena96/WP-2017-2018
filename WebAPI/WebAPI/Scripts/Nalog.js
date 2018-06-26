@@ -27,10 +27,14 @@ $(document).ready(function () {
     if (korisnik.UlogaKorisnika === "Musterija") {
 
         $('#sortirajVoznje').show();
+        $('#kreniPretraguCM').show();
+        
     }
     if (korisnik.UlogaKorisnika === "Admin") {
         $('#vozaciDivDugme').show();
         $('#sortirajVoznjeA').show();
+        $('#kreniPretraguC').show();
+        
        
     }
     $('#vozaciDivDugme').click(function () {
@@ -38,7 +42,8 @@ $(document).ready(function () {
 
 
     });
-
+    
+   
 
     $('#okDugme').click(function () {
         window.location.href = "login.html";
@@ -55,7 +60,9 @@ $(document).ready(function () {
         $('#DugmePrikazVoznjeA').hide();
         $('#DumePrikazKreiranih').show();
         $('#prikazVoznje').hide();
-        $('#sortirajVoznjeV').show(); 
+        $('#sortirajVoznjeV').show();
+        $('#kreniPretraguCV').show(); 
+        
 
     }
 
@@ -139,6 +146,1104 @@ $(document).ready(function () {
         $('#sortirajDugmeV').show();
 
     });
+
+    $('#pretragaDugme').click(function () {
+        $('#pretragaDiv').show();
+
+
+    });
+  
+    
+    kreniPretraguCM
+       
+       
+
+    $('#izaberi').click(function () {
+
+        if ($('#pretragaSelect option:selected').text() == "Datum") {
+
+            $('#unosPretrage').show();
+
+        } else if ($('#pretragaSelect option:selected').text() == "Ocena") {
+
+            $('#unosPretrageO').show();
+        }
+        else if ($('#pretragaSelect option:selected').text() == "Cena") {
+
+            $('#unosPretrageC').show();
+        }
+
+            
+    });
+
+    function ispis() {
+        tabela += '</tr>' +
+            '<tr>' +
+            '<td>' + vreme + '</td>' +
+            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+            '<td>' + ulica + '</td>' +
+            '<td>' + tipAuta + '</td>' +
+            '<td> - </td>' +
+            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+            '<td> - </td>' +
+            '<td>' + cena + '</td>' +
+            '<td>  ' + retVal[i].StatusVoznje +
+            '</td > ' +
+            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+            retVal[i].Komentar.Opis +
+            '</div ></td > ' +
+            '<td> ' + ime + ' </td>' +
+            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+            '<td> ' + vremeK + ' </td>' +
+            '</tr>';
+    }
+    //$('#kreniPretraguO').click(function () {
+    //    filterskaVrednost();
+    //    $('#voznjeKarticaSve').hide();
+    //    $('#voznjeKarticaNeo').hide();
+    //    $('#voznjeKartica').hide();
+
+    //    let musterija = {
+
+    //        ime: korisnik.KorisnickoIme,
+
+    //    };
+
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/api/Voznja/UcitajAdmin',
+    //        data: JSON.stringify(musterija),
+    //        contentType: 'application/json; charset=utf-8',
+    //        dataType: 'json',
+    //    }).done(function (data) {
+    //        retVal = JSON.parse(data);
+
+    //        let nizDatuma = [];
+    //        for (let i = 0; i < retVal.length; i++) {
+    //            nizDatuma.push(retVal[i].DTPorudzbine);
+    //        }
+    //        let minDate = new Date(Math.min.apply(null, nizDatuma));
+
+    //        let tabela = '<div id="voznjeKarticaAdmin"><h2>Prikaz voznji dispecera</h2><table>' +
+    //            '<tr> ' +
+    //            '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+    //            '<th>Musterija</th>' +
+    //            '<th>Adresa</th>' +
+    //            '<th>Tip automobila</th>' +
+    //            '<th>Odrediste</th>' +
+    //            '<th>Dispecer</th>' +
+    //            '<th>Vozac</th>' +
+    //            '<th>Iznos</th>' +
+    //            '<th>Status voznje</th>' +
+    //            '<th>Komentar</th>' +
+    //            '<th>Korisnik</th>' +
+    //            '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+    //            '<th>Datum</th>';
+    //        for (let i = 0; i < retVal.length; i++) {
+
+    //            let cena = retVal[i].Iznos;
+    //            let tipAuta = "";
+    //            let stanje = "";
+    //            let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+    //            let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+    //            let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+    //            let datum;
+    //            let datum2;
+
+    //            datum = $('#myInput').val();
+    //            datum2 = $('#myInput2').val();
+    //            let ocena = $('#myInputO').val();
+    //            let ocena2 = $('#myInputO2').val();
+    //            let cenaU = $('#myInputC').val();
+    //            let cena2 = $('#myInputC2').val();
+    //            if (cenaU == "") {
+
+    //                cenaU = 0;
+    //            }
+
+    //            if (cena2 == "") {
+    //                cena2 = 1000000;
+    //            }
+    //            date = new Date(retVal[i].DTPorudzbine);
+    //            date_check = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+
+    //            let ime = "-";
+    //            if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+    //                ime = retVal[i].Komentar.KorisnikKomentar;
+    //            }
+
+    //            if (retVal[i].TipAutaVoznje == 1) {
+
+    //                tipAuta = "Putnicki";
+
+    //            } else {
+
+    //                tipAuta = "Kombi";
+    //            }
+
+    //            if (retVal[i].StatusVoznje == status) {
+                   
+    //                if (ocena != "" && ocena2 != "") {
+    //                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                                $('#voznjeKarticaAdmin').hide();
+    //                                tabela += '</tr>' +
+    //                                    '<tr>' +
+    //                                    '<td>' + vreme + '</td>' +
+    //                                    '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                                    '<td>' + ulica + '</td>' +
+    //                                    '<td>' + tipAuta + '</td>' +
+    //                                    '<td> - </td>' +
+    //                                    '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                                    '<td> - </td>' +
+    //                                    '<td>' + cena + '</td>' +
+    //                                    '<td>  ' + retVal[i].StatusVoznje +
+    //                                    '</td > ' +
+    //                                    '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                                    retVal[i].Komentar.Opis +
+    //                                    '</div ></td > ' +
+    //                                    '<td> ' + ime + ' </td>' +
+    //                                    '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                                    '<td> ' + vremeK + ' </td>' +
+    //                                    '</tr>';
+    //                            }
+    //                } else if (ocena != "" && ocena2 == "") {
+    //                    if (retVal[i].Komentar.Ocena >= ocena && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                                $('#voznjeKarticaAdmin').hide();
+    //                                ispis();
+    //                            }
+    //                        } else if (ocena == "" && ocena2 != "") {
+    //                    if (retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                                ispis();
+    //                            }
+    //                        }
+                       
+    //                }
+                
+    //            else if (status == 8) {
+    //                $('#voznjeKarticaAdmin').hide();
+    //                if (ocena != "" && ocena2 != "") {
+    //                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                        $('#voznjeKarticaAdmin').hide();
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+    //                    }
+    //                } else if (ocena != "" && ocena2 == "") {
+    //                    if (retVal[i].Komentar.Ocena >= ocena && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                        $('#voznjeKarticaAdmin').hide();
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+    //                    }
+    //                } else if (ocena == "" && ocena2 != "") {
+    //                    if (retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2) {
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+    //                    }
+    //                }
+                        
+                    
+    //               }
+    //        }
+
+    //        tabela += '</table></div>';
+    //        $("#prikazi").append(tabela);
+    //        $('#voznjeKartica').html(tabela);
+
+    //    });
+
+    //});
+
+
+    $('#kreniPretraguC').click(function () {
+        filterskaVrednost();
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKartica').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajAdmin',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+
+            let nizDatuma = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizDatuma.push(retVal[i].DTPorudzbine);
+            }
+
+            var min = nizDatuma[0];
+            var max = nizDatuma[0];
+            for (var index in nizDatuma) {
+                if (nizDatuma[index] > max) max = nizDatuma[index];
+                if (nizDatuma[index] < min) min = nizDatuma[index];
+            }
+
+            let nizCena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizCena.push(retVal[i].Iznos);
+            }
+
+            var minI = nizCena[0];
+            var maxI = nizCena[0];
+            for (var index in nizCena) {
+                if (nizCena[index] > maxI) maxI = nizCena[index];
+                if (nizCena[index] < minI) minI = nizCena[index];
+            }
+
+            let nizOcena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizOcena.push(retVal[i].Komentar.Ocena);
+            }
+
+            var minO = nizOcena[0];
+            var maxO = nizOcena[0];
+            for (var index in nizOcena) {
+                if (nizOcena[index] > maxO) maxO = nizOcena[index];
+                if (nizOcena[index] < minO) minO = nizOcena[index];
+            }
+
+            let tabela = '<div id="voznjeKarticaAdmin"><h2>Prikaz voznji dispecera</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (let i = 0; i < retVal.length; i++) {
+
+                let cena = retVal[i].Iznos;
+                let tipAuta = "";
+                let stanje = "";
+                let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                let datum;
+                let datum2;
+
+                datum = $('#myInput').val();
+                datum2 = $('#myInput2').val();
+                let ocena = $('#myInputO').val();
+                let ocena2 = $('#myInputO2').val();
+                let cenaU = $('#myInputC').val();
+                let cena2 = $('#myInputC2').val();
+                if (cenaU == "") {
+
+                    cenaU = minI;
+                }
+
+                if (cena2 == "") {
+                    cena2 = maxI;
+                }
+
+                if (datum == "") {
+
+                    datum = min;
+                }
+
+                if (datum2 == "") {
+                    datum2 = max;
+                }
+                if (ocena == "") {
+
+                    ocena = minO;
+                }
+                if (ocena2 == "") {
+
+                    ocena2 = maxO;
+                }
+                date = new Date(retVal[i].DTPorudzbine);
+                date_check = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+
+                let ime = "-";
+                if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                    ime = retVal[i].Komentar.KorisnikKomentar;
+                }
+
+                if (retVal[i].TipAutaVoznje == 1) {
+
+                    tipAuta = "Putnicki";
+
+                } else {
+
+                    tipAuta = "Kombi";
+                }
+
+                if (retVal[i].StatusVoznje == status) {
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                        $('#voznjeKarticaAdmin').hide();
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+                    }
+                }
+
+                else if (status == 8) {
+                    $('#voznjeKarticaAdmin').hide();
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                            $('#voznjeKarticaAdmin').hide();
+                            tabela += '</tr>' +
+                                '<tr>' +
+                                '<td>' + vreme + '</td>' +
+                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                '<td>' + ulica + '</td>' +
+                                '<td>' + tipAuta + '</td>' +
+                                '<td> - </td>' +
+                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                '<td> - </td>' +
+                                '<td>' + cena + '</td>' +
+                                '<td>  ' + retVal[i].StatusVoznje +
+                                '</td > ' +
+                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                retVal[i].Komentar.Opis +
+                                '</div ></td > ' +
+                                '<td> ' + ime + ' </td>' +
+                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                '<td> ' + vremeK + ' </td>' +
+                                '</tr>';
+                        }
+                     
+                    
+                    }
+
+
+                }
+            
+
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+
+        });
+
+    });
+
+    $('#kreniPretraguCM').click(function () {
+        filterskaVrednost();
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKartica').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/Ucitaj',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+
+            let nizDatuma = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizDatuma.push(retVal[i].DTPorudzbine);
+            }
+
+            var min = nizDatuma[0];
+            var max = nizDatuma[0];
+            for (var index in nizDatuma) {
+                if (nizDatuma[index] > max) max = nizDatuma[index];
+                if (nizDatuma[index] < min) min = nizDatuma[index];
+            }
+
+            let nizCena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizCena.push(retVal[i].Iznos);
+            }
+
+            var minI = nizCena[0];
+            var maxI = nizCena[0];
+            for (var index in nizCena) {
+                if (nizCena[index] > maxI) maxI = nizCena[index];
+                if (nizCena[index] < minI) minI = nizCena[index];
+            }
+
+            let nizOcena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizOcena.push(retVal[i].Komentar.Ocena);
+            }
+
+            var minO = nizOcena[0];
+            var maxO = nizOcena[0];
+            for (var index in nizOcena) {
+                if (nizOcena[index] > maxO) maxO = nizOcena[index];
+                if (nizOcena[index] < minO) minO = nizOcena[index];
+            }
+
+            let tabela = '<div id="voznjeKartica"><h2>Prikaz voznji korisnika</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (let i = 0; i < retVal.length; i++) {
+
+                let cena = retVal[i].Iznos;
+                let tipAuta = "";
+                let stanje = "";
+                let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                let datum;
+                let datum2;
+
+                datum = $('#myInput').val();
+                datum2 = $('#myInput2').val();
+                let ocena = $('#myInputO').val();
+                let ocena2 = $('#myInputO2').val();
+                let cenaU = $('#myInputC').val();
+                let cena2 = $('#myInputC2').val();
+                if (cenaU == "") {
+
+                    cenaU = minI;
+                }
+
+                if (cena2 == "") {
+                    cena2 = maxI;
+                }
+
+                if (datum == "") {
+
+                    datum = min;
+                }
+
+                if (datum2 == "") {
+                    datum2 = max;
+                }
+                if (ocena == "") {
+
+                    ocena = minO;
+                }
+                if (ocena2 == "") {
+
+                    ocena2 = maxO;
+                }
+                date = new Date(retVal[i].DTPorudzbine);
+                date_check = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+
+                let ime = "-";
+                if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                    ime = retVal[i].Komentar.KorisnikKomentar;
+                }
+
+                if (retVal[i].TipAutaVoznje == 1) {
+
+                    tipAuta = "Putnicki";
+
+                } else {
+
+                    tipAuta = "Kombi";
+                }
+
+                if (retVal[i].StatusVoznje == status) {
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                        $('#voznjeKarticaAdmin').hide();
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+                    }
+                }
+
+                else if (status == 8) {
+                    $('#voznjeKarticaAdmin').hide();
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                        $('#voznjeKarticaAdmin').hide();
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+                    }
+
+
+                }
+
+
+            }
+
+
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+
+        });
+
+    });
+
+    $('#kreniPretraguCV').click(function () {
+        filterskaVrednost();
+        $('#voznjeKarticaSve').hide();
+        $('#voznjeKarticaNeo').hide();
+        $('#voznjeKartica').hide();
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/UcitajVozac',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+
+            let nizDatuma = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizDatuma.push(retVal[i].DTPorudzbine);
+            }
+
+            var min = nizDatuma[0];
+            var max = nizDatuma[0];
+            for (var index in nizDatuma) {
+                if (nizDatuma[index] > max) max = nizDatuma[index];
+                if (nizDatuma[index] < min) min = nizDatuma[index];
+            }
+
+            let nizCena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizCena.push(retVal[i].Iznos);
+            }
+
+            var minI = nizCena[0];
+            var maxI = nizCena[0];
+            for (var index in nizCena) {
+                if (nizCena[index] > maxI) maxI = nizCena[index];
+                if (nizCena[index] < minI) minI = nizCena[index];
+            }
+
+            let nizOcena = [];
+            for (let i = 0; i < retVal.length; i++) {
+                nizOcena.push(retVal[i].Komentar.Ocena);
+            }
+
+            var minO = nizOcena[0];
+            var maxO = nizOcena[0];
+            for (var index in nizOcena) {
+                if (nizOcena[index] > maxO) maxO = nizOcena[index];
+                if (nizOcena[index] < minO) minO = nizOcena[index];
+            }
+
+            let tabela = '<div id="voznjeKarticaVozac"><h2>Prikaz voznji vozaca</h2><table>' +
+                '<tr> ' +
+                '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+                '<th>Musterija</th>' +
+                '<th>Adresa</th>' +
+                '<th>Tip automobila</th>' +
+                '<th>Odrediste</th>' +
+                '<th>Dispecer</th>' +
+                '<th>Vozac</th>' +
+                '<th>Iznos</th>' +
+                '<th>Status voznje</th>' +
+                '<th>Komentar</th>' +
+                '<th>Korisnik</th>' +
+                '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+                '<th>Datum</th>';
+            for (let i = 0; i < retVal.length; i++) {
+
+                let cena = retVal[i].Iznos;
+                let tipAuta = "";
+                let stanje = "";
+                let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+                let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+                let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+                let datum;
+                let datum2;
+
+                datum = $('#myInput').val();
+                datum2 = $('#myInput2').val();
+                let ocena = $('#myInputO').val();
+                let ocena2 = $('#myInputO2').val();
+                let cenaU = $('#myInputC').val();
+                let cena2 = $('#myInputC2').val();
+                if (cenaU == "") {
+
+                    cenaU = minI;
+                }
+
+                if (cena2 == "") {
+                    cena2 = maxI;
+                }
+
+                if (datum == "") {
+
+                    datum = min;
+                }
+
+                if (datum2 == "") {
+                    datum2 = max;
+                }
+                if (ocena == "") {
+
+                    ocena = minO;
+                }
+                if (ocena2 == "") {
+
+                    ocena2 = maxO;
+                }
+                date = new Date(retVal[i].DTPorudzbine);
+                date_check = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+
+
+                let ime = "-";
+                if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+                    ime = retVal[i].Komentar.KorisnikKomentar;
+                }
+
+                if (retVal[i].TipAutaVoznje == 1) {
+
+                    tipAuta = "Putnicki";
+
+                } else {
+
+                    tipAuta = "Kombi";
+                }
+
+                if (retVal[i].StatusVoznje == status) {
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                        $('#voznjeKarticaAdmin').hide();
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+
+                    }
+                }
+
+                else if (status == 8) {
+                    $('#voznjeKarticaAdmin').hide();
+
+                    if (ocena <= retVal[i].Komentar.Ocena && retVal[i].Komentar.Ocena <= ocena2 && cenaU <= retVal[i].Iznos && retVal[i].Iznos <= cena2 && datum <= retVal[i].DTPorudzbine && retVal[i].DTPorudzbine <= datum2) {
+                        $('#voznjeKarticaAdmin').hide();
+                        tabela += '</tr>' +
+                            '<tr>' +
+                            '<td>' + vreme + '</td>' +
+                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                            '<td>' + ulica + '</td>' +
+                            '<td>' + tipAuta + '</td>' +
+                            '<td> - </td>' +
+                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                            '<td> - </td>' +
+                            '<td>' + cena + '</td>' +
+                            '<td>  ' + retVal[i].StatusVoznje +
+                            '</td > ' +
+                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                            retVal[i].Komentar.Opis +
+                            '</div ></td > ' +
+                            '<td> ' + ime + ' </td>' +
+                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                            '<td> ' + vremeK + ' </td>' +
+                            '</tr>';
+                    }
+
+
+                }
+
+
+            }
+
+
+            tabela += '</table></div>';
+            $("#prikazi").append(tabela);
+            $('#voznjeKartica').html(tabela);
+
+        });
+
+    });
+    //$('#kreniPretragu').click(function () {
+
+       
+    //    filterskaVrednost();
+    //    $('#voznjeKarticaSve').hide();
+    //    $('#voznjeKarticaNeo').hide();
+    //    $('#voznjeKartica').hide();
+
+    //    let musterija = {
+
+    //        ime: korisnik.KorisnickoIme,
+
+    //    };
+
+    //    $.ajax({
+    //        type: 'POST',
+    //        url: '/api/Voznja/UcitajAdmin',
+    //        data: JSON.stringify(musterija),
+    //        contentType: 'application/json; charset=utf-8',
+    //        dataType: 'json',
+    //    }).done(function (data) {
+    //        retVal = JSON.parse(data);
+
+    //        let tabela = '<div id="voznjeKarticaAdmin"><h2>Prikaz voznji dispecera</h2><table>' +
+    //            '<tr> ' +
+    //            '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
+    //            '<th>Musterija</th>' +
+    //            '<th>Adresa</th>' +
+    //            '<th>Tip automobila</th>' +
+    //            '<th>Odrediste</th>' +
+    //            '<th>Dispecer</th>' +
+    //            '<th>Vozac</th>' +
+    //            '<th>Iznos</th>' +
+    //            '<th>Status voznje</th>' +
+    //            '<th>Komentar</th>' +
+    //            '<th>Korisnik</th>' +
+    //            '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
+    //            '<th>Datum</th>';
+    //        for (let i = 0; i < retVal.length; i++) {
+
+    //            let cena = retVal[i].Iznos;
+    //            let tipAuta = "";
+    //            let stanje = "";
+    //            let vreme = retVal[i].DTPorudzbine.replace('T', ' ').split('.')[0];
+    //            let ulica = retVal[i].Odrediste.Adresa.UlicaIBroj.replace(/\*/g, ' ');
+    //            let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
+    //            let datum;
+    //            let datum2;
+               
+    //                datum = $('#myInput').val();
+    //                datum2 = $('#myInput2').val();
+    //                date = new Date(retVal[i].DTPorudzbine);
+    //                date_check = date.getFullYear() + '-0' + (date.getMonth() + 1) + '-' + date.getDate();
+                
+          
+    //            let ime = "-";
+    //            if (retVal[i].Komentar.KorisnikKomentar != null) {
+
+    //                ime = retVal[i].Komentar.KorisnikKomentar;
+    //            }
+
+    //            if (retVal[i].TipAutaVoznje == 1) {
+
+    //                tipAuta = "Putnicki";
+
+    //            } else {
+
+    //                tipAuta = "Kombi";
+    //            }
+
+    //            if (retVal[i].StatusVoznje == status) {
+    //                if (datum != "" && datum2 != "") {
+    //                    if (datum <= date_check && date_check <= datum2) {
+    //                        $('#voznjeKarticaAdmin').hide();
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+                            
+    //                    } else if (datum != "" && datum2 == "") {
+    //                        if (datum <= date_check) {
+    //                            $('#voznjeKarticaAdmin').hide();
+    //                            tabela += '</tr>' +
+    //                                '<tr>' +
+    //                                '<td>' + vreme + '</td>' +
+    //                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                                '<td>' + ulica + '</td>' +
+    //                                '<td>' + tipAuta + '</td>' +
+    //                                '<td> - </td>' +
+    //                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                                '<td> - </td>' +
+    //                                '<td>' + cena + '</td>' +
+    //                                '<td>  ' + retVal[i].StatusVoznje +
+    //                                '</td > ' +
+    //                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                                retVal[i].Komentar.Opis +
+    //                                '</div ></td > ' +
+    //                                '<td> ' + ime + ' </td>' +
+    //                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                                '<td> ' + vremeK + ' </td>' +
+    //                                '</tr>';
+
+    //                        }
+
+    //                    } else if (datum2 != "" && datum == "") {
+                           
+    //                        if (date_check <= datum2) {
+    //                            $('#voznjeKarticaAdmin').hide();
+    //                            tabela += '</tr>' +
+    //                                '<tr>' +
+    //                                '<td>' + vreme + '</td>' +
+    //                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                                '<td>' + ulica + '</td>' +
+    //                                '<td>' + tipAuta + '</td>' +
+    //                                '<td> - </td>' +
+    //                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                                '<td> - </td>' +
+    //                                '<td>' + cena + '</td>' +
+    //                                '<td>  ' + retVal[i].StatusVoznje +
+    //                                '</td > ' +
+    //                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                                retVal[i].Komentar.Opis +
+    //                                '</div ></td > ' +
+    //                                '<td> ' + ime + ' </td>' +
+    //                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                                '<td> ' + vremeK + ' </td>' +
+    //                                '</tr>';
+
+    //                        }
+
+    //                    }
+    //                }
+    //            }
+    //            else if (status == 8) {
+    //                $('#voznjeKarticaAdmin').hide();
+    //                if (datum2 != "" && datum != "") {
+    //                    if (datum <= date_check && date_check <= datum2) {
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+    //                    }
+    //                } else if (datum != "" && datum2 == "") {
+    //                    $('#voznjeKarticaAdmin').hide();
+    //                    if (datum <= date_check) {
+
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+
+    //                    }
+
+    //                } else if (datum2 != "" && datum == "") {
+                       
+    //                    if (date_check <= datum2) {
+    //                        $('#voznjeKarticaAdmin').hide();
+    //                        tabela += '</tr>' +
+    //                            '<tr>' +
+    //                            '<td>' + vreme + '</td>' +
+    //                            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+    //                            '<td>' + ulica + '</td>' +
+    //                            '<td>' + tipAuta + '</td>' +
+    //                            '<td> - </td>' +
+    //                            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+    //                            '<td> - </td>' +
+    //                            '<td>' + cena + '</td>' +
+    //                            '<td>  ' + retVal[i].StatusVoznje +
+    //                            '</td > ' +
+    //                            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+    //                            retVal[i].Komentar.Opis +
+    //                            '</div ></td > ' +
+    //                            '<td> ' + ime + ' </td>' +
+    //                            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+    //                            '<td> ' + vremeK + ' </td>' +
+    //                            '</tr>';
+
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        tabela += '</table></div>';
+    //        $("#prikazi").append(tabela);
+    //        $('#voznjeKartica').html(tabela);
+
+    //    });
+
+                   
+                      
+    //});
 
     $('#sortirajDugmeA').click(function () {
 
@@ -838,7 +1943,7 @@ $(document).ready(function () {
     });
     function SortirajOceneV() {
 
-
+        $('#voznjeKarticaVozac').hide();
         let musterija = {
 
             ime: korisnik.KorisnickoIme,
@@ -853,6 +1958,7 @@ $(document).ready(function () {
             dataType: 'json',
         }).done(function (data) {
             retVal = JSON.parse(data);
+            $('#voznjeKarticaVozac').hide();
             let tabela ='<div id="voznjeKarticaVozac"><h2>Prikaz vozacevih voznji</h2><table>' +
                 '<tr> ' +
                 '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
