@@ -25,10 +25,11 @@ namespace WebAPI.Controllers
         [Route("Sortiranje")]
         public HttpResponseMessage Sortiranje([FromBody]JToken jtoken)
         {
+            
             var ime = jtoken.Value<string>("ime");
             var vrsta = jtoken.Value<string>("vrstaS");
             List<Voznja>voznje = vo.IzlistajVoznje();
-            
+          
             List<Voznja> NovaList = new List<Voznja>();
             
             if (vrsta == "Datum")

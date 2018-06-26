@@ -93,12 +93,25 @@
                         <option value="datum" style="color: black;">Datum</option>
                         <option value="ocena" style="color: black;">Ocena</option>
                         <option value="cena" style="color: black;">Cena</option>
-
                     </select>
                     <button id="izaberi">Izaberi</button>
                     <button style="display:none" id="kreniPretraguC"> Pretrazi</button>
                     <button style="display:none" id="kreniPretraguCV"> Pretrazi</button>
                     <button style="display:none" id="kreniPretraguCM"> Pretrazi</button>
+                    <div style="display:none" id="pretragaImePrez">
+                        <h2>Pretraga po korisniku</h2>
+                        <select id="imePrezSelect">
+
+                            <option value="poVozacu" style="color: black;">Po vozacu</option>
+                            <option value="poMusteriji" style="color: black;">Po musteriji</option>
+
+                        </select>
+                        <button id="izaberiIP">Izaberi</button>
+                        <button id="kreniPretraguKor"> Pretrazi korisnika</button>
+                    </div>
+
+
+
                 </div>
 
                 <div style="display:none" id="unosPretrage">
@@ -107,10 +120,28 @@
                     <input id="myInput" type="text" placeholder="yyyy-mm-dd" />
                     <span>Do</span>
                     <input id="myInput2" type="text" placeholder="yyyy-mm-dd" />
-                    
-                   
+
+
                 </div>
 
+
+                <div style="display:none" id="unosPretrageIPV">
+                    <h2><b>Petraga po imenu i prezimenu vozaca</b></h2><br>
+                    <span>Ime</span>
+                    <input id="myInputIV" type="text" placeholder="Ime" />
+                    <span>Prezime</span>
+                    <input id="myInputPV" type="text" placeholder="Prezime" />
+
+                </div>
+
+                <div style="display:none" id="unosPretrageIPM">
+                    <h2><b>Petraga po imenu i prezimenu musterije</b></h2><br>
+                    <span>Ime</span>
+                    <input id="myInputIM" type="text" placeholder="Ime" />
+                    <span>Prezime</span>
+                    <input id="myInputPM" type="text" placeholder="Prezime" />
+
+                </div>
 
                 <div style="display:none" id="unosPretrageO">
                     <h2><b>Petraga po oceni</b></h2><br>
@@ -118,7 +149,7 @@
                     <input id="myInputO" type="text" placeholder="1-5" />
                     <span>Do</span>
                     <input id="myInputO2" type="text" placeholder="1-5" />
-                    
+
                 </div>
 
                 <div style="display:none" id="unosPretrageC">
@@ -127,8 +158,8 @@
                     <input id="myInputC" type="text" placeholder="Iznos" />
                     <span>Do</span>
                     <input id="myInputC2" type="text" placeholder="Iznos" />
-                   
-                 
+
+
                 </div>
 
                 <div id="prikazi">
