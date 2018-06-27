@@ -125,7 +125,7 @@ $(document).ready(function () {
                 BrojTelefona: $('#korTel').val(),
                 Jmbg: $('#korJmbg').val(),
                 Email: $('#korEmail').val(),
-
+                PolKorisnika: $('#pol option:selected').text(),
 
             };
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
 
                         sessionStorage.setItem('logged', JSON.stringify(data));
                         window.location.href = "Reg.html";
-                        alert("Data"+data.Ime);
+                        alert("Uspesna registracija");
                     } else {
 
                         alert("Vec registrovan");

@@ -173,23 +173,28 @@ namespace WebAPI.Controllers
             File.Move(tempFile, putanja);
         }
 
-        public void Upis(Vozac vozac) {
 
-                    string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
-                    {
-                        string korisnik = vozac.KorisnickoIme + "|"+ vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+
+        public void Upis(Vozac vozac)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+            FileStream stream = new FileStream(putanja, FileMode.Append);
+            //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
+            //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
+            using (StreamWriter tw = new StreamWriter(stream))
+            {
+                string korisnik = vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
                     + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
                     + "|" + Convert.ToString(vozac.UlogaKorisnika)
-                    + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj 
+                    + "|" + vozac.Lokacija.Adresa.NaseljenoMesto + "|" + vozac.Lokacija.Adresa.PozivniBroj
                     + "|" + vozac.Lokacija.Adresa.UlicaIBroj
-                   + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y)+"|" + Convert.ToString(vozac.Automobil.BrojVozila)+ "|" + Convert.ToString(vozac.Automobil.GodisteAuta)+ "|" + vozac.Automobil.RegistarskaOznaka+ "|" + vozac.Automobil.TipAuta + "|" + vozac.Zauzet;
-                        file.WriteLine(korisnik);
-              
-
+                   + "|" + Convert.ToString(vozac.Lokacija.X) + "|" + Convert.ToString(vozac.Lokacija.Y) + "|" + Convert.ToString(vozac.Automobil.BrojVozila) + "|" + Convert.ToString(vozac.Automobil.GodisteAuta) + "|" + vozac.Automobil.RegistarskaOznaka + "|" + vozac.Automobil.TipAuta + "|" + vozac.Zauzet;
+                tw.WriteLine(korisnik);
             }
-
+            stream.Close();
         }
+
+       
 
         [Route("Dodaj")]//proveram u listi korisnik da li ima nekog sa tim imenom, ako nema dodaje u listu vozaca
             public Vozac Dodaj([FromBody]Vozac jToken)
@@ -198,11 +203,25 @@ namespace WebAPI.Controllers
             v.iscitaj();
             if (!provera(jToken))
             {
+                jToken.Automobil = new Automobil();
+                jToken.Lokacija = new Lokacija();
+                jToken.Lokacija.Adresa = new Adresa();
+                jToken.Lokacija.X = 0;
+                jToken.Lokacija.Y = 0;
+                jToken.Lokacija.Adresa.NaseljenoMesto = "";
+                jToken.Lokacija.Adresa.PozivniBroj ="";
+                jToken.Lokacija.Adresa.UlicaIBroj = "";
+                jToken.Automobil.BrojVozila = 0;
+                jToken.Automobil.GodisteAuta = 1996;
+                jToken.Automobil.RegistarskaOznaka = "";
+                jToken.Automobil.TipAuta = "";
+                jToken.Automobil.VozacAuta = jToken;
                 v.vozaci.Add(jToken);
                 v.listaKorisnika.Add(jToken);
                 kor = jToken;
                 kor.UlogaKorisnika = Uloga.Vozac;
                 rg.Upis(jToken);
+                Upis(jToken);
             }
             else
                 kor = null;

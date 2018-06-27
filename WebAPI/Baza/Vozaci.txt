@@ -1,1 +1,3 @@
-Rados|Rados|simic|124578|hsjf@hdjf.com|56451245124512|kl|Musko|Vozac|klisa|45|proletersk*45|45|45|4|1996|NS4554|Tramvaj|False
+Luka|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac||||0|0|0|1996|||True
+Ivica|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac||||0|0|0|1996|||True
+Sanja|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac||||0|0|0|1996|||True

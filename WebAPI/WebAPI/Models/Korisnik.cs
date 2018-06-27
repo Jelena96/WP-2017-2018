@@ -36,8 +36,7 @@ namespace WebAPI.Models
 
                     string[] splitovano = lines[x].Split('|');
 
-                    if (splitovano[8] == Convert.ToString(Uloga.Musterija))
-                    {
+                    
 
                         Korisnik korisnik = new Korisnik();
                         korisnik.KorisnickoIme = splitovano[0];
@@ -47,17 +46,65 @@ namespace WebAPI.Models
                         korisnik.Email = splitovano[4];
                         korisnik.Jmbg = splitovano[5];
                         korisnik.Lozinka = splitovano[6];
-
-
+                    if (splitovano[8] == Convert.ToString(Uloga.Musterija))
+                    {
                         korisnik.UlogaKorisnika = Uloga.Musterija;
-                        listaKorisnika.Add(korisnik);
-
+                       // UpisMusterija(korisnik);
                     }
+                    else if (splitovano[8] == Convert.ToString(Uloga.Admin))
+                    {
+
+                        korisnik.UlogaKorisnika = Uloga.Admin;
+                    }
+                    else {
+                        korisnik.UlogaKorisnika = Uloga.Vozac;
+                       // UpisVozac(korisnik);
+                    }
+                    listaKorisnika.Add(korisnik);
+                }
                 }
 
                 //sr.Close();
             }
 
-        }
+        //public void UpisMusterija(Korisnik vozac)
+        //{
+
+        //    string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Musterije.txt";
+
+
+        //    FileStream stream = new FileStream(putanja, FileMode.Append);
+        //    //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
+        //    //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
+        //    using (StreamWriter tw = new StreamWriter(stream))
+        //    {
+        //        string korisnik = vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+        //   + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
+        //   + "|" + Convert.ToString(vozac.UlogaKorisnika);
+        //        tw.WriteLine(korisnik);
+        //    }
+        //    stream.Close();
+
+            
+        //}
+
+        
+
+       /* public void UpisAdmin(Korisnik vozac)
+        {
+
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admini.txt";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
+            {
+                string korisnik = "\n" + vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+            + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
+            + "|" + Convert.ToString(vozac.UlogaKorisnika);
+
+
+                file.WriteLine(korisnik);
+
+            }
+        }*/
+
     }
-}
+    }

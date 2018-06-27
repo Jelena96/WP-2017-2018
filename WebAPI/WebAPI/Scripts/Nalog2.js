@@ -22,7 +22,7 @@
 
         let datumi = [];
         let ocene = [];
-        if ($('#filterSort option:selected').text() == "Datum") {
+        if ($('#filterSort option:selected').text() === "Datum") {
 
             for (let i = 0; i < retVal.length; i++) {
 
@@ -37,7 +37,7 @@
             };
 
             datumi.sort(date_sort_desc);
-        } else if ($('#filterSort option:selected').text() == "Ocena") {
+        } else if ($('#filterSort option:selected').text() === "Ocena") {
 
 
 
@@ -71,12 +71,12 @@
                 let vremeK = retVal[i].Komentar.VremeObjave.replace('T', ' ').split('.')[0];
 
                 let ime = "-";
-                if (retVal[i].Komentar.KorisnikKomentar != null) {
+                if (retVal[i].Komentar.KorisnikKomentar !== null) {
 
                     ime = retVal[i].Komentar.KorisnikKomentar;
                 }
 
-                if (retVal[i].TipAutaVoznje == 1) {
+                if (retVal[i].TipAutaVoznje === 1) {
 
                     tipAuta = "Putnicki";
 

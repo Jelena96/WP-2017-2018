@@ -27,8 +27,7 @@ namespace WebAPI.Models
                 {
                     string[] splitovano = lines[x].Split('|');
 
-                    if (splitovano[8] == "Vozac")
-                    {
+                    
 
 
                         Vozac korisnik = new Vozac();
@@ -58,16 +57,21 @@ namespace WebAPI.Models
                         a.GodisteAuta= Convert.ToInt32(splitovano[15]);
                         a.RegistarskaOznaka = splitovano[16];
                         a.TipAuta = splitovano[17];
+                    if (splitovano[18] == "False")
+                        korisnik.Zauzet = false;
+                    else
+                        korisnik.Zauzet = true;
+
                         //korisnik.Zauzet =  (splitovano[18]);
                         korisnik.Automobil = a;
 
                         vozaci.Add(korisnik);
                         //k.listaKorisnika.Add(korisnik);
-                    }
+                    
 
                 }
 
-                //sr.Close();
+                sr.Close();
             }
         }
         }

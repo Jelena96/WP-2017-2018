@@ -190,26 +190,28 @@ $(document).ready(function () {
 
         }
     });
-    function ispis() {
-        tabela += '</tr>' +
-            '<tr>' +
-            '<td>' + vreme + '</td>' +
-            '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-            '<td>' + ulica + '</td>' +
-            '<td>' + tipAuta + '</td>' +
-            '<td> - </td>' +
-            '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
-            '<td> - </td>' +
-            '<td>' + cena + '</td>' +
-            '<td>  ' + retVal[i].StatusVoznje +
-            '</td > ' +
-            '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-            retVal[i].Komentar.Opis +
-            '</div ></td > ' +
-            '<td> ' + ime + ' </td>' +
-            '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-            '<td> ' + vremeK + ' </td>' +
-            '</tr>';
+
+    let korisnici = [];
+
+    function ucitaj() {
+
+        let musterija = {
+
+            ime: korisnik.KorisnickoIme,
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/Korisnici',
+            data: JSON.stringify(musterija),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            retVal = JSON.parse(data);
+
+            for (let i = 0; i < retVal.length; i++) {
+                korisnici.push(retVal[i]);
+            }
+        });
     }
    
     
@@ -237,7 +239,7 @@ $(document).ready(function () {
             let imeP = $('#myInputIM').val();
             let prezime = $('#myInputPV').val();
             let imeV = $('#myInputIV').val();
-
+            ucitaj();
             let tabela = '<div id="voznjeKarticaAdmin"><h2>Prikaz voznji dispecera</h2><table>' +
                 '<tr> ' +
                 '<th id="datumMusterija" style="cursor: pointer;">Datum porudzbine</th>' +
@@ -280,25 +282,30 @@ $(document).ready(function () {
                 if (retVal[i].StatusVoznje == status) {
                     if (imeP != "" && imeV != "") {
                         if (retVal[i].MusterijaVoznja == imeP && retVal[i].VozacVoznja == imeV) {
-                            tabela += '</tr>' +
-                                '<tr>' +
-                                '<td>' + vreme + '</td>' +
-                                '<td>' + retVal[i].MusterijaVoznja + '</td>' +
-                                '<td>' + ulica + '</td>' +
-                                '<td>' + tipAuta + '</td>' +
-                                '<td> - </td>' +
-                                '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
-                                '<td> ' + retVal[i].VozacVoznja + ' </td>' +
-                                '<td>' + cena + '</td>' +
-                                '<td>  ' + retVal[i].StatusVoznje +
-                                '</td > ' +
-                                '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
-                                retVal[i].Komentar.Opis +
-                                '</div ></td > ' +
-                                '<td> ' + ime + ' </td>' +
-                                '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
-                                '<td> ' + vremeK + ' </td>' +
-                                '</tr>';
+                       /* for (d in korisnici) {
+                            if (korisnici[d].KorisnickoIme == retVal[i].MusterijaVoznja) {
+                                if (korisnici[d].Ime == imeP) {*/
+                                    tabela += '</tr>' +
+                                        '<tr>' +
+                                        '<td>' + vreme + '</td>' +
+                                        '<td>' + retVal[i].MusterijaVoznja + '</td>' +
+                                        '<td>' + ulica + '</td>' +
+                                        '<td>' + tipAuta + '</td>' +
+                                        '<td> - </td>' +
+                                        '<td> ' + retVal[i].DispecerVoznja + ' </td>' +
+                                        '<td> ' + retVal[i].VozacVoznja + ' </td>' +
+                                        '<td>' + cena + '</td>' +
+                                        '<td>  ' + retVal[i].StatusVoznje +
+                                        '</td > ' +
+                                        '<td><div style="word-wrap:break-word; width: 70px; height: 80px;">' +
+                                        retVal[i].Komentar.Opis +
+                                        '</div ></td > ' +
+                                        '<td> ' + ime + ' </td>' +
+                                        '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
+                                        '<td> ' + vremeK + ' </td>' +
+                                        '</tr>';
+                             /*   }
+                            }*/
                         }
                     } else if (imeP == "" && imeV != "") {
                         if (retVal[i].VozacVoznja == imeV) {
@@ -375,6 +382,9 @@ $(document).ready(function () {
                 }
                     else if (status == 8) {
                     if (imeP != "" && imeV != "") {
+                        // for (d in korisnici) {
+
+                        // if (korisnici[d].Ime == imeP) {
                         if (retVal[i].MusterijaVoznja == imeP && retVal[i].VozacVoznja == imeV) {
                             tabela += '</tr>' +
                                 '<tr>' +
@@ -396,6 +406,9 @@ $(document).ready(function () {
                                 '<td> ' + vremeK + ' </td>' +
                                 '</tr>';
                         }
+                        // }
+                        // }
+
                     } else if (imeP == "" && imeV != "") {
                         if (retVal[i].VozacVoznja == imeV) {
                             tabela += '</tr>' +
@@ -466,10 +479,10 @@ $(document).ready(function () {
                             '<td> ' + retVal[i].Komentar.Ocena + ' </td>' +
                             '<td> ' + vremeK + ' </td>' +
                             '</tr>';
-
                     }
                     }
-                }
+                    }
+                
             
             tabela += '</table></div>';
             $("#prikazi").append(tabela);
@@ -1627,6 +1640,7 @@ $(document).ready(function () {
                 '<th>Vozac</th>' +
                 '<th>Iznos</th>' +
                 '<th>Status voznje</th>' +
+                '<td>Operacije</th>'+
                 '<th>Komentar</th>' +
                 '<th>Korisnik</th>' +
                 '<th id="ocenaMusterija" style="cursor: pointer;">Ocena</th>' +
@@ -1668,6 +1682,9 @@ $(document).ready(function () {
                     '<td>' + cena + '</td>' +
                     '<td> ' + retVal[i].StatusVoznje +
                     '</td > ' +
+                    '<td>' +
+                    '<button value = ' + retVal[i].IdVoznje + ' id = "prihvati" style = "float: left; color: blue;">Prihvati</button>'
+                    '</td>'+
                     '<td><div style="word-wrap:break-word; width: 70px; height: 80px; float:left;">' + retVal[i].Komentar.Opis +
                     '</div></td> ' +
                     '<td>' + ime + '</td>' +
@@ -1683,6 +1700,32 @@ $(document).ready(function () {
             $("#prikazi").append(tabela);
             $('#voznjeKartica').html(tabela);
             
+        });
+    });
+
+    $('#prikazi').on("click", "#prihvati", function () {
+
+        let voznja = {
+
+            ime: korisnik.KorisnickoIme,
+            id: $(this).val(),
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Voznja/PrihvatiVoznju',
+            data: JSON.stringify(voznja),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+        }).done(function (data) {
+            if (data === null) {
+                alert("Neuspesna obrada");
+            } else {
+
+                $('#prikazi').after('<p style="color: yellow; font-size: 22px;">Uspesno ste prihvatili voznju! <p>');
+
+            }
+
         });
     });
 
@@ -2181,7 +2224,7 @@ $(document).ready(function () {
                 alert("Neuspesna obrada");
             } else {
 
-                $('#prikaziNeobradjene').after('<p style="color: yellow; font-size: 22px;">Uspesno ste obradili voznju! <p>');
+                $('#prikazi').after('<p style="color: yellow; font-size: 22px;">Uspesno ste obradili voznju! <p>');
 
             }
         });
@@ -2667,8 +2710,8 @@ $(document).ready(function () {
 
         let voznja = {
 
-            Odrediste: lokacija,
-            TipAutaVoznje: `${$('#tipVozila').val()}`,
+            Dolazak: lokacija,
+            TipAutaVoznje: $('#tipVozila option:selected').text(),
             MusterijaVoznja: null,
             DispecerVoznja: korisnik.KorisnickoIme
         };
@@ -3469,7 +3512,7 @@ $(document).ready(function () {
         let prezimeV = $('#prezimeVozac').val();
         let lozinkaV = $('#lozinkaVozac').val();
         let jmbgV = $('#jmbgVozac').val();
-        let telV = $('#telVozac').val();
+        let telV = $('#telVozaca').val();
         let emailV = $('#emailVozac').val();
         let polV = $('#pol').val();
 
@@ -3479,9 +3522,9 @@ $(document).ready(function () {
             Prezime: prezimeV,
             Lozinka: lozinkaV,
             JMBG: jmbgV,
-            KontaktTelefon: telV,
+            BrojTelefona: telV,
             Email: emailV,
-            Pol: polV
+            Pol: $('#polPolje option:selected').text(),
         };
 
         $.ajax({

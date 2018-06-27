@@ -253,7 +253,7 @@
                 <!--kreiraj vozaca-->
                 <div id="vozaciDiv" style="display:none">
                     <h1>Kreiranje vozaca</h1>
-                    <span> Korisnicko Ime: </span><input type="text" id="imeVozac" class="inputP" placeholder="Ime">
+                    <span> Korisnicko Ime: </span><input type="text" id="imeVozac"  placeholder="Korisnicko ime">
                     <p id="imeE" />
                     <span>Ime: </span><input type="text" id="ImeVozac" class="inputP" placeholder="Ime">
                     <p id="imeE" />
@@ -266,14 +266,14 @@
 
                     <span>JMBG: </span><input type="text" id="jmbgVozac" class="inputP" placeholder="JMBG">
                     <p id="jmbgE" />
-                    <span>Kontakt telefon: </span><input id="telVozac" type="text" class="inputP" placeholder="Kontakt telefon">
+                    <span>Kontakt telefon: </span><input id="telVozaca" type="text" class="inputP" placeholder="Kontakt telefon">
                     <p id="telE" />
                     <span>Email: </span><input type="text" id="emailVozac" class="inputP" placeholder="Email">
                     <p id="emailE" />
                     <span>Pol: </span>
-                    <select style="color: gray;" id="polPolje" class="inputP">
-                        <option value="Musko" style="color: black;">Muskarac</option>
-                        <option value="Znesko" style="color: black;">Zena</option>
+                    <select style="color: white;" id="polPolje" class="inputP">
+                        <option value="Musko" style="color: black;">Musko</option>
+                        <option value="Znesko" style="color: black;">Zensko</option>
                     </select>
                     <input type="submit" id="dodajV" style="margin-top: 2%;" value="Dodaj vozaca">
 
@@ -353,13 +353,13 @@
                 <!--Zakazivanje voznje-->
 
                 <div id="zakaziVoznju" style="display:none">
-                    <button type="button" class="closeZakaziVoznju">&#10006;</button>
+                    
                     <div align="center">
                         <div>
                             <h1 style="margin-bottom: 1%; margin-top: 1%;">Kreiraj voznju</h1>
                         </div>
                         <div>
-                            <div>
+                            <div id="zk">
                                 <span>Ulica: </span><input style="font-weight: normal;" type="text" id="ulicaZakazi" class="inputPolje" placeholder="Ulica"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
                                 <span>Broj: </span><input style="font-weight: normal;" type="text" id="brojZakazi" class="inputPolje" placeholder="Broj"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
                                 <span>Naseljeno mesto: </span><input style="font-weight: normal;" type="text" id="mestoZakazi" class="inputPolje" placeholder="Naseljeno mesto"><inline style="position: absolute; margin-top: 0.8%; color:red; font-size: 20px; display: none;"></inline><br>
@@ -367,7 +367,7 @@
                                 <span>X koordinata: </span><input type="text" id="xZakazi" class="inputP" placeholder="x koordinata">
                                 <span>Y koordinata: </span><input type="text" id="yZakazi" class="inputP" placeholder="y koordinata">
 
-                                <span style="color: pink;">Tip vozila: </span>
+                                <span style="color: white;">Tip vozila: </span>
                                 <select id="tipVozila" class="inputPolje">
                                     <option value="BezNaznake" selected style="color: black;">BezNaznake</option>
                                     <option value="Putnicki" style="color: black;">Putnicki</option>

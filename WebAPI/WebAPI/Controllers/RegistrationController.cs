@@ -89,21 +89,24 @@ namespace WebAPI.Controllers
 
             return isMatch;
         }
+
         public void Upis(Korisnik vozac)
         {
-
             string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
+            FileStream stream = new FileStream(putanja, FileMode.Append);
+            //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
+            //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
+            using (StreamWriter tw = new StreamWriter(stream))
             {
-                string korisnik = "\n"+ vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+                string korisnik = vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
             + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
             + "|" + Convert.ToString(vozac.UlogaKorisnika);
 
-
-                file.WriteLine(korisnik);
-
+                tw.WriteLine(korisnik);
             }
+            stream.Close();
         }
+    
        
     }
 }
