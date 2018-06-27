@@ -18,15 +18,19 @@ namespace WebAPI.Controllers
     public class RegistrationController : ApiController
     {
         Korisnik k = new Korisnik();
+        Admini a = new Admini();
         string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
 
-        [Route("IzmeniProfil")]
-        public Korisnik IzmeniProfil([FromBody]Korisnik ko)
+
+        [Route("IzmeniProfilA")]
+        public Korisnik IzmeniProfilA([FromBody]Admini ko)
         {
-            Korisnik korisnik = null;
-            k.iscitaj();
-            
-            foreach (Korisnik k in k.listaKorisnika)
+            Admini korisnik = null;
+            Korisnik NoviKorisnik = null;
+
+            a.iscitaj();
+
+            foreach (Admini k in a.listaAdmina)
             {
 
                 if (k.KorisnickoIme == ko.KorisnickoIme)
@@ -37,8 +41,42 @@ namespace WebAPI.Controllers
                 }
             }
 
+
+
+            a.listaAdmina.Remove(korisnik);
+            BrisiA(korisnik);
+
+            Admini NoviK = new Admini();
+            NoviK = ko;
+            a.listaAdmina.Add(NoviK);
+            UpisA(NoviK);
+            return NoviK;
+
+        }
+
+        [Route("IzmeniProfil")]
+        public Korisnik IzmeniProfil([FromBody]Korisnik ko)
+        {
+            Korisnik korisnik = null;
+            Korisnik NoviKorisnik = null;
+            
+            k.iscitaj();
+            
+            foreach (Korisnik k in k.listaKorisnika)
+            {
+
+                if (k.KorisnickoIme == ko.KorisnickoIme)
+                {
+
+                    korisnik = k;
+                  
+                }
+            }
+
+            
+           
             k.listaKorisnika.Remove(korisnik);
-            File.WriteAllLines(putanja, File.ReadLines(putanja).Where(s => s != korisnik.Ime && s!=korisnik.Lozinka).ToList());
+            Brisi(korisnik);
 
             Korisnik NoviK = new Korisnik();
             NoviK = ko;
@@ -48,7 +86,28 @@ namespace WebAPI.Controllers
 
         }
 
-      
+        public void Brisi(Korisnik vozac)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(putanja))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(vozac.KorisnickoIme))
+                        sw.WriteLine(line);
+                }
+            }
+
+            File.Delete(putanja);
+            File.Move(tempFile, putanja);
+        }
+
 
         [Route("Registration")]
         public Korisnik Registration([FromBody]Korisnik jToken)
@@ -68,8 +127,49 @@ namespace WebAPI.Controllers
                 kor = null;
             }
 
+            kor.UlogaKorisnika = Uloga.Musterija;
             return kor;
             
+        }
+
+        public void BrisiA(Admini vozac)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
+
+            string tempFile = Path.GetTempFileName();
+
+            using (var sr = new StreamReader(putanja))
+            using (var sw = new StreamWriter(tempFile))
+            {
+                string line;
+
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (!line.Contains(vozac.KorisnickoIme))
+                        sw.WriteLine(line);
+                }
+            }
+
+            File.Delete(putanja);
+            File.Move(tempFile, putanja);
+        }
+
+
+        public void UpisA(Admini vozac)
+        {
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
+            FileStream stream = new FileStream(putanja, FileMode.Append);
+            //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
+            //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
+            using (StreamWriter tw = new StreamWriter(stream))
+            {
+                string korisnik = vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
+            + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
+            + "|" + Convert.ToString(vozac.UlogaKorisnika);
+
+                tw.WriteLine(korisnik);
+            }
+            stream.Close();
         }
 
         public bool provera([FromBody]Korisnik jToken) {

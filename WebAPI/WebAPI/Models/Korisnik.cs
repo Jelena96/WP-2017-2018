@@ -26,12 +26,12 @@ namespace WebAPI.Models
         public void iscitaj()
         {
 
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt";
+            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt"; ;
 
             using (StreamReader sr = File.OpenText(putanja))
             {
                 string[] lines = File.ReadAllLines(putanja);
-                for (int x = 0; x < lines.Length - 1; x++)
+                for (int x = 0; x < lines.Length; x++)
                 {
 
                     string[] splitovano = lines[x].Split('|');
@@ -67,44 +67,7 @@ namespace WebAPI.Models
                 //sr.Close();
             }
 
-        //public void UpisMusterija(Korisnik vozac)
-        //{
-
-        //    string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Musterije.txt";
-
-
-        //    FileStream stream = new FileStream(putanja, FileMode.Append);
-        //    //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
-        //    //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});
-        //    using (StreamWriter tw = new StreamWriter(stream))
-        //    {
-        //        string korisnik = vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
-        //   + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
-        //   + "|" + Convert.ToString(vozac.UlogaKorisnika);
-        //        tw.WriteLine(korisnik);
-        //    }
-        //    stream.Close();
-
-            
-        //}
-
-        
-
-       /* public void UpisAdmin(Korisnik vozac)
-        {
-
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admini.txt";
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(putanja, true))
-            {
-                string korisnik = "\n" + vozac.KorisnickoIme + "|" + vozac.Ime + "|" + vozac.Prezime + "|" + Convert.ToString(vozac.BrojTelefona)
-            + "|" + vozac.Email + "|" + vozac.Jmbg + "|" + vozac.Lozinka + "|" + Convert.ToString(vozac.PolKorisnika)
-            + "|" + Convert.ToString(vozac.UlogaKorisnika);
-
-
-                file.WriteLine(korisnik);
-
-            }
-        }*/
+       
 
     }
     }

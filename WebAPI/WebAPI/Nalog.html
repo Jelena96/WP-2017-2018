@@ -36,28 +36,30 @@
                     <button style="display:none" id="vozaciDivDugme">Dodaj Vozace</button>
                     <button style="display:none" id="dugmePromenaLokacije">Promeni lokaciju</button>
                     <button id="pogledajProfil">Prikazi profil</button>
-                    <button id="izlogujSe">Izloguj se</button>
-                    <button id="editProfil">Izmeni profil</button>
-                    <button id="zakaziVoznjuDugme">Zakazi voznju</button>
 
-                    <button style="display:none" id="zakaziVoznjuDugmeAdmin">Zakazi voznju</button>
+                    <button style="display:none" id="editProfil">Izmeni profil</button>
+                    <button style="display:none" id="editProfilA">Izmeni profil</button>
+                    <button style="background-color:darkgray;" id="zakaziVoznjuDugme">Zakazi voznju</button>
+
+                    <button style="display:none;background-color:darkgrey;" id="zakaziVoznjuDugmeAdmin">Zakazi voznju</button>
                     <button style="display:none" id="izmeniA">Izmeni automobil</button>
                     <button style="display:none" id="izmeniV">Izmeni vozaca</button>
                     <button style="display:none" id="otkaziDugme">Otkazi voznju</button>
-                    <button id="DugmePrikazNeobradjenihVoznji" style="display:none">Prikaz neobradjenih voznji</button>
-                    <button id="DugmePrikazSvihVoznji" style="display:none">Prikaz svih voznji</button>
-                    <button id="DumePrikazKreiranih" style="display:none">Prikazi voznji na cekanju</button>
-                    <button id="dugmeFilter">Filtritaj voznje</button>
-                    <button id="prikazVoznje">Prikaz voznje</button>
-                    <button style="display:none" id="sortirajVoznje">Sortiraj voznje</button>
-                    <button style="display:none" id="sortirajVoznjeA">Sortiraj voznje</button>
-                    <button style="display:none" id="sortirajVoznjeV">Sortiraj voznje</button>
-                    <button style="display:none" id="sortirajDugme">Sortiraj</button>
-                    <button style="display:none" id="sortirajDugmeA">Sortiraj</button>
-                    <button style="display:none" id="sortirajDugmeV">Sortiraj</button>
+                    <button  id="DugmePrikazNeobradjenihVoznji" style="display:none;background-color:darkgrey;">Prikaz neobradjenih voznji</button>
+                    <button  id="DugmePrikazSvihVoznji" style="display:none;background-color:darkgrey;">Prikaz svih voznji</button>
+                    <button  id="DumePrikazKreiranih" style="display:none;background-color:darkgrey;">Prikazi voznji na cekanju</button>
+                    <button style="background-color:darkgray;" id="dugmeFilter">Filtritaj voznje</button>
+                    <button style="background-color:darkgray;" id="prikazVoznje">Prikaz voznje</button>
+                    <button  style="display:none;background-color:darkgray;" id="sortirajVoznje">Sortiraj voznje</button>
+                    <button style="display:none;background-color:darkgray;" id="sortirajVoznjeA">Sortiraj voznje</button>
+                    <button style="display:none;background-color:darkgray;" id="sortirajVoznjeV">Sortiraj voznje</button>
+                    <button style="display:none;background-color:darkgray;" id="sortirajDugme">Sortiraj</button>
+                    <button style="display:none;background-color:darkgray;" id="sortirajDugmeA">Sortiraj</button>
+                    <button style="display:none;background-color:darkgray;" id="sortirajDugmeV">Sortiraj</button>
 
-                    <button style="display:none" id="DugmePrikazVoznjeA">Prikaz voznji</button>
-                    <button style="display:none" id="DugmePrikazVoznjeV">Prikaz voznji</button>
+                    <button style="display:none;background-color:darkgrey;" id="DugmePrikazVoznjeA">Prikaz voznji</button>
+                    <button style="display:none;background-color:darkgrey;" id="DugmePrikazVoznjeV">Prikaz voznji</button>
+                    <button id="izlogujSe">Izloguj se</button>
                     <div style="display:none" id="sortiranje">
                         <span>Sortiranje:</span>
                         <select style="color: white;" id="filterSort">
@@ -84,7 +86,7 @@
                         <button style="display:none" id="prikazFiltera">Prikazi</button>
                     </div>
                 </div>
-                <button id="pretragaDugme"> Pretraga</button>
+                <button style="margin-top:10px;background-color:darkgray;" id="pretragaDugme"> Pretraga</button>
 
                 <div style="display:none" id="pretragaDiv">
                     <span>Pretraga:</span>
@@ -185,14 +187,14 @@
 
                             </div>
                             <input type="submit" id="DugmeKomentarNaVoznju" value="Komentarisi voznju">
-                            <button type="button" class="closeKomentarNaVoznju">&#10006;</button>
+                           
                         </div>
                     </div>
                 </div>
 
                 <div>
 
-                    <div style="margin-top: 2%; filter: 0; display:none">
+                    <div id="prikaz" style="margin-top: 2%; filter: 0; display:none">
                         <button type="button" id="closePrikazNaloga">&#10006;</button>
                         <div id="" class="prikazNaloga" align="center">
 
@@ -219,14 +221,16 @@
 
                 <!--izmena!-->
 
-                <div class="col-80p popupKartica" id="izmena" style="margin-top: 2%; filter: 0; display:none">
-                    <button type="button" id="closeButton">&#10006;</button>
+                <div id="izmena" style="margin-top: 2%; filter: 0; display:none">
+
                     <div id="" class="izmenaNaloga" align="center">
                         <div class="izmenaDiv">
                             <h1 style="font-size:45px">Izmena naloga</h1>
                         </div>
                         <div>
                             <div id="izmenaDiv" class="izmena">
+
+
                                 <span>Ime: </span><input type="text" id="imeIzmeni" class="inputP" placeholder="Ime">
                                 <p id="imeE" />
                                 <span>Prezime: </span><input type="text" id="prezimeIzmeni" class="inputP" placeholder="Prezime">
@@ -240,9 +244,9 @@
                                 <span>Email: </span><input type="text" id="emailIzmeni" class="inputP" placeholder="Email">
                                 <p id="emailE" />
                                 <span>Pol: </span>
-                                <select style="color: gray;" id="polPolje" class="inputP">
-                                    <option value="Musko" style="color: black;">Muskarac</option>
-                                    <option value="Znesko" style="color: black;">Zena</option>
+                                <select style="color: white;" id="polPolje" class="inputP">
+                                    <option value="Musko" style="color: black;">Musko</option>
+                                    <option value="Zensko" style="color: black;">Zensko</option>
                                 </select>
                                 <input type="submit" id="izmeniDugme" style="margin-top: 2%;" value="Izmeni">
                             </div>
@@ -250,10 +254,42 @@
                     </div>
                 </div>
 
+                <div id="izmenaA" style="margin-top: 2%; filter: 0; display:none">
+
+                    <div id="" class="izmenaNaloga" align="center">
+                        <div class="izmenaDiv">
+                            <h1 style="font-size:45px">Izmena naloga</h1>
+                        </div>
+                        <div>
+                            <div id="izmenaDivA" class="izmena">
+
+
+                                <span>Ime: </span><input type="text" id="imeIzmeniA" class="inputP" placeholder="Ime">
+                                <p id="imeE" />
+                                <span>Prezime: </span><input type="text" id="prezimeIzmeniA" class="inputP" placeholder="Prezime">
+                                <p id="prezE" />
+                                <span>Lozinka: </span><input type="text" id="lozinkaIzmeniA" class="inputP" placeholder="Lozinka">
+                                <p id="pasE" />
+                                <span>JMBG: </span><input type="text" id="jmbgIzmeniA" class="inputP" placeholder="JMBG">
+                                <p id="jmbgE" />
+                                <span>Kontakt telefon: </span><input id="telIzmeniA" type="text" class="inputP" placeholder="Kontakt telefon">
+                                <p id="telE" />
+                                <span>Email: </span><input type="text" id="emailIzmeniA" class="inputP" placeholder="Email">
+                                <p id="emailE" />
+                                <span>Pol: </span>
+                                <select style="color: white;" id="polPoljeA" class="inputP">
+                                    <option value="Musko" style="color: black;">Musko</option>
+                                    <option value="Zensko" style="color: black;">Zensko</option>
+                                </select>
+                                <input type="submit" id="izmeniDugmeA" style="margin-top: 2%;" value="Izmeni">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--kreiraj vozaca-->
                 <div id="vozaciDiv" style="display:none">
                     <h1>Kreiranje vozaca</h1>
-                    <span> Korisnicko Ime: </span><input type="text" id="imeVozac"  placeholder="Korisnicko ime">
+                    <span> Korisnicko Ime: </span><input type="text" id="imeVozac" placeholder="Korisnicko ime">
                     <p id="imeE" />
                     <span>Ime: </span><input type="text" id="ImeVozac" class="inputP" placeholder="Ime">
                     <p id="imeE" />
@@ -280,7 +316,7 @@
                 </div>
 
                 <div id="izmenaVozaca" style="margin-top: 2%; filter: 0; display:none">
-                    <button type="button" id="closeIzmenaVozaca">&#10006;</button>
+                    
                     <div align="center">
                         <div>
                             <h1 style="font-size:45px">Izmena naloga vozaca</h1>
@@ -300,9 +336,9 @@
                                 <span>Email: </span><input type="text" id="emailIzmeniV" class="inputP" placeholder="Email">
                                 <p id="emailE" />
                                 <span>Pol: </span>
-                                <select style="color: gray;" id="polPoljeV" class="inputP">
-                                    <option value="Musko" style="color: black;">Muskarac</option>
-                                    <option value="Znesko" style="color: black;">Zena</option>
+                                <select style="color: white;" id="polPoljeV" class="inputP">
+                                    <option value="Musko" style="color: black;">Musko</option>
+                                    <option value="Zensko" style="color: black;">Zensko</option>
                                 </select>
                                 <input type="submit" id="izmeniDugmeV" style="margin-top: 2%;" value="Izmeni">
                             </div>
@@ -311,7 +347,7 @@
                 </div>
 
                 <div id="promenaLokacije" style="display:none">
-                    <button type="button" id="closePromena">&#10006;</button>
+                   
                     <div class="izmenaNaloga" align="center">
                         <div class="izmenaDiv">
                             <h1>Promena lokacije</h1>
@@ -353,7 +389,7 @@
                 <!--Zakazivanje voznje-->
 
                 <div id="zakaziVoznju" style="display:none">
-                    
+
                     <div align="center">
                         <div>
                             <h1 style="margin-bottom: 1%; margin-top: 1%;">Kreiraj voznju</h1>
@@ -381,7 +417,7 @@
 
 
                 <div id="zakaziVoznjuAdmin" style="display:none">
-                    <button type="button" class="closeZakaziVoznjuAdmin">&#10006;</button>
+                   
                     <div align="center">
                         <div>
                             <h1 style="margin-bottom: 1%; margin-top: 1%;">Kreiraj voznju</h1>

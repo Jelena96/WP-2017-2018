@@ -1,12 +1,1 @@
 jelenica|jelenica|simic|5666|jdk@jdk.com|565656565656|kl|Musko|Musterija
-Rados|Rados|kl|0|hjshd@hsjd.com|4512451245124|kl|Musko|Vozac
-Rados|kl|kl|0|dhsjhd@sjkjd.com|45124512|kl|Musko|Vozac
-Rados01|kl|kl|0|dhsjhd@sjkjd.com|45124512|kl|Musko|Vozac
-Sanja|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac
-Luka|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac
-Ivica|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac
-Radoje|kl|kl|4545|hjhjdsh@dhjs.com|451245|kl|Musko|Vozac
-Jelena|Jelena|Bajic|451245|jjj@jfdkf.com|4512451245124|kl|Musko|Vozac
-Sanja021|kl|kl|555|jjj@jfdkf.com|4512451245124|kl|Musko|Vozac
-Irena|kl|kl|45245|ll@hj.com|4512451245124|kl|Musko|Vozac
-Svetlana|kl|kl|4512|ll@hj.com|4512451245124|kl|Zensko|Vozac

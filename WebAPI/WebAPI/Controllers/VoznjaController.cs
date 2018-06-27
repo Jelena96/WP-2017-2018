@@ -344,6 +344,7 @@ namespace WebAPI.Controllers
         [Route("ObradiVoznju")]
         public Voznja ObradiVoznju([FromBody]JToken jtoken)
         {
+            bool Nadjen = false;
             bool isMatch = false;
             Vozac NoviVozac = null;
             Vozac StariVozac = null;
@@ -360,7 +361,7 @@ namespace WebAPI.Controllers
             {
                 if (!vozac.Zauzet)
                 {
-                   
+                    Nadjen = true;
                     vozac.Zauzet = true;
                     StariVozac = vozac;
                     NoviVozac = vozac;
@@ -398,7 +399,8 @@ namespace WebAPI.Controllers
     
             }
 
-            if (isMatch)
+
+            if (isMatch && Nadjen==true)
             {
                 Brisi(ZaBrisanjeVoznja);
                 Upis(ReturnVoznja);
@@ -408,6 +410,7 @@ namespace WebAPI.Controllers
                 v.vozaci.Add(NoviVozac);
 
             }
+
 
             return ReturnVoznja;
         }
@@ -549,6 +552,53 @@ namespace WebAPI.Controllers
             return NovaVoznja;
                 }
 
+        [Route("OtkaziVoznjuK")]
+        public Voznja OtkaziVoznjuK([FromBody]JToken voznja)
+        {
+            Voznja NovaVoznja = null;
+            Admini a = new Admini();
+            Korisnik k = new Korisnik();
+            k.iscitaj();
+            a.iscitaj();
+
+            bool isMatch = false;
+            bool isMatchIme = false;
+            List<Voznja> voznje = vo.IzlistajVoznje();
+
+            var ime = voznja.Value<string>("ime");
+            var id = voznja.Value<string>("i");
+            Voznja privremena = null;
+
+            foreach (Voznja v in voznje)
+            {
+                if (v.IdVoznje==Convert.ToInt32(id) &&v.DispecerVoznja == "" && v.StatusVoznje==StatusVoznje.Kreirana)
+                {
+                    privremena = v;
+                }
+
+            }
+
+            
+
+            if (privremena!=null)
+            {
+                NovaVoznja = privremena;
+                Brisi(privremena);
+                voznje.Remove(privremena);
+                NovaVoznja.StatusVoznje = StatusVoznje.Otkazana;
+
+
+                voznje.Add(NovaVoznja);
+
+                Upis(NovaVoznja);
+            }
+            
+            
+
+            return NovaVoznja;
+
+        }
+
         [Route("OtkaziVoznju")]
         public Voznja OtkaziVoznju([FromBody]JToken voznja)
         {
@@ -636,8 +686,9 @@ namespace WebAPI.Controllers
                    
                     NovaVoznja = v;
                     StaraVoznja = v;
-                    NovaVoznja.Komentar = komentar;
+                    NovaVoznja.Komentar= komentar;
                     NovaVoznja.Komentar.VremeObjave = DateTime.Now;
+                    NovaVoznja.Komentar.KorisnikKomentar = komentar.KorisnikKomentar;
                 }
              }
 
@@ -782,7 +833,7 @@ namespace WebAPI.Controllers
                     k.Odrediste.Y.ToString() + '|' + k.Odrediste.Adresa.UlicaIBroj + '|' 
                     + k.Odrediste.Adresa.NaseljenoMesto + '|' + k.Odrediste.Adresa.PozivniBroj +
                     '|' + k.VozacVoznja + '|' + k.Iznos.ToString() + '|' + k.DispecerVoznja + '|'
-                    + k.Komentar.Opis  +  '|' + k.Komentar.IdVoznje.ToString() + '|' + k.Komentar.VremeObjave.ToString()+"|"+
+                    + k.Komentar.Opis  + '|' + k.Komentar.IdVoznje.ToString() + '|' + k.Komentar.VremeObjave.ToString()+"|"+
                     k.Komentar.Ocena.ToString() + '|' + k.StatusVoznje;
                 tw.WriteLine(upis);
             }

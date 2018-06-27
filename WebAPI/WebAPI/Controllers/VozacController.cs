@@ -38,16 +38,41 @@ namespace WebAPI.Controllers
 
             Vozac NoviK = new Vozac();
             NoviK = ko;
-            NoviK.Automobil = korisnik.Automobil;
-            NoviK.Lokacija = korisnik.Lokacija;
+            if (NoviK.Automobil != null && NoviK.Lokacija != null)
+            {
+                NoviK.Automobil = korisnik.Automobil;
+                NoviK.Lokacija = korisnik.Lokacija;
                 k.listaKorisnika.Remove(korisnik);
-            Brisi(korisnik);
-               
-              
+                Brisi(korisnik);
+
+
                 k.listaKorisnika.Add(NoviK);
                 v.vozaci.Add(NoviK);
                 Upis(NoviK);
-            
+            }
+            else {
+
+                NoviK.Automobil = new Automobil();
+                NoviK.Automobil.BrojVozila = 0;
+                NoviK.Automobil.GodisteAuta = 0;
+                NoviK.Automobil.RegistarskaOznaka = "";
+                NoviK.Automobil.TipAuta = "";
+                
+                NoviK.Lokacija = new Lokacija();
+                NoviK.Lokacija.Adresa = new Adresa();
+                NoviK.Lokacija.Adresa.NaseljenoMesto = "";
+                NoviK.Lokacija.Adresa.PozivniBroj = "";
+                NoviK.Lokacija.Adresa.UlicaIBroj = "";
+                NoviK.Lokacija.X = 0;
+                NoviK.Lokacija.Y = 0;
+                k.listaKorisnika.Remove(korisnik);
+                Brisi(korisnik);
+
+
+                k.listaKorisnika.Add(NoviK);
+                v.vozaci.Add(NoviK);
+                Upis(NoviK);
+            }
             return NoviK;
 
         }

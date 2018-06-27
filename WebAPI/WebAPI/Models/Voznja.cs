@@ -89,6 +89,7 @@ namespace WebAPI.Models
                     Komentar komentar = new Komentar();
                     
                     komentar.Opis = splitovano[17];
+                   
                     komentar.IdVoznje = Convert.ToInt32(splitovano[18]);
                     DateTime dt2=DateTime.Now;
                     if (splitovano[19] != "")
