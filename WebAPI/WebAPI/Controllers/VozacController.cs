@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web.Hosting;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -156,7 +157,8 @@ namespace WebAPI.Controllers
 
         public void Brisi(Vozac vozac)
         {
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+            string putanja = "~/Baza/Vozaci.txt";
+            putanja = HostingEnvironment.MapPath(putanja);
 
             string tempFile = Path.GetTempFileName();
 
@@ -178,7 +180,8 @@ namespace WebAPI.Controllers
 
         public void BrisiPoImenu(string ime)
         {
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+            string putanja = "~/Baza/Vozaci.txt";
+            putanja = HostingEnvironment.MapPath(putanja);
 
             string tempFile = Path.GetTempFileName();
 
@@ -202,7 +205,8 @@ namespace WebAPI.Controllers
 
         public void Upis(Vozac vozac)
         {
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Vozaci.txt";
+            string putanja = "~/Baza/Vozaci.txt";
+            putanja = HostingEnvironment.MapPath(putanja);
             FileStream stream = new FileStream(putanja, FileMode.Append);
             //string ulicaD = k.Dolazak.Adresa.UlicaIBroj.Trim('*');
             //string ulicaO = k.Odrediste.Adresa.UlicaIBroj.Trim(new Char[] {'*'});

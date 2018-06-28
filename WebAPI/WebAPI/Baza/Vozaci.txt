@@ -1,0 +1,4 @@
+Luka|Luka|kll|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac|jh|45|bnn*45|45|45|0|0|||True
+Sanja|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac||||0|0|0|1996|||True
+Ivica|kl|kl|0|dsjdhj@dhjsd.com|451245|kl|Musko|Vozac||||0|0|0|1996|||True
+Maksim|Maksimilijan|Cavic|451245|maksa@gmail.com|4512451245124|kl|Musko|Vozac||||0|0|0|1996|||False

@@ -191,6 +191,11 @@
     <Content Include="assets\js\main.js" />
     <Content Include="assets\js\skel.min.js" />
     <Content Include="assets\js\util.js" />
+    <Content Include="Baza\Admin.txt" />
+    <Content Include="Baza\Baza.txt" />
+    <Content Include="Baza\Musterije.txt" />
+    <Content Include="Baza\Vozaci.txt" />
+    <Content Include="Baza\Voznje.txt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />

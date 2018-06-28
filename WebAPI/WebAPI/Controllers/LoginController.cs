@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web.Hosting;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -138,9 +139,10 @@ namespace WebAPI.Controllers
         public bool PretragaAdminTxt(string ime,string pas) {
 
             bool uspesno = false;
-            string putanjaAdmin = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
+            string putanjaAdmin = "~/Baza/Admin.txt";
+            putanjaAdmin = HostingEnvironment.MapPath(putanjaAdmin);
 
-                using (StreamReader sr2 = File.OpenText(putanjaAdmin))
+            using (StreamReader sr2 = File.OpenText(putanjaAdmin))
                 {
                     string[] lines2 = File.ReadAllLines(putanjaAdmin);
                     for (int x = 0; x < lines2.Length - 1; x++)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 
 namespace WebAPI.Models
 {
@@ -12,7 +13,8 @@ namespace WebAPI.Models
         public void iscitaj()
         {
 
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Admin.txt";
+            string putanja = "~/Baza/Admin.txt";
+            putanja = HostingEnvironment.MapPath(putanja);
             using (StreamReader sr = File.OpenText(putanja))
             {
                 string[] lines = File.ReadAllLines(putanja);

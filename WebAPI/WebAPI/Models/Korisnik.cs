@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 
 namespace WebAPI.Models
 {
@@ -26,7 +27,8 @@ namespace WebAPI.Models
         public void iscitaj()
         {
 
-            string putanja = @"C:\Users\Jelena\Documents\GitHub\WP-2017-2018\WebAPI\Baza\Baza.txt"; ;
+            string putanja = "~/Baza/Baza.txt";
+            putanja = HostingEnvironment.MapPath(putanja);
 
             using (StreamReader sr = File.OpenText(putanja))
             {
